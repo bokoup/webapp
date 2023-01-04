@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="800"
+   height="800"
+   viewBox="0 0 211.66666 211.66666"
+   version="1.1"
+   id="svg183"
+   xml:space="preserve"
+   inkscape:version="1.2.1 (9c6d41e410, 2022-07-14)"
+   sodipodi:docname="square_logo_1.svg"
+   inkscape:export-filename="square_logo_1_800.png"
+   inkscape:export-xdpi="102.62627"
+   inkscape:export-ydpi="102.62627"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"><sodipodi:namedview
+     id="namedview185"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     showgrid="false"
+     inkscape:zoom="1.0387346"
+     inkscape:cx="397.11781"
+     inkscape:cy="638.27663"
+     inkscape:window-width="2560"
+     inkscape:window-height="1369"
+     inkscape:window-x="2552"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" /><defs
+     id="defs180"><style
+       type="text/css"
+       id="style207">
+   <![CDATA[
+    .fil0 {fill:white}
+    .fil1 {fill:url(#id0)}
+   ]]>
+  </style><linearGradient
+       id="id0"
+       gradientUnits="userSpaceOnUse"
+       x1="704.45001"
+       y1="1140.48"
+       x2="1295.53"
+       y2="859.53003">
+   <stop
+   offset="0"
+   style="stop-opacity:1; stop-color:#33AFFE"
+   id="stop209" />
+   <stop
+   offset="1"
+   style="stop-opacity:1; stop-color:#00E5BE"
+   id="stop211" />
+  </linearGradient></defs><g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"><g
+       style="clip-rule:evenodd;fill-rule:evenodd;image-rendering:optimizeQuality;shape-rendering:geometricPrecision;text-rendering:geometricPrecision"
+       id="g236"
+       transform="matrix(0.26458333,0,0,0.26458333,-158.75,-158.75)"><g
+         id="Layer_x0020_1"
+         inkscape:label="Layer 1"
+         inkscape:groupmode="layer">
+  <metadata
+   id="CorelCorpID_0Corel-Layer" />
+  <g
+   id="_2244760056064">
+   <path
+   class="fil1"
+   d="m 892.27,1200.4 107.74,62.23 170.55,-98.49 v 65.66 l -170.53,98.48 -170.62,-98.48 0.01,-65.68 z m 50.88,-298.89 0.01,131.31 56.85,32.84 56.84,-32.84 v -65.64 l -56.84,-32.8 V 868.7 l 113.71,65.65 v 131.31 l -113.72,65.64 -113.71,-65.64 0.01,-196.98 -56.88,32.84 0.01,196.97 170.57,98.46 170.58,-98.47 c 0,-65.69 -0.03,-131.29 -0.03,-196.97 l -170.54,-98.46 -56.86,32.82 z m 284.28,295.46 -0.02,-65.66 56.89,-32.83 v 65.65 z m -511.73,-98.5 56.87,32.83 -0.01,65.68 -56.86,-32.84 z m 56.86,-229.77 0.01,196.94 -56.86,-32.83 -0.01,-196.93 170.57,-98.49 56.85,32.81 c -56.87,32.83 -113.68,65.66 -170.56,98.5 z m 284.32,-164.14 -56.86,32.83 -56.89,-32.85 56.88,-32.82 z m 170.53,361.1 0.03,-196.97 -170.57,-98.49 56.86,-32.81 170.56,98.48 0.01,196.95 z"
+   id="path219"
+   style="fill:url(#id0)" />
+  </g>
+ </g></g></g></svg>

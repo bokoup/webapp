@@ -1,0 +1,14 @@
+[
+    {
+        "origin": [
+            "https://dashboard.imgix.com"
+        ],
+        "method": [
+            "PUT"
+        ],
+        "responseHeader": [
+            "Content-Type"
+        ],
+        "maxAgeSeconds": 3600
+    }
+]

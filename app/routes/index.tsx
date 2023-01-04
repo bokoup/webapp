@@ -1,7 +1,12 @@
-import { Fragment } from "react";
+import { FaDiscord, FaFacebookSquare, FaTwitter, FaInstagramSquare, FaYoutube } from 'react-icons/fa';
 import { Link } from "@remix-run/react";
 import { imgixSrc, imageSpec } from "~/utils";
+import { FC } from 'react';
 
+interface Social {
+    icon: FC
+    url: string
+}
 
 
 export default function Bokoup() {
@@ -57,7 +62,6 @@ export default function Bokoup() {
         },
     ];
 
-
     return (
         <div className="flex flex-col h-screen justify-between">
             {/* <!-- Navbar --> */}
@@ -70,7 +74,7 @@ export default function Bokoup() {
                         <h2 className="hidden lg:block text-3xl font-logo font-semibold tracking-tight">bokoup</h2>
                     </div>
                     <div className="hidden space-x-6 lg:flex items-center">
-                        {["Offers", "Merchants", "FAQ"].map(text => <Link to="/" className="font-heading hover:text-bokoupBlue2-700">{text}</Link>)}
+                        {["Promos", "Loyalty", "Merchants", "Trade", "Pricing", "FAQ"].map(text => <Link to="/" className="font-heading hover:text-bokoupBlue2-700">{text}</Link>)}
                         <Link to="/" className="text-white m-auto py-2 px-4 bg-bokoupGreen2-400 rounded-full text-center font-semibold hover:brightness-90">Sign In</Link>
                     </div>
                 </div>
@@ -89,18 +93,26 @@ export default function Bokoup() {
                 </picture>
                 <div className="absolute top-0 w-full h-full flex flex-col justify-center gap-7 items-center">
                     <h2 className="font-heading text-4xl md:text-[2.6rem] lg:text-6xl xl:text-7xl text-center text-transparent
-                    bg-clip-text bg-gradient-to-l from-bokoupBlue2-500 to-bokoupGreen2-500 font-semibold">Get Offers Delivered to Your Phone</h2>
+                    bg-clip-text bg-gradient-to-l from-bokoupBlue2-500 to-bokoupGreen2-500 font-semibold">Collect Digital Promos With Your Phone</h2>
                     <Link
                         to="/"
                         className="text-white font-semibold px-10 py-3 bg-bokoupGreen2-400 rounded-full text-center hover:brightness-90"
-                    >View Offers</Link>
+                    >Get Promos</Link>
 
                 </div>
             </div>
-            {/* <!-- Featured Offers --> */}
+            {/* <!-- Featured Promos --> */}
             <div className="relative container mx-auto p-2 lg:py-4 mb-auto">
-                <h2 className="font-heading font-medium text-2xl lg:text-3xl">Featured Offers</h2>
-                <p>This is where you will see a list of featured offers. They will be selected across all participating merchants and eventually will be tailored to the user if logged in.</p>
+                <h2 className="font-heading font-medium text-2xl lg:text-3xl">Featured Promos</h2>
+                <p>Check out these valuable promos you can collect with your phone. Just scan the QR code to get a token and then present it when you shop to get a discount.</p>
+                <div className="flex gap-4 overflow-x-auto pt-4">
+                    {Array(5).fill(1).map((a, b) => <FeaturedOfferSkeleton key={a + b} />)}
+                </div>
+            </div>
+            {/* <!-- Featured Loyalty Programs --> */}
+            <div className="relative container mx-auto p-2 lg:py-4 mb-auto">
+                <h2 className="font-heading font-medium text-2xl lg:text-3xl">Featured Loyalty Programs</h2>
+                <p>Joining a rewards program has never been easier. Just scan the QR code to get a token and you have joined! Show your token when you shop to earn points and get discounts.</p>
                 <div className="flex gap-4 overflow-x-auto pt-4">
                     {Array(5).fill(1).map((a, b) => <FeaturedOfferSkeleton key={a + b} />)}
                 </div>
@@ -117,24 +129,32 @@ export default function Bokoup() {
                         className="flex flex-col-reverse items-center justify-between space-y-12 md:flex-col md:space-y-0 md:items-start"
                     >
                         <div className="mx-auto my-6 text-center text-white md:hidden">
-                            Copyright &copy; 2022, All Rights Reserved
+                            <p className="text-xs">Copyright &copy; 2022, All Rights Reserved</p>
                         </div>
                         {/* <!-- Logo --> */}
                         <div>
-                            <img src="images/logo-light.svg" className="h-12" alt="" />
+                            <Link to="/">
+                                <img src="images/logo-light.svg" className="h-12" alt="" />
+                            </Link>
+
                         </div>
                         {/* <!-- Social Links Container --> */}
                         <div className="flex justify-center space-x-4 items-center">
-                            {["gg-twitter", "gg-facebook", "gg-instagram", "gg-youtube",].map(text => <Link to="/" className=" text-white hover:text-bokoupBlue2-700"><i className={text} /></Link>)}
+                            {[
+                                { icon: <FaTwitter />, url: "https://twitter.com/bokoup" },
+                                { icon: <FaDiscord />, url: "https://www.discord.com/" },
+                                { icon: <FaFacebookSquare />, url: "https://www.facebook.com/" },
+                                { icon: <FaInstagramSquare />, url: "https://www.instagram.com" },
+                                { icon: <FaYoutube />, url: "https://www.youtube.com/@bokoup" }].map(social => <a href={social.url} className="text-white hover:text-bokoupBlue2-700">{social.icon}</a>)}
                         </div>
                     </div>
                     {/* <!-- List Container --> */}
-                    <div className="flex justify-around space-x-32">
+                    <div className="flex justify-around space-x-16">
                         <div className="flex flex-col space-y-3 text-white">
-                            {["Home", "Offers", "Merchants", "Pricing", "About"].map(text => <Link to="/" className="font-heading hover:text-bokoupBlue2-700">{text}</Link>)}
+                            {["Promos", "Loyalty", "Merchants", "Pricing", "Trade"].map(text => <Link to="/" className="font-heading hover:text-bokoupBlue2-700">{text}</Link>)}
                         </div>
                         <div className="flex flex-col space-y-3 text-white">
-                            {["Careers", "Community", "Privacy Policy"].map(text => <Link to="/" className="font-heading hover:text-bokoupBlue2-700">{text}</Link>)}
+                            {["About", "Careers", "Privacy Policy"].map(text => <Link to="/" className="font-heading hover:text-bokoupBlue2-700">{text}</Link>)}
                         </div>
                     </div>
 
@@ -156,7 +176,7 @@ export default function Bokoup() {
                             </div>
                         </form>
                         <div className="hidden text-white md:block">
-                            Copyright &copy; 2022, All Rights Reserved
+                            <p className="text-xs">Copyright &copy; 2022, All Rights Reserved</p>
                         </div>
                     </div>
                 </div>
@@ -170,9 +190,7 @@ export function FeaturedOfferSkeleton() {
         <div className="h-80 w-72 border rounded-md flex flex-col items-center pt-6 gap-2">
             <div className="ml-4 h-4 w-32 bg-slate-100 rounded self-start" />
             <div className="bg-slate-100 h-48 w-64 rounded-md mb-2" />
-            <div className="h-2 w-64 bg-slate-100 rounded" />
-            <div className="h-2 w-64 bg-slate-100 rounded" />
-            <div className="h-2 w-64 bg-slate-100 rounded" />
+            {Array(3).fill(1).map((a, b) => <div key={a + b} className="h-2 w-56 bg-slate-100 rounded" />)}
         </div>
     )
 }

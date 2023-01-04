@@ -75,7 +75,7 @@ export default function Bokoup() {
                     </div>
                     <div className="hidden space-x-6 lg:flex items-center">
                         {["Promos", "Loyalty", "Merchants", "Trade", "Pricing", "FAQ"].map(text => <Link to="/" className="font-heading hover:text-bokoupBlue2-700">{text}</Link>)}
-                        <Link to="/" className="text-white m-auto py-2 px-4 bg-bokoupGreen2-400 rounded-full text-center font-semibold hover:brightness-90">Sign In</Link>
+                        <Link to="/" className="m-auto py-2 px-4 bg-bokoupGreen2-400 rounded-full text-center font-semibold hover:brightness-90">Sign In</Link>
                     </div>
                 </div>
             </nav>
@@ -96,7 +96,7 @@ export default function Bokoup() {
                     bg-clip-text bg-gradient-to-l from-bokoupBlue2-500 to-bokoupGreen2-500 font-semibold">Collect Digital Promos With Your Phone</h2>
                     <Link
                         to="/"
-                        className="text-white font-semibold px-10 py-3 bg-bokoupGreen2-400 rounded-full text-center hover:brightness-90"
+                        className="font-semibold px-10 py-3 bg-bokoupGreen2-400 rounded-full text-center hover:brightness-90"
                     >Get Promos</Link>
 
                 </div>
@@ -112,7 +112,7 @@ export default function Bokoup() {
             {/* <!-- Featured Loyalty Programs --> */}
             <div className="relative container mx-auto p-2 lg:py-4 mb-auto">
                 <h2 className="font-heading font-medium text-2xl lg:text-3xl">Featured Loyalty Programs</h2>
-                <p>Joining a rewards program has never been easier. Just scan the QR code to get a token and you have joined! Show your token when you shop to earn points and get discounts.</p>
+                <p>Joining a rewards program has never been easier. Just scan the QR code to get a token and you are joined! Show your token when you shop to earn points and get discounts.</p>
                 <div className="flex gap-4 overflow-x-auto pt-4">
                     {Array(5).fill(1).map((a, b) => <FeaturedOfferSkeleton key={a + b} />)}
                 </div>
@@ -169,7 +169,7 @@ export default function Bokoup() {
                                 />
                                 <Link
                                     to="/"
-                                    className="px-6 py-2 text-white rounded-full bg-bokoupGreen2-500 hover:brightness-90 font-semibold"
+                                    className="px-6 py-2 text-white rounded-full bg-bokoupBlue2-500 hover:brightness-90 font-semibold"
                                 >
                                     Go
                                 </Link>

@@ -74,7 +74,7 @@ export default function Bokoup() {
                         <h2 className="hidden lg:block text-3xl font-logo font-semibold tracking-tight">bokoup</h2>
                     </div>
                     <div className="hidden space-x-6 lg:flex items-center">
-                        {["Promos", "Loyalty", "Merchants", "Trade", "Pricing", "FAQ"].map(text => <Link to="/" className="font-heading hover:text-bokoupBlue2-700">{text}</Link>)}
+                        {["Promos", "Loyalty", "Merchants", "Trade", "Pricing", "FAQ"].map(text => <Link to="/" className="font-heading hover:text-bokoupDark-300">{text}</Link>)}
                         <Link to="/" className="m-auto py-2 px-4 bg-bokoupGreen2-400 rounded-full text-center font-semibold hover:brightness-90">Sign In</Link>
                     </div>
                 </div>
@@ -93,7 +93,7 @@ export default function Bokoup() {
                 </picture>
                 <div className="absolute top-0 w-full h-full flex flex-col justify-center gap-7 items-center">
                     <h2 className="font-heading text-4xl md:text-[2.6rem] lg:text-6xl xl:text-7xl text-center text-transparent
-                    bg-clip-text bg-gradient-to-l from-bokoupBlue2-500 to-bokoupGreen2-500 font-semibold">Collect Digital Promos With Your Phone</h2>
+                    bg-clip-text bg-gradient-to-r from-bokoupGreen2-400 to-bokoupBlue2-600 font-semibold">Collect Digital Promos With Your Phone</h2>
                     <Link
                         to="/"
                         className="font-semibold px-10 py-3 bg-bokoupGreen2-400 rounded-full text-center hover:brightness-90"
@@ -104,7 +104,7 @@ export default function Bokoup() {
             {/* <!-- Featured Promos --> */}
             <div className="relative container mx-auto p-2 lg:py-4 mb-auto">
                 <h2 className="font-heading font-medium text-2xl lg:text-3xl">Featured Promos</h2>
-                <p>Check out these valuable promos you can collect with your phone. Just scan the QR code to get a token and then present it when you shop to get a discount.</p>
+                <p>Collect these valuable promos with your phone. Just scan the QR code to get a token and then present it when you shop to get a discount.</p>
                 <div className="flex gap-4 overflow-x-auto pt-4">
                     {Array(5).fill(1).map((a, b) => <FeaturedOfferSkeleton key={a + b} />)}
                 </div>
@@ -129,7 +129,7 @@ export default function Bokoup() {
                         className="flex flex-col-reverse items-center justify-between space-y-12 md:flex-col md:space-y-0 md:items-start"
                     >
                         <div className="mx-auto my-6 text-center text-white md:hidden">
-                            <p className="text-xs">Copyright &copy; 2022, All Rights Reserved</p>
+                            <p className="text-xs">Copyright &copy; 2023, All Rights Reserved</p>
                         </div>
                         {/* <!-- Logo --> */}
                         <div>
@@ -151,10 +151,10 @@ export default function Bokoup() {
                     {/* <!-- List Container --> */}
                     <div className="flex justify-around space-x-16">
                         <div className="flex flex-col space-y-3 text-white">
-                            {["Promos", "Loyalty", "Merchants", "Pricing", "Trade"].map(text => <Link to="/" className="font-heading hover:text-bokoupBlue2-700">{text}</Link>)}
+                            {["Promos", "Loyalty", "Merchants", "Trade", "Pricing"].map(text => <Link to="/" className="font-heading hover:text-bokoupBlue2-700">{text}</Link>)}
                         </div>
                         <div className="flex flex-col space-y-3 text-white">
-                            {["About", "Careers", "Privacy Policy"].map(text => <Link to="/" className="font-heading hover:text-bokoupBlue2-700">{text}</Link>)}
+                            {["FAQ", "About", "Careers", "Privacy Policy"].map(text => <Link to="/" className="font-heading hover:text-bokoupBlue2-700">{text}</Link>)}
                         </div>
                     </div>
 
@@ -176,7 +176,7 @@ export default function Bokoup() {
                             </div>
                         </form>
                         <div className="hidden text-white md:block">
-                            <p className="text-xs">Copyright &copy; 2022, All Rights Reserved</p>
+                            <p className="text-xs">Copyright &copy; 2023, All Rights Reserved</p>
                         </div>
                     </div>
                 </div>

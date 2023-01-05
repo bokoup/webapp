@@ -1,13 +1,8 @@
 
-import { FC, Fragment } from 'react';
-import { imageSpec } from '~/utils';
+import { Fragment } from 'react';
+import { type imageSpec } from '~/utils';
 import Hero from '~/components/hero';
 import PromoSkeleton from "~/components/promo/skeleton";
-
-interface Social {
-    icon: FC
-    url: string
-}
 
 const imageSpecs: imageSpec[] = [
     {

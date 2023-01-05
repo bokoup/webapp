@@ -1,6 +1,6 @@
 
 import { Link } from "@remix-run/react";
-import { imgixSrc, imageSpec } from "~/utils";
+import { imgixSrc, type imageSpec } from "~/utils";
 
 interface HeroProps {
     path: string

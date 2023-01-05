@@ -24,12 +24,12 @@ export default function Footer() {
                     </div>
                     {/* <!-- Social Links Container --> */}
                     <div className="flex justify-center space-x-4 items-center">
-                        {[
+                        {([
                             { icon: <FaTwitter />, url: "https://twitter.com/bokoup" },
                             { icon: <FaDiscord />, url: "https://www.discord.com/" },
                             { icon: <FaFacebookSquare />, url: "https://www.facebook.com/" },
                             { icon: <FaInstagramSquare />, url: "https://www.instagram.com" },
-                            { icon: <FaYoutube />, url: "https://www.youtube.com/@bokoup" }].map(({ icon, url }) => <a key={url} href={url} className="text-white hover:text-bokoupBlue2-700">{icon}</a>)}
+                            { icon: <FaYoutube />, url: "https://www.youtube.com/@bokoup" }]).map(({ icon, url }) => <a key={url} href={url} className="text-white hover:text-bokoupBlue2-700">{icon}</a>)}
                     </div>
                 </div>
                 {/* <!-- List Container --> */}

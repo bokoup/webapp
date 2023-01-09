@@ -1,5 +1,6 @@
 import { FaDiscord, FaFacebookSquare, FaTwitter, FaInstagramSquare, FaYoutube } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
+import { type NavItem, navItems } from './navbar';
 
 export default function Footer() {
     return (
@@ -33,14 +34,13 @@ export default function Footer() {
                     </div>
                 </div>
                 {/* <!-- List Container --> */}
-                <div className="flex justify-around space-x-16">
-                    <div className="flex flex-col space-y-3 text-white">
-                        {["Promos", "Loyalty", "Merchants", "Trade", "Pricing"].map(text => <Link key={text} to="/" className="font-heading hover:text-bokoupBlue2-700">{text}</Link>)}
-                    </div>
-                    <div className="flex flex-col space-y-3 text-white">
-                        {["FAQ", "About", "Careers", "Privacy Policy"].map(text => <Link key={text} to="/" className="font-heading hover:text-bokoupBlue2-700">{text}</Link>)}
-                    </div>
+
+                <div className="h-48 flex flex-col gap-3 flex-wrap text-white">
+                    {navItems.map(n => <Link key={n.label} to={n.pathname} className="font-heading hover:text-bokoupBlue2-700 pr-10">{n.label}</Link>)}
+                    {["About", "Careers", "Privacy Policy"].map(text => <Link key={text} to={`/${text.toLowerCase()}`} className="font-heading hover:text-bokoupBlue2-700">{text}</Link>)}
                 </div>
+
+
 
                 {/* <!-- Input Container --> */}
                 <div className="flex flex-col justify-between">

@@ -1,20 +1,21 @@
 
 import { Link } from "@remix-run/react";
 
-interface NavItem {
+export interface NavItem {
     label: string
     pathname: string
 }
 
+export const navItems: NavItem[] = [
+    { label: "Promos", pathname: "/promos" },
+    { label: "Loyalty", pathname: "/loyalty" },
+    { label: "Merchants", pathname: "/merchants" },
+    { label: "Trade", pathname: "/trade" },
+    { label: "Pricing", pathname: "/pricing" },
+    { label: "FAQ", pathname: "/FAQ" }
+]
+
 export default function NavBar() {
-    const navItems: NavItem[] = [
-        { label: "Promos", pathname: "/promos" },
-        { label: "Loyalty", pathname: "/loyalty" },
-        { label: "Merchants", pathname: "/merchants" },
-        { label: "Trade", pathname: "/trade" },
-        { label: "Pricing", pathname: "/pricing" },
-        { label: "FAQ", pathname: "/FAQ" }
-    ]
     return (
         <nav className="relative container mx-auto p-2 lg:py-4">
             {/* <!-- Flex container --> */}

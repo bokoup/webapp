@@ -1,4 +1,4 @@
-import { imageSpec } from "~/utils";
+import { type imageSpec } from "~/utils";
 import { getProxyImgSrc } from "~/utils/imgx";
 import { type PromoItem } from "~/models/promo.server";
 import { QrCodeIcon } from "@heroicons/react/20/solid";
@@ -24,7 +24,7 @@ export default function Promo({ promo, onClick }: PromoProps) {
     return (
         <div className="w-64 border rounded-md flex flex-col items-start p-2 gap-2 shadow-sm shadow-slate-300 flex-shrink-0">
             <h3 className="rounded self-start font-semibold" >{promo.name}</h3>
-            <img src={src} className="h-60 w-60 border rounded-md mx-auto" />
+            <img src={src} className="h-60 w-60 border rounded-md mx-auto" alt={promo.name} />
             <p className="text-xs">{promo.description}</p>
             <div className="flex flex-col w-full">
                 <div className="flex justify-between"><span className="w-1/2 text-xs font-semibold">Issued:</span><span className="w-1/2 text-xs font-semibold text-right">{promo.mintCount} / {promo.maxMint}</span></div>

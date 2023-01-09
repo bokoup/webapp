@@ -3,7 +3,7 @@ import { Fragment, useState } from 'react';
 import { type imageSpec } from '~/utils';
 import Hero from '~/components/hero';
 import PromoSkeleton from "~/components/promo/skeleton";
-import { LoaderArgs } from '@remix-run/server-runtime';
+import { type LoaderArgs } from '@remix-run/server-runtime';
 import { getPromoItems } from '~/models/promo.server';
 import { useFetcher, useLoaderData } from '@remix-run/react';
 import Promo from '~/components/promo';

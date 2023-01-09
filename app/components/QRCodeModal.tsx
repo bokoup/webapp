@@ -1,7 +1,7 @@
 import { Fragment, useRef } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { DevicePhoneMobileIcon } from '@heroicons/react/24/solid'
-import { QRCodeData } from '~/routes/qrcode'
+import { type QRCodeData } from '~/routes/qrcode'
 
 interface QRCodeModalProps {
   open: boolean
@@ -57,7 +57,7 @@ export default function QRCodeModal({ data, open, setOpen }: QRCodeModalProps) {
                   </div>
                   {data ?
                     <div className="flex justify-center items-center">
-                      <img src={data.dataUrl} className="w-48 h-48" />
+                      <img src={data.dataUrl} className="w-48 h-48" alt={`QR code to receive ${data.promoName}`} />
                       <div className="flex w-48 h-48 justify-center items-center absolute">
                         <img src="./images/logo-light.svg" alt="bokoup logo" className="w-8 h-8 bg-white rounded-full p-1/2" />
                       </div>

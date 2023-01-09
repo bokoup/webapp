@@ -17,13 +17,13 @@ export default function PromoPage() {
     const handleClick = (promoName: string, mintId: string) => {
         let url = new URL("https://www.bokoup.dev/qrcode");
         const message = `Approve to receive ${promoName}`;
-        const memo = JSON.stringify({ source: "bokoup.dev" });
+        const memo = JSON.stringify({ source: "bokoup.dev/promos" });
         url.searchParams.set("promoName", promoName);
-        url.searchParams.set("text", `https://tx.api.bokoup.dev/promo/mint/${mintId}/${memo}`);
+        url.searchParams.set("text", `https://tx.api.bokoup.dev/promo/mint/${mintId}/${message}/${memo}`);
         fetcher.load(`${url.pathname}${url.search}`);
         setOpen(true);
     };
-    console.log(fetcher.data);
+
     return (
         <div className="container mx-auto p-2 lg:py-4 mb-auto">
             <h2 className="font-heading font-medium text-2xl lg:text-3xl">Promos</h2>

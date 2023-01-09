@@ -1,6 +1,6 @@
 import { FaDiscord, FaFacebookSquare, FaTwitter, FaInstagramSquare, FaYoutube } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
-import { type NavItem, navItems } from './navbar';
+import { navItems } from './navbar';
 
 export default function Footer() {
     return (

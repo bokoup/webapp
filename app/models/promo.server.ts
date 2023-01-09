@@ -1,5 +1,4 @@
-import { request, gql } from 'graphql-request'
-import PromoItem from '~/components/promo'
+import { request } from 'graphql-request'
 import { graphql } from '../graphql/gql'
 
 export interface PromoItem {

@@ -41,6 +41,8 @@ RUN npm run build
 FROM base
 
 ENV DATABASE_URL=file:/data/sqlite.db
+ENV GRAPHQL_API=https://data.api.bokoup.dev/v1/graphql/
+ENV IMGIX_PROXY_URL=bokoup-proxy.imgix.net
 ENV PORT="8080"
 ENV NODE_ENV="production"
 

@@ -19,7 +19,7 @@ export default function Hero({ path, imageSpecs }: HeroProps) {
             </picture>
             <div className="absolute top-0 w-full h-full flex flex-col justify-center gap-7 items-center">
                 <h2 className="font-heading text-4xl md:text-[2.6rem] lg:text-6xl xl:text-7xl text-center text-transparent py-6
-                    bg-clip-text bg-gradient-to-r from-bokoupGreen2-400 to-bokoupBlue2-600 font-semibold">Digital Collectibles Where You Shop</h2>
+                    bg-clip-text bg-gradient-to-r from-bokoupGreen2-400 to-bokoupBlue2-600 font-semibold">Digital Collectibles Wherever You Shop</h2>
                 <Link
                     to="/"
                     className="font-semibold px-10 py-3 bg-bokoupGreen2-400 rounded-full text-center hover:brightness-90"

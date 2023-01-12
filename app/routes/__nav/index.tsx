@@ -13,6 +13,7 @@ export async function loader({ request }: LoaderArgs) {
     return await getPromoItems();
 }
 
+// TODO: use imgx client library instead
 const imageSpecs: imageSpec[] = [
     {
         width: 480,

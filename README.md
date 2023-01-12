@@ -1,21 +1,25 @@
-# Remix Indie Stack
+# bokoup website
 
-![The Remix Indie Stack](https://repository-images.githubusercontent.com/465928257/a241fa49-bd4d-485a-a2a5-5cb8e4ee0abf)
+![bokoup home page](https://bokoup.imgix.net/bokoup-homepage.png)
 
-Learn more about [Remix Stacks](https://remix.run/stacks).
+## Overview
 
-```
-npx create-remix@latest --template remix-run/indie-stack
-```
+- Using nested routes with [Navbar](app/components/navbar.tsx) and [Footer](app/components/footer.tsx) components.
+- Home page ends up being [\_\_nav/index.tsx](app/routes/__nav/index.tsx), where the underscored indicates a pathless route.
+- Graphql schema has been exported from https://data.api.bokoup.dev/v1/graphql
+- Package.json scripts updated to include `generate:gql` for graphql codegen on build and to watch while developing
+
+## Learning Remix
+
+- [Documentation](https://remix.run/docs/en/v1) is quite good
+- The [jokes app deep dive tutorial](https://remix.run/docs/en/v1/tutorials/jokes) is also good
+- This [playlist of videos](https://www.youtube.com/playlist?list=PLXoynULbYuEDG2wBFSZ66b85EIspy3fy6) by the author was also helpful, starting with [Remix Single: Loading data into components](https://www.youtube.com/watch?v=NXqEP_PsPNc&list=PLXoynULbYuEDG2wBFSZ66b85EIspy3fy6&index=2)
 
 ## What's in the stack
 
 - [Fly app deployment](https://fly.io) with [Docker](https://www.docker.com/)
-- Production-ready [SQLite Database](https://sqlite.org)
 - Healthcheck endpoint for [Fly backups region fallbacks](https://fly.io/docs/reference/configuration/#services-http_checks)
 - [GitHub Actions](https://github.com/features/actions) for deploy on merge to production and staging environments
-- Email/Password Authentication with [cookie-based sessions](https://remix.run/docs/en/v1/api/remix#createcookiesessionstorage)
-- Database ORM with [Prisma](https://prisma.io)
 - Styling with [Tailwind](https://tailwindcss.com/)
 - End-to-end testing with [Cypress](https://cypress.io)
 - Local third party request mocking with [MSW](https://mswjs.io)
@@ -24,26 +28,26 @@ npx create-remix@latest --template remix-run/indie-stack
 - Linting with [ESLint](https://eslint.org)
 - Static Types with [TypeScript](https://typescriptlang.org)
 
-Not a fan of bits of the stack? Fork it, change it, and use `npx create-remix --template your/repo`! Make it your own.
+### bokoup additions
 
-## Quickstart
+- Images served by [imgix](https://imgix.com/) - bucket on gcp for new images and proxy service for Arweave assets.
+- Graphql client on the server with [graphql-request](https://github.com/prisma-labs/graphql-request)
+- Codege with types for graphql with [graphql-codegen](https://the-guild.dev/graphql/codegen)
+- UI components from [headlessui](https://headlessui.com/)
+- Icons from [Heroicons](https://heroicons.com/)
 
-Click this button to create a [Gitpod](https://gitpod.io) workspace with the project set up and Fly pre-installed
+### Unused features
 
-[![Gitpod Ready-to-Code](https://img.shields.io/badge/Gitpod-Ready--to--Code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/remix-run/indie-stack/tree/main)
+- Production-ready [SQLite Database](https://sqlite.org)
+- Database ORM with [Prisma](https://prisma.io)
+- Email/Password Authentication with [cookie-based sessions](https://remix.run/docs/en/v1/api/remix#createcookiesessionstorage)
 
 ## Development
 
-- This step only applies if you've opted out of having the CLI install dependencies for you:
+- Install dependencies:
 
   ```sh
-  npx remix init
-  ```
-
-- Initial setup: _If you just generated this project, this step has been done for you._
-
-  ```sh
-  npm run setup
+  npm install
   ```
 
 - Start dev server:
@@ -59,17 +63,9 @@ The database seed script creates a new user with some data you can use to get st
 - Email: `rachel@remix.run`
 - Password: `racheliscool`
 
-### Relevant code:
-
-This is a pretty simple note-taking app, but it's a good example of how you can build a full stack app with Prisma and Remix. The main functionality is creating users, logging in and out, and creating and deleting notes.
-
-- creating users, and logging in and out [./app/models/user.server.ts](./app/models/user.server.ts)
-- user sessions, and verifying them [./app/session.server.ts](./app/session.server.ts)
-- creating, and deleting notes [./app/models/note.server.ts](./app/models/note.server.ts)
-
 ## Deployment
 
-This Remix Stack comes with two GitHub Actions that handle automatically deploying your app to production and staging environments.
+This stack includes two GitHub Actions that handle automatically deploying the app to production and staging environments.
 
 Prior to your first deployment, you'll need to do a few things:
 
@@ -125,11 +121,11 @@ Prior to your first deployment, you'll need to do a few things:
   The application uses [imgix](https://imgix.com/) cdn for serving images. It uses their proxy address to reserve images from Arweave urls without having to download them and upload them to a cloud storage service.
 
 - Add a secret for `GA_TRACKING_ID`
+
   ```sh
   fly secrets set GA_TRACKING_ID=<secret> --app remix-deux-7505
   fly secrets set GA_TRACKING_ID=<secret> --app remix-deux-7505-staging
   ```
-  
 
 - Create a persistent volume for the sqlite database for both your staging and production environments. Run the following:
 

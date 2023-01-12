@@ -5,7 +5,7 @@ import { CheckIcon } from '@heroicons/react/20/solid'
 const plans = ['Statup', 'Business', 'Enterprise']
 
 export default function MyRadioGroup() {
-    const [plan, setPlan] = useState(plans[1])
+    const [plan, setPlan] = useState(plans[1]);
 
     return (
         <RadioGroup value={plan} onChange={setPlan} >

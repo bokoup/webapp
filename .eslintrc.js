@@ -18,4 +18,5 @@ module.exports = {
       version: 28,
     },
   },
+  ignorePatterns: ["app/graphql/*.ts"],
 };

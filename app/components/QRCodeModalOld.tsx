@@ -4,12 +4,9 @@ import { DevicePhoneMobileIcon } from "@heroicons/react/24/solid";
 import { type QRCodeData } from "~/routes/qrcode";
 import { useEventSource } from "remix-utils";
 import { redirect } from "@remix-run/server-runtime";
-import { useNavigate } from "@remix-run/react";
 
 interface QRCodeModalProps {
-  dataUrl: string;
-  title: string;
-  description: string;
+  data: QRCodeData;
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   secret?: string;
@@ -28,24 +25,32 @@ export const getQrCodePath = (
 };
 
 export default function QRCodeModal({
-  dataUrl,
-  title,
-  description,
+  data,
+  open,
+  setOpen,
+  secret,
 }: QRCodeModalProps) {
   const cancelButtonRef = useRef(null);
-  const navigate = useNavigate();
+  const signMemoItem = useEventSource(`/sse/signmemo?secret=${secret}`);
+  console.log(signMemoItem);
 
-  function onClose() {
-    navigate(-1);
-  }
+  useEffect(() => {
+    if (secret) {
+      if (signMemoItem) {
+        console.log(signMemoItem);
+        setOpen(false);
+        redirect("/");
+      }
+    }
+  }, []);
 
   return (
-    <Transition.Root show={true} as={Fragment}>
+    <Transition.Root show={open} as={Fragment}>
       <Dialog
         as="div"
         className="relative z-10"
         initialFocus={cancelButtonRef}
-        onClose={onClose}
+        onClose={setOpen}
       >
         <Transition.Child
           as={Fragment}
@@ -71,44 +76,53 @@ export default function QRCodeModal({
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
               <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-md">
-                <div className="flex flex-col bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-                  <div className="sm:flex sm:items-start">
-                    <div className="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full sm:mx-0 sm:h-10 sm:w-10">
-                      <DevicePhoneMobileIcon
-                        className="h-6 w-6"
-                        aria-hidden="true"
-                      />
+                {data ? (
+                  <div className="flex flex-col bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                    <div className="sm:flex sm:items-start">
+                      <div className="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full sm:mx-0 sm:h-10 sm:w-10">
+                        <DevicePhoneMobileIcon
+                          className="h-6 w-6"
+                          aria-hidden="true"
+                        />
+                      </div>
+                      <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+                        <Dialog.Title
+                          as="h3"
+                          className="text-lg font-medium leading-6 text-gray-900"
+                        >
+                          {data.title}
+                        </Dialog.Title>
+                        <div className="mt-2">
+                          <p className="text-sm text-gray-500">
+                            {data.description}
+                          </p>
+                        </div>
+                      </div>
                     </div>
-                    <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
-                      <Dialog.Title
-                        as="h3"
-                        className="text-lg font-medium leading-6 text-gray-900"
-                      >
-                        {title}
-                      </Dialog.Title>
-                      <div className="mt-2">
-                        <p className="text-sm text-gray-500">{description}</p>
+
+                    <div className="flex items-center justify-center">
+                      <img
+                        src={data.dataUrl}
+                        className="h-48 w-48"
+                        alt="QR code"
+                      />
+                      <div className="absolute flex h-48 w-48 items-center justify-center">
+                        <img
+                          src="./images/logo-light.svg"
+                          alt="bokoup logo"
+                          className="p-1/2 h-8 w-8 rounded-full bg-white"
+                        />
                       </div>
                     </div>
                   </div>
-
-                  <div className="flex items-center justify-center">
-                    <img src={dataUrl} className="h-48 w-48" alt="QR code" />
-                    <div className="absolute flex h-48 w-48 items-center justify-center">
-                      <img
-                        src="/images/logo-light.svg"
-                        alt="bokoup logo"
-                        className="p-1/2 h-8 w-8 rounded-full bg-white"
-                      />
-                    </div>
-                  </div>
-                </div>
-
+                ) : (
+                  <div />
+                )}
                 <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
                   <button
                     type="button"
                     className="rounded-full bg-bokoupDark2-100 px-6 py-2 font-semibold hover:brightness-90"
-                    onClick={onClose}
+                    onClick={() => setOpen(false)}
                     ref={cancelButtonRef}
                   >
                     Close

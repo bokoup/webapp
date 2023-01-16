@@ -78,14 +78,14 @@ export function validateEmail(email: unknown): email is string {
 // }
 
 export interface imageParam {
-  key: string
-  value: string | number
+  key: string;
+  value: string | number;
 }
 
 export interface imageSpec {
-  width: number
-  params: imageParam[]
-  height: number | null
+  width: number;
+  params: imageParam[];
+  height: number | null;
 }
 
 export const imageSizes = `
@@ -103,13 +103,13 @@ const BASE_URL: string = "https://bokoup.imgix.net";
 
 export function imgixSrc(path: string, imageSpec: imageSpec): string {
   let url = new URL(path, BASE_URL);
-  url.searchParams.set("w", imageSpec.width.toString())
+  url.searchParams.set("w", imageSpec.width.toString());
   if (imageSpec.height) {
-    url.searchParams.set("w", imageSpec.width.toString())
+    url.searchParams.set("w", imageSpec.width.toString());
   }
   imageSpec.params.forEach(({ key, value }) => {
     url.searchParams.set(key, value.toString());
-  })
+  });
   url.searchParams.set("auto", "format");
   return url.toString();
 }
@@ -119,5 +119,6 @@ export function imgixSrcSet(path: string, imageSpecs: imageSpec[]): string {
     .map((imageSpec) => {
       const normalRes = `${imgixSrc(path, imageSpec)} ${imageSpec.width}w`;
       return `${normalRes}`;
-    }).join(", ");
+    })
+    .join(", ");
 }

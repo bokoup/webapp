@@ -3,19 +3,23 @@ import type { LoaderArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
 
 export interface QRCodeData {
-  promoName: string;
   dataUrl: string;
+  title: string;
+  description: string;
 }
 
 export async function loader({ request }: LoaderArgs) {
   const url = new URL(request.url);
   const text = url.searchParams.get("text");
-  const promoName = url.searchParams.get("promoName");
+  const title = url.searchParams.get("title");
+  const description = url.searchParams.get("description");
+  const dataUrl = await QRCode.toDataURL(text!);
   try {
     return json({
-      promoName,
-      dataUrl: await QRCode.toDataURL(`solana:${text!}`),
-    });
+      dataUrl,
+      title,
+      description,
+    } as QRCodeData);
   } catch (error: any) {
     return json({ error: error.message });
   }

@@ -43,6 +43,134 @@ export type BooleanComparisonExp = {
   _nin?: InputMaybe<Array<Scalars['Boolean']>>;
 };
 
+/** columns and relationships of "burn_delegated_promo_token" */
+export type BurnDelegatedPromoToken = {
+  __typename?: 'BurnDelegatedPromoToken';
+  adminSettings: Scalars['String'];
+  authority: Scalars['String'];
+  createdAt: Scalars['timestamptz'];
+  memo?: Maybe<Scalars['jsonb']>;
+  mint: Scalars['String'];
+  /** An object relationship */
+  mintObject?: Maybe<Mint>;
+  modifiedAt: Scalars['timestamptz'];
+  payer: Scalars['String'];
+  platform: Scalars['String'];
+  promo: Scalars['String'];
+  promoGroup: Scalars['String'];
+  /** An object relationship */
+  promoObject?: Maybe<Promo>;
+  signature: Scalars['String'];
+  slot: Scalars['bigint'];
+  tokenAccount: Scalars['String'];
+  /** An object relationship */
+  tokenAccountObject?: Maybe<TokenAccount>;
+};
+
+
+/** columns and relationships of "burn_delegated_promo_token" */
+export type BurnDelegatedPromoTokenMemoArgs = {
+  path?: InputMaybe<Scalars['String']>;
+};
+
+/** Boolean expression to filter rows from the table "burn_delegated_promo_token". All fields are combined with a logical 'AND'. */
+export type BurnDelegatedPromoTokenBoolExp = {
+  _and?: InputMaybe<Array<BurnDelegatedPromoTokenBoolExp>>;
+  _not?: InputMaybe<BurnDelegatedPromoTokenBoolExp>;
+  _or?: InputMaybe<Array<BurnDelegatedPromoTokenBoolExp>>;
+  adminSettings?: InputMaybe<StringComparisonExp>;
+  authority?: InputMaybe<StringComparisonExp>;
+  createdAt?: InputMaybe<TimestamptzComparisonExp>;
+  memo?: InputMaybe<JsonbComparisonExp>;
+  mint?: InputMaybe<StringComparisonExp>;
+  mintObject?: InputMaybe<MintBoolExp>;
+  modifiedAt?: InputMaybe<TimestamptzComparisonExp>;
+  payer?: InputMaybe<StringComparisonExp>;
+  platform?: InputMaybe<StringComparisonExp>;
+  promo?: InputMaybe<StringComparisonExp>;
+  promoGroup?: InputMaybe<StringComparisonExp>;
+  promoObject?: InputMaybe<PromoBoolExp>;
+  signature?: InputMaybe<StringComparisonExp>;
+  slot?: InputMaybe<BigintComparisonExp>;
+  tokenAccount?: InputMaybe<StringComparisonExp>;
+  tokenAccountObject?: InputMaybe<TokenAccountBoolExp>;
+};
+
+/** Ordering options when selecting data from "burn_delegated_promo_token". */
+export type BurnDelegatedPromoTokenOrderBy = {
+  adminSettings?: InputMaybe<OrderBy>;
+  authority?: InputMaybe<OrderBy>;
+  createdAt?: InputMaybe<OrderBy>;
+  memo?: InputMaybe<OrderBy>;
+  mint?: InputMaybe<OrderBy>;
+  mintObject?: InputMaybe<MintOrderBy>;
+  modifiedAt?: InputMaybe<OrderBy>;
+  payer?: InputMaybe<OrderBy>;
+  platform?: InputMaybe<OrderBy>;
+  promo?: InputMaybe<OrderBy>;
+  promoGroup?: InputMaybe<OrderBy>;
+  promoObject?: InputMaybe<PromoOrderBy>;
+  signature?: InputMaybe<OrderBy>;
+  slot?: InputMaybe<OrderBy>;
+  tokenAccount?: InputMaybe<OrderBy>;
+  tokenAccountObject?: InputMaybe<TokenAccountOrderBy>;
+};
+
+/** select columns of table "burn_delegated_promo_token" */
+export enum BurnDelegatedPromoTokenSelectColumn {
+  /** column name */
+  AdminSettings = 'adminSettings',
+  /** column name */
+  Authority = 'authority',
+  /** column name */
+  CreatedAt = 'createdAt',
+  /** column name */
+  Memo = 'memo',
+  /** column name */
+  Mint = 'mint',
+  /** column name */
+  ModifiedAt = 'modifiedAt',
+  /** column name */
+  Payer = 'payer',
+  /** column name */
+  Platform = 'platform',
+  /** column name */
+  Promo = 'promo',
+  /** column name */
+  PromoGroup = 'promoGroup',
+  /** column name */
+  Signature = 'signature',
+  /** column name */
+  Slot = 'slot',
+  /** column name */
+  TokenAccount = 'tokenAccount'
+}
+
+/** Streaming cursor of the table "burn_delegated_promo_token" */
+export type BurnDelegatedPromoTokenStreamCursorInput = {
+  /** Stream column input with initial value */
+  initialValue: BurnDelegatedPromoTokenStreamCursorValueInput;
+  /** cursor ordering */
+  ordering?: InputMaybe<CursorOrdering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type BurnDelegatedPromoTokenStreamCursorValueInput = {
+  adminSettings?: InputMaybe<Scalars['String']>;
+  authority?: InputMaybe<Scalars['String']>;
+  createdAt?: InputMaybe<Scalars['timestamptz']>;
+  memo?: InputMaybe<Scalars['jsonb']>;
+  mint?: InputMaybe<Scalars['String']>;
+  modifiedAt?: InputMaybe<Scalars['timestamptz']>;
+  payer?: InputMaybe<Scalars['String']>;
+  platform?: InputMaybe<Scalars['String']>;
+  promo?: InputMaybe<Scalars['String']>;
+  promoGroup?: InputMaybe<Scalars['String']>;
+  signature?: InputMaybe<Scalars['String']>;
+  slot?: InputMaybe<Scalars['bigint']>;
+  tokenAccount?: InputMaybe<Scalars['String']>;
+};
+
 /** ordering argument of a cursor */
 export enum CursorOrdering {
   /** ascending ordering of the cursor */
@@ -438,6 +566,124 @@ export type MintOrderBy = {
   writeVersion?: InputMaybe<OrderBy>;
 };
 
+/** columns and relationships of "mint_promo_token" */
+export type MintPromoToken = {
+  __typename?: 'MintPromoToken';
+  authority: Scalars['String'];
+  createdAt: Scalars['timestamptz'];
+  memo?: Maybe<Scalars['jsonb']>;
+  mint: Scalars['String'];
+  /** An object relationship */
+  mintObject?: Maybe<Mint>;
+  modifiedAt: Scalars['timestamptz'];
+  payer: Scalars['String'];
+  promo: Scalars['String'];
+  promoGroup: Scalars['String'];
+  /** An object relationship */
+  promoObject?: Maybe<Promo>;
+  signature: Scalars['String'];
+  slot: Scalars['bigint'];
+  tokenAccount: Scalars['String'];
+  tokenOwner: Scalars['String'];
+};
+
+
+/** columns and relationships of "mint_promo_token" */
+export type MintPromoTokenMemoArgs = {
+  path?: InputMaybe<Scalars['String']>;
+};
+
+/** Boolean expression to filter rows from the table "mint_promo_token". All fields are combined with a logical 'AND'. */
+export type MintPromoTokenBoolExp = {
+  _and?: InputMaybe<Array<MintPromoTokenBoolExp>>;
+  _not?: InputMaybe<MintPromoTokenBoolExp>;
+  _or?: InputMaybe<Array<MintPromoTokenBoolExp>>;
+  authority?: InputMaybe<StringComparisonExp>;
+  createdAt?: InputMaybe<TimestamptzComparisonExp>;
+  memo?: InputMaybe<JsonbComparisonExp>;
+  mint?: InputMaybe<StringComparisonExp>;
+  mintObject?: InputMaybe<MintBoolExp>;
+  modifiedAt?: InputMaybe<TimestamptzComparisonExp>;
+  payer?: InputMaybe<StringComparisonExp>;
+  promo?: InputMaybe<StringComparisonExp>;
+  promoGroup?: InputMaybe<StringComparisonExp>;
+  promoObject?: InputMaybe<PromoBoolExp>;
+  signature?: InputMaybe<StringComparisonExp>;
+  slot?: InputMaybe<BigintComparisonExp>;
+  tokenAccount?: InputMaybe<StringComparisonExp>;
+  tokenOwner?: InputMaybe<StringComparisonExp>;
+};
+
+/** Ordering options when selecting data from "mint_promo_token". */
+export type MintPromoTokenOrderBy = {
+  authority?: InputMaybe<OrderBy>;
+  createdAt?: InputMaybe<OrderBy>;
+  memo?: InputMaybe<OrderBy>;
+  mint?: InputMaybe<OrderBy>;
+  mintObject?: InputMaybe<MintOrderBy>;
+  modifiedAt?: InputMaybe<OrderBy>;
+  payer?: InputMaybe<OrderBy>;
+  promo?: InputMaybe<OrderBy>;
+  promoGroup?: InputMaybe<OrderBy>;
+  promoObject?: InputMaybe<PromoOrderBy>;
+  signature?: InputMaybe<OrderBy>;
+  slot?: InputMaybe<OrderBy>;
+  tokenAccount?: InputMaybe<OrderBy>;
+  tokenOwner?: InputMaybe<OrderBy>;
+};
+
+/** select columns of table "mint_promo_token" */
+export enum MintPromoTokenSelectColumn {
+  /** column name */
+  Authority = 'authority',
+  /** column name */
+  CreatedAt = 'createdAt',
+  /** column name */
+  Memo = 'memo',
+  /** column name */
+  Mint = 'mint',
+  /** column name */
+  ModifiedAt = 'modifiedAt',
+  /** column name */
+  Payer = 'payer',
+  /** column name */
+  Promo = 'promo',
+  /** column name */
+  PromoGroup = 'promoGroup',
+  /** column name */
+  Signature = 'signature',
+  /** column name */
+  Slot = 'slot',
+  /** column name */
+  TokenAccount = 'tokenAccount',
+  /** column name */
+  TokenOwner = 'tokenOwner'
+}
+
+/** Streaming cursor of the table "mint_promo_token" */
+export type MintPromoTokenStreamCursorInput = {
+  /** Stream column input with initial value */
+  initialValue: MintPromoTokenStreamCursorValueInput;
+  /** cursor ordering */
+  ordering?: InputMaybe<CursorOrdering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type MintPromoTokenStreamCursorValueInput = {
+  authority?: InputMaybe<Scalars['String']>;
+  createdAt?: InputMaybe<Scalars['timestamptz']>;
+  memo?: InputMaybe<Scalars['jsonb']>;
+  mint?: InputMaybe<Scalars['String']>;
+  modifiedAt?: InputMaybe<Scalars['timestamptz']>;
+  payer?: InputMaybe<Scalars['String']>;
+  promo?: InputMaybe<Scalars['String']>;
+  promoGroup?: InputMaybe<Scalars['String']>;
+  signature?: InputMaybe<Scalars['String']>;
+  slot?: InputMaybe<Scalars['bigint']>;
+  tokenAccount?: InputMaybe<Scalars['String']>;
+  tokenOwner?: InputMaybe<Scalars['String']>;
+};
+
 /** select columns of table "mint" */
 export enum MintSelectColumn {
   /** column name */
@@ -737,6 +983,184 @@ export type PromoStreamCursorValueInput = {
   writeVersion?: InputMaybe<Scalars['bigint']>;
 };
 
+/** columns and relationships of "promo_transactions" */
+export type PromoTransactions = {
+  __typename?: 'PromoTransactions';
+  authority?: Maybe<Scalars['String']>;
+  memo?: Maybe<Scalars['jsonb']>;
+  mint?: Maybe<Scalars['String']>;
+  payer?: Maybe<Scalars['String']>;
+  promo?: Maybe<Scalars['String']>;
+  promoGroup?: Maybe<Scalars['String']>;
+  signature?: Maybe<Scalars['String']>;
+  slot?: Maybe<Scalars['bigint']>;
+  tokenAccount?: Maybe<Scalars['String']>;
+  transactionType?: Maybe<Scalars['String']>;
+};
+
+
+/** columns and relationships of "promo_transactions" */
+export type PromoTransactionsMemoArgs = {
+  path?: InputMaybe<Scalars['String']>;
+};
+
+/** Boolean expression to filter rows from the table "promo_transactions". All fields are combined with a logical 'AND'. */
+export type PromoTransactionsBoolExp = {
+  _and?: InputMaybe<Array<PromoTransactionsBoolExp>>;
+  _not?: InputMaybe<PromoTransactionsBoolExp>;
+  _or?: InputMaybe<Array<PromoTransactionsBoolExp>>;
+  authority?: InputMaybe<StringComparisonExp>;
+  memo?: InputMaybe<JsonbComparisonExp>;
+  mint?: InputMaybe<StringComparisonExp>;
+  payer?: InputMaybe<StringComparisonExp>;
+  promo?: InputMaybe<StringComparisonExp>;
+  promoGroup?: InputMaybe<StringComparisonExp>;
+  signature?: InputMaybe<StringComparisonExp>;
+  slot?: InputMaybe<BigintComparisonExp>;
+  tokenAccount?: InputMaybe<StringComparisonExp>;
+  transactionType?: InputMaybe<StringComparisonExp>;
+};
+
+/** Ordering options when selecting data from "promo_transactions". */
+export type PromoTransactionsOrderBy = {
+  authority?: InputMaybe<OrderBy>;
+  memo?: InputMaybe<OrderBy>;
+  mint?: InputMaybe<OrderBy>;
+  payer?: InputMaybe<OrderBy>;
+  promo?: InputMaybe<OrderBy>;
+  promoGroup?: InputMaybe<OrderBy>;
+  signature?: InputMaybe<OrderBy>;
+  slot?: InputMaybe<OrderBy>;
+  tokenAccount?: InputMaybe<OrderBy>;
+  transactionType?: InputMaybe<OrderBy>;
+};
+
+/** select columns of table "promo_transactions" */
+export enum PromoTransactionsSelectColumn {
+  /** column name */
+  Authority = 'authority',
+  /** column name */
+  Memo = 'memo',
+  /** column name */
+  Mint = 'mint',
+  /** column name */
+  Payer = 'payer',
+  /** column name */
+  Promo = 'promo',
+  /** column name */
+  PromoGroup = 'promoGroup',
+  /** column name */
+  Signature = 'signature',
+  /** column name */
+  Slot = 'slot',
+  /** column name */
+  TokenAccount = 'tokenAccount',
+  /** column name */
+  TransactionType = 'transactionType'
+}
+
+/** Streaming cursor of the table "promo_transactions" */
+export type PromoTransactionsStreamCursorInput = {
+  /** Stream column input with initial value */
+  initialValue: PromoTransactionsStreamCursorValueInput;
+  /** cursor ordering */
+  ordering?: InputMaybe<CursorOrdering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type PromoTransactionsStreamCursorValueInput = {
+  authority?: InputMaybe<Scalars['String']>;
+  memo?: InputMaybe<Scalars['jsonb']>;
+  mint?: InputMaybe<Scalars['String']>;
+  payer?: InputMaybe<Scalars['String']>;
+  promo?: InputMaybe<Scalars['String']>;
+  promoGroup?: InputMaybe<Scalars['String']>;
+  signature?: InputMaybe<Scalars['String']>;
+  slot?: InputMaybe<Scalars['bigint']>;
+  tokenAccount?: InputMaybe<Scalars['String']>;
+  transactionType?: InputMaybe<Scalars['String']>;
+};
+
+/** columns and relationships of "sign_memo" */
+export type SignMemo = {
+  __typename?: 'SignMemo';
+  createdAt: Scalars['timestamptz'];
+  memo?: Maybe<Scalars['jsonb']>;
+  modifiedAt: Scalars['timestamptz'];
+  payer: Scalars['String'];
+  signature: Scalars['String'];
+  signer: Scalars['String'];
+  slot: Scalars['bigint'];
+};
+
+
+/** columns and relationships of "sign_memo" */
+export type SignMemoMemoArgs = {
+  path?: InputMaybe<Scalars['String']>;
+};
+
+/** Boolean expression to filter rows from the table "sign_memo". All fields are combined with a logical 'AND'. */
+export type SignMemoBoolExp = {
+  _and?: InputMaybe<Array<SignMemoBoolExp>>;
+  _not?: InputMaybe<SignMemoBoolExp>;
+  _or?: InputMaybe<Array<SignMemoBoolExp>>;
+  createdAt?: InputMaybe<TimestamptzComparisonExp>;
+  memo?: InputMaybe<JsonbComparisonExp>;
+  modifiedAt?: InputMaybe<TimestamptzComparisonExp>;
+  payer?: InputMaybe<StringComparisonExp>;
+  signature?: InputMaybe<StringComparisonExp>;
+  signer?: InputMaybe<StringComparisonExp>;
+  slot?: InputMaybe<BigintComparisonExp>;
+};
+
+/** Ordering options when selecting data from "sign_memo". */
+export type SignMemoOrderBy = {
+  createdAt?: InputMaybe<OrderBy>;
+  memo?: InputMaybe<OrderBy>;
+  modifiedAt?: InputMaybe<OrderBy>;
+  payer?: InputMaybe<OrderBy>;
+  signature?: InputMaybe<OrderBy>;
+  signer?: InputMaybe<OrderBy>;
+  slot?: InputMaybe<OrderBy>;
+};
+
+/** select columns of table "sign_memo" */
+export enum SignMemoSelectColumn {
+  /** column name */
+  CreatedAt = 'createdAt',
+  /** column name */
+  Memo = 'memo',
+  /** column name */
+  ModifiedAt = 'modifiedAt',
+  /** column name */
+  Payer = 'payer',
+  /** column name */
+  Signature = 'signature',
+  /** column name */
+  Signer = 'signer',
+  /** column name */
+  Slot = 'slot'
+}
+
+/** Streaming cursor of the table "sign_memo" */
+export type SignMemoStreamCursorInput = {
+  /** Stream column input with initial value */
+  initialValue: SignMemoStreamCursorValueInput;
+  /** cursor ordering */
+  ordering?: InputMaybe<CursorOrdering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type SignMemoStreamCursorValueInput = {
+  createdAt?: InputMaybe<Scalars['timestamptz']>;
+  memo?: InputMaybe<Scalars['jsonb']>;
+  modifiedAt?: InputMaybe<Scalars['timestamptz']>;
+  payer?: InputMaybe<Scalars['String']>;
+  signature?: InputMaybe<Scalars['String']>;
+  signer?: InputMaybe<Scalars['String']>;
+  slot?: InputMaybe<Scalars['bigint']>;
+};
+
 /** Boolean expression to compare columns of type "String". All fields are combined with logical 'AND'. */
 export type StringComparisonExp = {
   _eq?: InputMaybe<Scalars['String']>;
@@ -1026,6 +1450,10 @@ export type Promo_Variance_Order_By = {
 
 export type Query_Root = {
   __typename?: 'query_root';
+  /** fetch data from the table: "burn_delegated_promo_token" */
+  burnDelegatedPromoToken: Array<BurnDelegatedPromoToken>;
+  /** fetch data from the table: "burn_delegated_promo_token" using primary key columns */
+  burnDelegatedPromoTokenByPk?: Maybe<BurnDelegatedPromoToken>;
   /** fetch data from the table: "delegate_promo_token" */
   delegatePromoToken: Array<DelegatePromoToken>;
   /** fetch data from the table: "delegate_promo_token" using primary key columns */
@@ -1038,6 +1466,10 @@ export type Query_Root = {
   mint: Array<Mint>;
   /** fetch data from the table: "mint" using primary key columns */
   mintByPk?: Maybe<Mint>;
+  /** fetch data from the table: "mint_promo_token" */
+  mintPromoToken: Array<MintPromoToken>;
+  /** fetch data from the table: "mint_promo_token" using primary key columns */
+  mintPromoTokenByPk?: Maybe<MintPromoToken>;
   /** fetch data from the table: "promo" */
   promo: Array<Promo>;
   /** fetch data from the table: "promo" using primary key columns */
@@ -1046,10 +1478,30 @@ export type Query_Root = {
   promoGroup: Array<PromoGroup>;
   /** fetch data from the table: "promo_group" using primary key columns */
   promoGroupByPk?: Maybe<PromoGroup>;
+  /** fetch data from the table: "promo_transactions" */
+  promoTransactions: Array<PromoTransactions>;
+  /** fetch data from the table: "sign_memo" */
+  signMemo: Array<SignMemo>;
+  /** fetch data from the table: "sign_memo" using primary key columns */
+  signMemoByPk?: Maybe<SignMemo>;
   /** fetch data from the table: "token_account" */
   tokenAccount: Array<TokenAccount>;
   /** fetch data from the table: "token_account" using primary key columns */
   tokenAccountByPk?: Maybe<TokenAccount>;
+};
+
+
+export type Query_RootBurnDelegatedPromoTokenArgs = {
+  distinctOn?: InputMaybe<Array<BurnDelegatedPromoTokenSelectColumn>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Array<BurnDelegatedPromoTokenOrderBy>>;
+  where?: InputMaybe<BurnDelegatedPromoTokenBoolExp>;
+};
+
+
+export type Query_RootBurnDelegatedPromoTokenByPkArgs = {
+  signature: Scalars['String'];
 };
 
 
@@ -1095,6 +1547,20 @@ export type Query_RootMintByPkArgs = {
 };
 
 
+export type Query_RootMintPromoTokenArgs = {
+  distinctOn?: InputMaybe<Array<MintPromoTokenSelectColumn>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Array<MintPromoTokenOrderBy>>;
+  where?: InputMaybe<MintPromoTokenBoolExp>;
+};
+
+
+export type Query_RootMintPromoTokenByPkArgs = {
+  signature: Scalars['String'];
+};
+
+
 export type Query_RootPromoArgs = {
   distinctOn?: InputMaybe<Array<PromoSelectColumn>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -1123,6 +1589,29 @@ export type Query_RootPromoGroupByPkArgs = {
 };
 
 
+export type Query_RootPromoTransactionsArgs = {
+  distinctOn?: InputMaybe<Array<PromoTransactionsSelectColumn>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Array<PromoTransactionsOrderBy>>;
+  where?: InputMaybe<PromoTransactionsBoolExp>;
+};
+
+
+export type Query_RootSignMemoArgs = {
+  distinctOn?: InputMaybe<Array<SignMemoSelectColumn>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Array<SignMemoOrderBy>>;
+  where?: InputMaybe<SignMemoBoolExp>;
+};
+
+
+export type Query_RootSignMemoByPkArgs = {
+  signature: Scalars['String'];
+};
+
+
 export type Query_RootTokenAccountArgs = {
   distinctOn?: InputMaybe<Array<TokenAccountSelectColumn>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -1138,6 +1627,12 @@ export type Query_RootTokenAccountByPkArgs = {
 
 export type Subscription_Root = {
   __typename?: 'subscription_root';
+  /** fetch data from the table: "burn_delegated_promo_token" */
+  burnDelegatedPromoToken: Array<BurnDelegatedPromoToken>;
+  /** fetch data from the table: "burn_delegated_promo_token" using primary key columns */
+  burnDelegatedPromoTokenByPk?: Maybe<BurnDelegatedPromoToken>;
+  /** fetch data from the table in a streaming manner: "burn_delegated_promo_token" */
+  burnDelegatedPromoTokenStream: Array<BurnDelegatedPromoToken>;
   /** fetch data from the table: "delegate_promo_token" */
   delegatePromoToken: Array<DelegatePromoToken>;
   /** fetch data from the table: "delegate_promo_token" using primary key columns */
@@ -1154,6 +1649,12 @@ export type Subscription_Root = {
   mint: Array<Mint>;
   /** fetch data from the table: "mint" using primary key columns */
   mintByPk?: Maybe<Mint>;
+  /** fetch data from the table: "mint_promo_token" */
+  mintPromoToken: Array<MintPromoToken>;
+  /** fetch data from the table: "mint_promo_token" using primary key columns */
+  mintPromoTokenByPk?: Maybe<MintPromoToken>;
+  /** fetch data from the table in a streaming manner: "mint_promo_token" */
+  mintPromoTokenStream: Array<MintPromoToken>;
   /** fetch data from the table in a streaming manner: "mint" */
   mintStream: Array<Mint>;
   /** fetch data from the table: "promo" */
@@ -1168,12 +1669,43 @@ export type Subscription_Root = {
   promoGroupStream: Array<PromoGroup>;
   /** fetch data from the table in a streaming manner: "promo" */
   promoStream: Array<Promo>;
+  /** fetch data from the table: "promo_transactions" */
+  promoTransactions: Array<PromoTransactions>;
+  /** fetch data from the table in a streaming manner: "promo_transactions" */
+  promoTransactionsStream: Array<PromoTransactions>;
+  /** fetch data from the table: "sign_memo" */
+  signMemo: Array<SignMemo>;
+  /** fetch data from the table: "sign_memo" using primary key columns */
+  signMemoByPk?: Maybe<SignMemo>;
+  /** fetch data from the table in a streaming manner: "sign_memo" */
+  signMemoStream: Array<SignMemo>;
   /** fetch data from the table: "token_account" */
   tokenAccount: Array<TokenAccount>;
   /** fetch data from the table: "token_account" using primary key columns */
   tokenAccountByPk?: Maybe<TokenAccount>;
   /** fetch data from the table in a streaming manner: "token_account" */
   tokenAccountStream: Array<TokenAccount>;
+};
+
+
+export type Subscription_RootBurnDelegatedPromoTokenArgs = {
+  distinctOn?: InputMaybe<Array<BurnDelegatedPromoTokenSelectColumn>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Array<BurnDelegatedPromoTokenOrderBy>>;
+  where?: InputMaybe<BurnDelegatedPromoTokenBoolExp>;
+};
+
+
+export type Subscription_RootBurnDelegatedPromoTokenByPkArgs = {
+  signature: Scalars['String'];
+};
+
+
+export type Subscription_RootBurnDelegatedPromoTokenStreamArgs = {
+  batchSize: Scalars['Int'];
+  cursor: Array<InputMaybe<BurnDelegatedPromoTokenStreamCursorInput>>;
+  where?: InputMaybe<BurnDelegatedPromoTokenBoolExp>;
 };
 
 
@@ -1233,6 +1765,27 @@ export type Subscription_RootMintByPkArgs = {
 };
 
 
+export type Subscription_RootMintPromoTokenArgs = {
+  distinctOn?: InputMaybe<Array<MintPromoTokenSelectColumn>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Array<MintPromoTokenOrderBy>>;
+  where?: InputMaybe<MintPromoTokenBoolExp>;
+};
+
+
+export type Subscription_RootMintPromoTokenByPkArgs = {
+  signature: Scalars['String'];
+};
+
+
+export type Subscription_RootMintPromoTokenStreamArgs = {
+  batchSize: Scalars['Int'];
+  cursor: Array<InputMaybe<MintPromoTokenStreamCursorInput>>;
+  where?: InputMaybe<MintPromoTokenBoolExp>;
+};
+
+
 export type Subscription_RootMintStreamArgs = {
   batchSize: Scalars['Int'];
   cursor: Array<InputMaybe<MintStreamCursorInput>>;
@@ -1279,6 +1832,43 @@ export type Subscription_RootPromoStreamArgs = {
   batchSize: Scalars['Int'];
   cursor: Array<InputMaybe<PromoStreamCursorInput>>;
   where?: InputMaybe<PromoBoolExp>;
+};
+
+
+export type Subscription_RootPromoTransactionsArgs = {
+  distinctOn?: InputMaybe<Array<PromoTransactionsSelectColumn>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Array<PromoTransactionsOrderBy>>;
+  where?: InputMaybe<PromoTransactionsBoolExp>;
+};
+
+
+export type Subscription_RootPromoTransactionsStreamArgs = {
+  batchSize: Scalars['Int'];
+  cursor: Array<InputMaybe<PromoTransactionsStreamCursorInput>>;
+  where?: InputMaybe<PromoTransactionsBoolExp>;
+};
+
+
+export type Subscription_RootSignMemoArgs = {
+  distinctOn?: InputMaybe<Array<SignMemoSelectColumn>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Array<SignMemoOrderBy>>;
+  where?: InputMaybe<SignMemoBoolExp>;
+};
+
+
+export type Subscription_RootSignMemoByPkArgs = {
+  signature: Scalars['String'];
+};
+
+
+export type Subscription_RootSignMemoStreamArgs = {
+  batchSize: Scalars['Int'];
+  cursor: Array<InputMaybe<SignMemoStreamCursorInput>>;
+  where?: InputMaybe<SignMemoBoolExp>;
 };
 
 
@@ -1420,6 +2010,14 @@ export type PromoListQueryDocumentQueryVariables = Exact<{ [key: string]: never;
 
 export type PromoListQueryDocumentQuery = { __typename?: 'query_root', promo: Array<{ __typename?: 'Promo', id: string, owner: string, maxMint?: number | null, maxBurn?: number | null, mintCount: number, burnCount: number, createdAt: any, metadataObject?: { __typename?: 'Metadata', id: string, name: string, symbol: string, uri: string, image?: any | null, description?: any | null, attributes?: any | null } | null, mintObject?: { __typename?: 'Mint', id: string, supply: any } | null }> };
 
+export type SignMemoQueryDocumentQueryVariables = Exact<{
+  memo?: InputMaybe<Scalars['jsonb']>;
+}>;
+
+
+export type SignMemoQueryDocumentQuery = { __typename?: 'query_root', signMemo: Array<{ __typename?: 'SignMemo', signer: string, signature: string, secret?: any | null }> };
+
 
 export const PromoQueryDocumentDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"PromoQueryDocument"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"promoByPk"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"maxBurn"}},{"kind":"Field","name":{"kind":"Name","value":"maxMint"}},{"kind":"Field","name":{"kind":"Name","value":"burnCount"}}]}}]}}]} as unknown as DocumentNode<PromoQueryDocumentQuery, PromoQueryDocumentQueryVariables>;
-export const PromoListQueryDocumentDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"PromoListQueryDocument"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"promo"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"owner"}},{"kind":"Field","name":{"kind":"Name","value":"maxMint"}},{"kind":"Field","name":{"kind":"Name","value":"maxBurn"}},{"kind":"Field","name":{"kind":"Name","value":"mintCount"}},{"kind":"Field","name":{"kind":"Name","value":"burnCount"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"metadataObject"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"symbol"}},{"kind":"Field","name":{"kind":"Name","value":"uri"}},{"kind":"Field","alias":{"kind":"Name","value":"image"},"name":{"kind":"Name","value":"metadataJson"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"path"},"value":{"kind":"StringValue","value":"image","block":false}}]},{"kind":"Field","alias":{"kind":"Name","value":"description"},"name":{"kind":"Name","value":"metadataJson"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"path"},"value":{"kind":"StringValue","value":"description","block":false}}]},{"kind":"Field","alias":{"kind":"Name","value":"attributes"},"name":{"kind":"Name","value":"metadataJson"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"path"},"value":{"kind":"StringValue","value":"attributes","block":false}}]}]}},{"kind":"Field","name":{"kind":"Name","value":"mintObject"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"supply"}}]}}]}}]}}]} as unknown as DocumentNode<PromoListQueryDocumentQuery, PromoListQueryDocumentQueryVariables>;
+export const PromoListQueryDocumentDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"PromoListQueryDocument"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"promo"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"createdAt"},"value":{"kind":"EnumValue","value":"DESC"}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"owner"}},{"kind":"Field","name":{"kind":"Name","value":"maxMint"}},{"kind":"Field","name":{"kind":"Name","value":"maxBurn"}},{"kind":"Field","name":{"kind":"Name","value":"mintCount"}},{"kind":"Field","name":{"kind":"Name","value":"burnCount"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"metadataObject"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"symbol"}},{"kind":"Field","name":{"kind":"Name","value":"uri"}},{"kind":"Field","alias":{"kind":"Name","value":"image"},"name":{"kind":"Name","value":"metadataJson"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"path"},"value":{"kind":"StringValue","value":"image","block":false}}]},{"kind":"Field","alias":{"kind":"Name","value":"description"},"name":{"kind":"Name","value":"metadataJson"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"path"},"value":{"kind":"StringValue","value":"description","block":false}}]},{"kind":"Field","alias":{"kind":"Name","value":"attributes"},"name":{"kind":"Name","value":"metadataJson"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"path"},"value":{"kind":"StringValue","value":"attributes","block":false}}]}]}},{"kind":"Field","name":{"kind":"Name","value":"mintObject"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"supply"}}]}}]}}]}}]} as unknown as DocumentNode<PromoListQueryDocumentQuery, PromoListQueryDocumentQueryVariables>;
+export const SignMemoQueryDocumentDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"SignMemoQueryDocument"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"memo"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"jsonb"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"signMemo"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"memo"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_contains"},"value":{"kind":"Variable","name":{"kind":"Name","value":"memo"}}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"secret"},"name":{"kind":"Name","value":"memo"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"path"},"value":{"kind":"StringValue","value":"secret","block":false}}]},{"kind":"Field","name":{"kind":"Name","value":"signer"}},{"kind":"Field","name":{"kind":"Name","value":"signature"}}]}}]}}]} as unknown as DocumentNode<SignMemoQueryDocumentQuery, SignMemoQueryDocumentQueryVariables>;

@@ -111,11 +111,11 @@ Prior to your first deployment, you'll need to do a few things:
 
   If you don't have openssl installed, you can also use [1password](https://1password.com/password-generator/) to generate a random secret, just replace `$(openssl rand -hex 32)` with the generated secret.
 
-- Add secrets for `IMGIX_URL_TOKEN`:
+- Add secrets for `GRAPHQL_API_DEVNET`:
 
   ```sh
-  fly secrets set IMGIX_URL_TOKEN=<token_secret> --app remix-deux-7505
-  fly secrets set IMGIX_URL_TOKEN=<token_secret> --app remix-deux-7505-staging
+  fly secrets set GRAPHQL_API_DEVNET=<token_secret> --app remix-deux-7505
+  fly secrets set GRAPHQL_API_DEVNET=<token_secret> --app remix-deux-7505-staging
   ```
 
   The application uses [imgix](https://imgix.com/) cdn for serving images. It uses their proxy address to reserve images from Arweave urls without having to download them and upload them to a cloud storage service.

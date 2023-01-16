@@ -1,5 +1,4 @@
-import { Link, useFetcher } from "@remix-run/react";
-import { useState } from "react";
+import { Link } from "@remix-run/react";
 import { getQrCodePath } from "./QRCodeModal";
 
 export interface NavItem {
@@ -24,17 +23,6 @@ export const getQrCodeSignIn = (secret: string): string => {
   let text = `solana:${`https://tx.api.bokoup.dev/signmemo/${message}/${memo}`}`;
   return getQrCodePath(text, title, description);
 };
-
-// const fetcher = useFetcher();
-//   const [open, setOpen] = useState(false);
-//   let secret = Math.random().toString(36).slice(2, 18);
-//   console.log(secret);
-
-//   const handleClick = () => {
-//     const qrCodePath = getQrCodeSignIn(secret);
-//     fetcher.load(qrCodePath);
-//     setOpen(true);
-//   };
 
 export default function NavBar() {
   return (

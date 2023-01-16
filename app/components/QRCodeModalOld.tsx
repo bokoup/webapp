@@ -12,6 +12,15 @@ interface QRCodeModalProps {
   secret?: string;
 }
 
+export const getQrCodeSignIn = (secret: string): string => {
+  const message = encodeURIComponent(`Approve to sign in to bokoup.dev`);
+  const memo = encodeURIComponent(JSON.stringify({ secret }));
+  const title = `Scan to sign in.`;
+  const description = `Scan with your phone to approve sign in transaction.`;
+  let text = `solana:${`https://tx.api.bokoup.dev/signmemo/${message}/${memo}`}`;
+  return getQrCodePath(text, title, description);
+};
+
 export const getQrCodePath = (
   text: string,
   title: string,
@@ -42,7 +51,7 @@ export default function QRCodeModal({
         redirect("/");
       }
     }
-  }, []);
+  });
 
   return (
     <Transition.Root show={open} as={Fragment}>

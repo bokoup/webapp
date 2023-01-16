@@ -1,6 +1,5 @@
 import type { LoaderArgs } from "@remix-run/node";
 import { eventStream } from "remix-utils";
-import { createClient } from "graphql-ws";
 
 export function loader({ request }: LoaderArgs) {
   return eventStream(request.signal, function setup(send) {

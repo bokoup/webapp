@@ -1,15 +1,12 @@
-import { Fragment, useState } from "react";
+import { Fragment } from "react";
 import { type imageSpec } from "~/utils";
 import Hero from "~/components/hero";
 import PromoSkeleton from "~/components/promo/skeleton";
-import { type LoaderArgs } from "@remix-run/server-runtime";
 import { getPromoItems } from "~/models/promo.server";
-import { useFetcher, useLoaderData } from "@remix-run/react";
+import { useLoaderData } from "@remix-run/react";
 import Promo from "~/components/promo";
-import QRCodeModal from "~/components/QRCodeModal";
-import { getQrCodePathPromoMint } from "./promos";
 
-export async function loader({ request }: LoaderArgs) {
+export async function loader() {
   return await getPromoItems();
 }
 
@@ -62,14 +59,6 @@ const heroPath = "checkout.jpg";
 
 export default function Home() {
   const promoItems = useLoaderData<typeof loader>();
-  const fetcher = useFetcher();
-  const [open, setOpen] = useState(false);
-
-  const handleClick = (promoName: string, mintId: string) => {
-    const qrCodePath = getQrCodePathPromoMint(promoName, mintId, "bokoup.dev");
-    fetcher.load(qrCodePath);
-    setOpen(true);
-  };
 
   return (
     <Fragment>
@@ -90,7 +79,6 @@ export default function Home() {
               <Promo key={promoItem.id} promo={promoItem} />
             ))}
         </div>
-        {/* <QRCodeModal data={fetcher.data} open={open} setOpen={setOpen} /> */}
       </div>
       {/* <!-- Featured Loyalty Programs --> */}
       <div className="container relative mx-auto mb-auto p-2 lg:py-4">

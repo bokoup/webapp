@@ -1,17 +1,12 @@
-import { Fragment, useEffect, useRef } from "react";
+import { Fragment, useRef } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { DevicePhoneMobileIcon } from "@heroicons/react/24/solid";
-import { type QRCodeData } from "~/routes/qrcode";
-import { useEventSource } from "remix-utils";
-import { redirect } from "@remix-run/server-runtime";
 import { useNavigate } from "@remix-run/react";
 
 interface QRCodeModalProps {
   dataUrl: string;
   title: string;
   description: string;
-  open: boolean;
-  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   secret?: string;
 }
 

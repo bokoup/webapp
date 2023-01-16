@@ -1,9 +1,8 @@
-import { json, redirect, TypedResponse } from "@remix-run/node";
+import { json, type TypedResponse } from "@remix-run/node";
 import QRCode from "qrcode";
-import { Form, useLoaderData, useNavigate } from "@remix-run/react";
-import type { ActionArgs, LinksFunction, LoaderArgs } from "@remix-run/node";
+import { useLoaderData } from "@remix-run/react";
+import type { LoaderArgs } from "@remix-run/node";
 import QRCodeModal from "~/components/QRCodeModal";
-import { useState } from "react";
 
 export const getMintPromoDataUrl = async (
   promoName: string,
@@ -40,14 +39,11 @@ export const loader = async ({
 export default function QrCodeMintPromo() {
   const data = useLoaderData<typeof loader>();
 
-  const [open, setOpen] = useState(true);
   return (
     <QRCodeModal
       dataUrl={data.dataUrl}
       title={data.title}
       description={data.description}
-      open
-      setOpen={setOpen}
     />
   );
 }

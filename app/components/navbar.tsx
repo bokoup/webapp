@@ -1,5 +1,4 @@
 import { Link } from "@remix-run/react";
-import { getQrCodePath } from "./QRCodeModal";
 
 export interface NavItem {
   label: string;
@@ -14,15 +13,6 @@ export const navItems: NavItem[] = [
   { label: "Pricing", pathname: "/pricing" },
   { label: "FAQ", pathname: "/FAQ" },
 ];
-
-export const getQrCodeSignIn = (secret: string): string => {
-  const message = encodeURIComponent(`Approve to sign in to bokoup.dev`);
-  const memo = encodeURIComponent(JSON.stringify({ secret }));
-  const title = `Scan to sign in.`;
-  const description = `Scan with your phone to approve sign in transaction.`;
-  let text = `solana:${`https://tx.api.bokoup.dev/signmemo/${message}/${memo}`}`;
-  return getQrCodePath(text, title, description);
-};
 
 export default function NavBar() {
   return (

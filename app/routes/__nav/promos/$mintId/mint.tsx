@@ -10,8 +10,10 @@ export const getMintPromoDataUrl = async (
   source: string
 ): Promise<string> => {
   const message = `Approve to receive ${promoName}`;
-  const memo = encodeURIComponent(JSON.stringify({ source }));
+  const memo = JSON.stringify({ source });
+  // const memo = "jingus";
   let text = `solana:${`https://tx.api.bokoup.dev/promo/mint/${mintId}/${message}/${memo}`}`;
+  console.log(text);
   return await QRCode.toDataURL(text);
 };
 
@@ -28,7 +30,11 @@ export const loader = async ({
   const url = new URL(request.url);
   const promoName = url.searchParams.get("promoName");
 
-  const dataUrl = await getMintPromoDataUrl(promoName!, mintId!, url.pathname);
+  const dataUrl = await getMintPromoDataUrl(
+    promoName!,
+    mintId!,
+    url.pathname.toString().replaceAll("/", "__")
+  );
   const title = `Scan to receive ${promoName}.`;
   const description = `Scan with your phone and approve to receive ${promoName}.`;
   const mintPromoData: MintPromoData = { dataUrl, title, description };

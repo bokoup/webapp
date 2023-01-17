@@ -1,25 +1,10 @@
-import type { LoaderArgs } from "@remix-run/node";
 import { Outlet, useLoaderData } from "@remix-run/react";
 import Promo from "~/components/promo";
-import { getQrCodePath } from "~/components/QRCodeModal";
 import { getPromoItems } from "~/models/promo.server";
 
-export async function loader({ request }: LoaderArgs) {
+export async function loader() {
   return await getPromoItems();
 }
-
-export const getQrCodePathPromoMint = (
-  promoName: string,
-  mintId: string,
-  source: string
-): string => {
-  const message = `Approve to receive ${promoName}`;
-  const memo = encodeURIComponent(JSON.stringify({ source }));
-  const title = `Scan to receive ${promoName}.`;
-  const description = `Scan with your phone and approve to receive ${promoName}.`;
-  let text = `solana:${`https://tx.api.bokoup.dev/promo/mint/${mintId}/${message}/${memo}`}`;
-  return getQrCodePath(text, title, description);
-};
 
 export default function PromoPage() {
   const promoItems = useLoaderData<typeof loader>();

@@ -10,18 +10,6 @@ interface QRCodeModalProps {
   secret?: string;
 }
 
-export const getQrCodePath = (
-  text: string,
-  title: string,
-  description: string
-): string => {
-  let url = new URL("https://www.bokoup.dev/qrcode");
-  url.searchParams.set("text", text);
-  url.searchParams.set("title", title);
-  url.searchParams.set("description", description);
-  return `${url.pathname}${url.search}`;
-};
-
 export default function QRCodeModal({
   dataUrl,
   title,

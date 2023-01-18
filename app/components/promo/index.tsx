@@ -1,8 +1,8 @@
-import { type imageSpec } from "~/utils";
+import { safeRedirect, type imageSpec } from "~/utils";
 import { getProxyImgSrc } from "~/utils/imgx";
 import { type PromoItem } from "~/models/promo.server";
 import { QrCodeIcon } from "@heroicons/react/20/solid";
-import { Link } from "@remix-run/react";
+import { Link, useLocation } from "@remix-run/react";
 
 const promoImageSpec: imageSpec = {
   width: 160,
@@ -20,6 +20,11 @@ interface PromoProps {
 
 export default function Promo({ promo }: PromoProps) {
   const src = getProxyImgSrc(promo.image, promoImageSpec);
+  const location = useLocation();
+  const searchParams = new URLSearchParams([
+    ["promoName", promo.name],
+    ["redirectTo", location.pathname],
+  ]);
 
   return (
     <div className="flex w-64 flex-shrink-0 flex-col items-start gap-2 rounded-md border p-2 shadow-sm shadow-slate-300">
@@ -45,7 +50,7 @@ export default function Promo({ promo }: PromoProps) {
         </div>
       </div>
       <Link
-        to={`/promos/${promo.mintId}/mint?promoName=${promo.name}`}
+        to={`/promos/${promo.mintId}/mint?${searchParams}`}
         className={`${
           promo.mintCount == promo.maxMint
             ? "disabled-link pointer-events-none bg-slate-200"

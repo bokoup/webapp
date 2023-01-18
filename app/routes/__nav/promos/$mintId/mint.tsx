@@ -1,8 +1,9 @@
 import { json, type TypedResponse } from "@remix-run/node";
 import QRCode from "qrcode";
-import { useLoaderData } from "@remix-run/react";
+import { useLoaderData, useSearchParams } from "@remix-run/react";
 import type { LoaderArgs } from "@remix-run/node";
 import QRCodeModal from "~/components/QRCodeModal";
+import { safeRedirect } from "~/utils";
 
 export const getMintPromoDataUrl = async (
   promoName: string,
@@ -11,9 +12,7 @@ export const getMintPromoDataUrl = async (
 ): Promise<string> => {
   const message = `Approve to receive ${promoName}`;
   const memo = JSON.stringify({ source });
-  // const memo = "jingus";
   let text = `solana:${`https://tx.api.bokoup.dev/promo/mint/${mintId}/${message}/${memo}`}`;
-  console.log(text);
   return await QRCode.toDataURL(text);
 };
 
@@ -21,6 +20,7 @@ interface MintPromoData {
   dataUrl: string;
   title: string;
   description: string;
+  redirectTo: string;
 }
 export const loader = async ({
   request,
@@ -29,6 +29,7 @@ export const loader = async ({
   const mintId = params.mintId;
   const url = new URL(request.url);
   const promoName = url.searchParams.get("promoName");
+  const redirectTo = safeRedirect(url.searchParams.get("redirectTo") || "/");
 
   const dataUrl = await getMintPromoDataUrl(
     promoName!,
@@ -37,19 +38,27 @@ export const loader = async ({
   );
   const title = `Scan to receive ${promoName}.`;
   const description = `Scan with your phone and approve to receive ${promoName}.`;
-  const mintPromoData: MintPromoData = { dataUrl, title, description };
+  const mintPromoData: MintPromoData = {
+    dataUrl,
+    title,
+    description,
+    redirectTo,
+  };
 
   return json(mintPromoData);
 };
 
 export default function QrCodeMintPromo() {
   const data = useLoaderData<typeof loader>();
+  const [searchParams] = useSearchParams();
+  const redirectTo = searchParams.get("redirectTo") || "/";
 
   return (
     <QRCodeModal
       dataUrl={data.dataUrl}
       title={data.title}
       description={data.description}
+      redirectTo={redirectTo}
     />
   );
 }

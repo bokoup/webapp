@@ -1,10 +1,11 @@
 import { request } from "graphql-request";
 import { graphql } from "~/graphql/gql";
+import { User } from "~/session.server";
 
 export interface SignMemoItem {
   signature: string;
   signer: string;
-  secret: string;
+  visitId: string;
 }
 
 function get_endpoint() {
@@ -18,13 +19,17 @@ function get_endpoint() {
   return endpoint;
 }
 
-export async function getSignMemo(secret: string): Promise<SignMemoItem[]> {
+export async function getSignMemo(
+  visitId: User["visitId"]
+): Promise<SignMemoItem | null> {
+  if (!visitId) return null;
+
   const endpoint = get_endpoint();
 
   const query = graphql(`
     query SignMemoQueryDocument($memo: jsonb) {
       signMemo(where: { memo: { _contains: $memo } }) {
-        secret: memo(path: "secret")
+        visitId: memo(path: "visitId")
         signer
         signature
       }
@@ -33,7 +38,7 @@ export async function getSignMemo(secret: string): Promise<SignMemoItem[]> {
 
   const variables = {
     memo: {
-      secret,
+      visitId,
     },
   };
 
@@ -43,9 +48,9 @@ export async function getSignMemo(secret: string): Promise<SignMemoItem[]> {
     return {
       signature: item.signature,
       signer: item.signer,
-      secret: item.secret,
+      visitId: item.visitId,
     } as SignMemoItem;
   });
 
-  return data;
+  return data ? data[0] : null;
 }

@@ -20,8 +20,10 @@ import { useEffect } from "react";
 import { getUser } from "./session.server";
 
 export const links: LinksFunction = () => {
-  return [{ rel: "stylesheet", href: tailwindStylesheetUrl },
-  { rel: "stylesheet", href: globalStylesUrl }];
+  return [
+    { rel: "stylesheet", href: tailwindStylesheetUrl },
+    { rel: "stylesheet", href: globalStylesUrl },
+  ];
 };
 
 export const meta: MetaFunction = () => ({
@@ -33,13 +35,14 @@ export const meta: MetaFunction = () => ({
 export async function loader({ request }: LoaderArgs) {
   return json({
     user: await getUser(request),
-    gaTrackingId: process.env.GA_TRACKING_ID
+    gaTrackingId: process.env.GA_TRACKING_ID,
   });
 }
 
 export default function App() {
   const location = useLocation();
-  const { gaTrackingId } = useLoaderData<typeof loader>();
+  const { gaTrackingId, user } = useLoaderData<typeof loader>();
+  console.log("root", user);
 
   useEffect(() => {
     if (gaTrackingId?.length) {

@@ -1,9 +1,8 @@
-import { Fragment } from "react";
 import { type imageSpec } from "~/utils";
 import Hero from "~/components/hero";
 import PromoSkeleton from "~/components/promo/skeleton";
 import { getPromoItems } from "~/models/promo.server";
-import { useLoaderData } from "@remix-run/react";
+import { Outlet, useLoaderData } from "@remix-run/react";
 import Promo from "~/components/promo";
 
 export async function loader() {
@@ -61,7 +60,8 @@ export default function Home() {
   const promoItems = useLoaderData<typeof loader>();
 
   return (
-    <Fragment>
+    <>
+      <Outlet />
       <Hero imageSpecs={imageSpecs} path={heroPath} />
       {/* <!-- Featured Promos --> */}
       <div className="container mx-auto mb-auto p-2 lg:py-4">
@@ -70,7 +70,7 @@ export default function Home() {
         </h2>
         <p>
           Collect promos with your phone. Scan the QR code to get a token.
-          Present it when you shop to get a discount.
+          Present it where you shop to get a discount.
         </p>
         <div className="flex justify-between gap-4 overflow-hidden overflow-x-auto py-4">
           {promoItems
@@ -87,7 +87,7 @@ export default function Home() {
         </h2>
         <p>
           Joining a rewards program has never been easier. Scan the QR code to
-          get a token. Show your token when you shop to earn points and get
+          get a token. Show your token where you shop to earn points and get
           discounts.
         </p>
         <div className="flex gap-4 overflow-x-auto pt-4">
@@ -98,6 +98,6 @@ export default function Home() {
             ))}
         </div>
       </div>
-    </Fragment>
+    </>
   );
 }

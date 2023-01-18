@@ -15,7 +15,7 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
 const documents = {
     "\n    query PromoQueryDocument($id: String!) {\n      promoByPk(id: $id) {\n        id\n        maxBurn\n        maxMint\n        burnCount\n      }\n    }\n  ": types.PromoQueryDocumentDocument,
     "\n    query PromoListQueryDocument {\n      promo(orderBy: { createdAt: DESC }) {\n        id\n        owner\n        maxMint\n        maxBurn\n        mintCount\n        burnCount\n        createdAt\n        metadataObject {\n          id\n          name\n          symbol\n          uri\n          image: metadataJson(path: \"image\")\n          description: metadataJson(path: \"description\")\n          attributes: metadataJson(path: \"attributes\")\n        }\n        mintObject {\n          id\n          supply\n        }\n      }\n    }\n  ": types.PromoListQueryDocumentDocument,
-    "\n    query SignMemoQueryDocument($memo: jsonb) {\n      signMemo(where: { memo: { _contains: $memo } }) {\n        secret: memo(path: \"secret\")\n        signer\n        signature\n      }\n    }\n  ": types.SignMemoQueryDocumentDocument,
+    "\n    query SignMemoQueryDocument($memo: jsonb) {\n      signMemo(where: { memo: { _contains: $memo } }) {\n        visitId: memo(path: \"visitId\")\n        signer\n        signature\n      }\n    }\n  ": types.SignMemoQueryDocumentDocument,
 };
 
 /**
@@ -43,7 +43,7 @@ export function graphql(source: "\n    query PromoListQueryDocument {\n      pro
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n    query SignMemoQueryDocument($memo: jsonb) {\n      signMemo(where: { memo: { _contains: $memo } }) {\n        secret: memo(path: \"secret\")\n        signer\n        signature\n      }\n    }\n  "): (typeof documents)["\n    query SignMemoQueryDocument($memo: jsonb) {\n      signMemo(where: { memo: { _contains: $memo } }) {\n        secret: memo(path: \"secret\")\n        signer\n        signature\n      }\n    }\n  "];
+export function graphql(source: "\n    query SignMemoQueryDocument($memo: jsonb) {\n      signMemo(where: { memo: { _contains: $memo } }) {\n        visitId: memo(path: \"visitId\")\n        signer\n        signature\n      }\n    }\n  "): (typeof documents)["\n    query SignMemoQueryDocument($memo: jsonb) {\n      signMemo(where: { memo: { _contains: $memo } }) {\n        visitId: memo(path: \"visitId\")\n        signer\n        signature\n      }\n    }\n  "];
 
 export function graphql(source: string) {
   return (documents as any)[source] ?? {};

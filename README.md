@@ -190,3 +190,7 @@ This project uses ESLint for linting. That is configured in `.eslintrc.js`.
 ### Formatting
 
 We use [Prettier](https://prettier.io/) for auto-formatting in this project. It's recommended to install an editor plugin (like the [VSCode Prettier plugin](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)) to get auto-formatting on save. There's also a `npm run format` script you can run to format all files in the project.
+
+### Logging In
+
+Loggin in in does by scanning a qr code with your mobile wallet app. This goes to the transaction server and requests a message to be signed with a visit id created when a user visits the site that gets stored in the session cookie. The signed message gets submitted as a transaction to the network and then indexed and made available by the data api. The web application can then query for a signed memo transaction that includes this visit id. If that transaction exists in the database then the user's signature has been verified and they have proven control of the private key associated with their public key address. The user's public key is then stored as the user's id in the session cookie and they can be logged in.

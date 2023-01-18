@@ -1,4 +1,4 @@
-import { safeRedirect, type imageSpec } from "~/utils";
+import { type imageSpec } from "~/utils";
 import { getProxyImgSrc } from "~/utils/imgx";
 import { type PromoItem } from "~/models/promo.server";
 import { QrCodeIcon } from "@heroicons/react/20/solid";

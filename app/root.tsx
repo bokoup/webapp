@@ -41,8 +41,7 @@ export async function loader({ request }: LoaderArgs) {
 
 export default function App() {
   const location = useLocation();
-  const { gaTrackingId, user } = useLoaderData<typeof loader>();
-  console.log("root", user);
+  const { gaTrackingId } = useLoaderData<typeof loader>();
 
   useEffect(() => {
     if (gaTrackingId?.length) {

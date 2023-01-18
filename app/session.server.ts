@@ -1,7 +1,6 @@
 import { createCookieSessionStorage, redirect } from "@remix-run/node";
 import invariant from "tiny-invariant";
 import { v4 as uuidv4 } from "uuid";
-import { getUserById } from "~/models/user.server";
 import { getSignMemo } from "./models/signmemo.server";
 
 invariant(process.env.SESSION_SECRET, "SESSION_SECRET must be set");
@@ -22,7 +21,6 @@ const USER_SESSION_KEY = "userId";
 
 export async function getSession(request: Request) {
   const cookie = request.headers.get("Cookie");
-  console.log(cookie);
   return sessionStorage.getSession(cookie);
 }
 
@@ -33,17 +31,9 @@ export interface User {
 
 export async function getUserId(request: Request): Promise<User> {
   const session = await getSession(request);
-  console.log(session);
   const visitId = session.get(VISIT_SESSION_KEY);
   const userId = session.get(USER_SESSION_KEY);
   return { userId, visitId };
-}
-
-export async function getVisitId(request: Request): Promise<User> {
-  const session = await getSession(request);
-  const visitId = session.get(VISIT_SESSION_KEY);
-
-  return visitId;
 }
 
 export async function setUserId(request: Request, userId: User["userId"]) {
@@ -53,6 +43,7 @@ export async function setUserId(request: Request, userId: User["userId"]) {
 
 export async function getUser(request: Request) {
   const { userId, visitId } = await getUserId(request);
+  console.log("sesson server 47", userId, visitId);
   if (userId === undefined) return null;
 
   const signMemo = await getSignMemo(visitId);
@@ -74,7 +65,7 @@ export async function requireUserId(
 }
 
 export async function requireUser(request: Request) {
-  const { userId, visitId } = await requireUserId(request);
+  const { visitId } = await requireUserId(request);
 
   const user = await getSignMemo(visitId);
   if (user) return user;
@@ -135,6 +126,7 @@ export async function logout(request: Request) {
   session.unset(USER_SESSION_KEY);
   session.unset(VISIT_SESSION_KEY);
   await sessionStorage.commitSession(session);
+  console.log("session server 130");
   return redirect("/", {
     headers: {
       "Set-Cookie": await sessionStorage.destroySession(session),

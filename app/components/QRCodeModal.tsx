@@ -1,4 +1,4 @@
-import { Fragment, useRef, useState } from "react";
+import { Fragment, useRef } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { DevicePhoneMobileIcon } from "@heroicons/react/24/solid";
 import { useNavigate } from "@remix-run/react";
@@ -7,8 +7,6 @@ interface QRCodeModalProps {
   dataUrl: string;
   title: string;
   description: string;
-  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  open: boolean;
   redirectTo: string;
 }
 
@@ -16,8 +14,6 @@ export default function QRCodeModal({
   dataUrl,
   title,
   description,
-  setOpen,
-  open,
   redirectTo,
 }: QRCodeModalProps) {
   const cancelButtonRef = useRef(null);
@@ -27,7 +23,7 @@ export default function QRCodeModal({
   }
 
   return (
-    <Transition.Root show={open} as={Fragment}>
+    <Transition.Root show={true} as={Fragment}>
       <Dialog
         as="div"
         className="relative z-10"

@@ -1,4 +1,4 @@
-import { Link, useLocation, useMatches } from "@remix-run/react";
+import { Link, useLocation } from "@remix-run/react";
 import { safeRedirect } from "~/utils";
 
 export interface NavItem {
@@ -20,7 +20,6 @@ export default function NavBar({ userId }: { userId: string | undefined }) {
   const searchParams = new URLSearchParams([
     ["redirectTo", safeRedirect(location.pathname)],
   ]);
-  console.log(searchParams.toString(), userId);
   return (
     <nav className="container relative mx-auto p-2 lg:py-4">
       {/* <!-- Flex container --> */}
@@ -59,7 +58,7 @@ export default function NavBar({ userId }: { userId: string | undefined }) {
           ) : (
             <Link
               to={`/logout`}
-              className="m-auto rounded-full bg-red-400 py-2 px-6 text-center font-semibold hover:brightness-90"
+              className="m-auto rounded-full bg-bokoupBlue2-400 py-2 px-6 text-center font-semibold hover:brightness-90"
             >
               Log Out
             </Link>

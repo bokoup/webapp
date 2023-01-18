@@ -1,6 +1,6 @@
 import { request } from "graphql-request";
 import { graphql } from "~/graphql/gql";
-import { User } from "~/session.server";
+import { type User } from "~/session.server";
 
 export interface SignMemoItem {
   signature: string;

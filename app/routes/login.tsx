@@ -1,5 +1,5 @@
 import {
-  ActionArgs,
+  type ActionArgs,
   json,
   redirect,
   type TypedResponse,
@@ -8,7 +8,6 @@ import QRCode from "qrcode";
 import {
   Form,
   useLoaderData,
-  useNavigate,
   useSearchParams,
   useSubmit,
 } from "@remix-run/react";
@@ -20,7 +19,7 @@ import {
   getUserId,
 } from "~/session.server";
 import { useEventSource } from "remix-utils";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { safeRedirect } from "~/utils";
 
 export const getSignMemoDataUrl = async (visitId: string): Promise<string> => {
@@ -41,9 +40,9 @@ export const loader = async ({
 }: LoaderArgs): Promise<TypedResponse<SignMemoData>> => {
   let url = new URL(request.url);
   let redirectTo = url.searchParams.get("redirectTo");
-  console.log(url);
+
   let { userId, visitId } = await getUserId(request);
-  if (userId) return redirect(redirectTo || "/");
+  if (userId && visitId) return redirect(redirectTo || "/");
 
   if (!visitId) {
     return await createVisitSession({
@@ -74,27 +73,25 @@ export async function action({ request }: ActionArgs) {
       redirectTo,
     });
   }
+
+  return null;
 }
 
 export default function QrCodeMintPromo() {
   const [searchParams] = useSearchParams();
   const redirectTo = safeRedirect(searchParams.get("redirectTo") || "/");
-  console.log(redirectTo);
 
   const data = useLoaderData<typeof loader>();
   const userId = useEventSource(`/sse/signmemo`);
-  const [open, setOpen] = useState(true);
   const formRef = useRef<HTMLFormElement>(null);
   const submit = useSubmit();
 
   useEffect(() => {
-    if (userId) {
-      console.log(userId);
+    if (userId != "") {
+      console.log("login:", userId);
       submit(formRef.current, { replace: true });
-      // submit(null);
-      // setOpen(false);
     }
-  }, [userId]);
+  }, [userId, submit]);
 
   return (
     <>
@@ -102,8 +99,6 @@ export default function QrCodeMintPromo() {
         dataUrl={data.dataUrl ? data.dataUrl : "null"}
         title={data.title}
         description={data.description}
-        setOpen={setOpen}
-        open={open}
         redirectTo={redirectTo}
       />
       <Form ref={formRef} method="post">

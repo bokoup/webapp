@@ -43,7 +43,6 @@ export async function setUserId(request: Request, userId: User["userId"]) {
 
 export async function getUser(request: Request) {
   const { userId, visitId } = await getUserId(request);
-  console.log("sesson server 47", userId, visitId);
   if (userId === undefined) return null;
 
   const signMemo = await getSignMemo(visitId);

@@ -120,6 +120,5 @@ export async function getPromoItems() {
       } as IPromoItem;
     }
   );
-  console.log(data[0]);
   return data;
 }

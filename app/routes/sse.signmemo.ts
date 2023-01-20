@@ -10,7 +10,6 @@ export async function loader({ request }: LoaderArgs) {
   return eventStream(request.signal, function setup(send) {
     const interval = setInterval(async () => {
       let SignMemoItem = await getSignMemo(visitId);
-      console.log(visitId, userId, SignMemoItem);
       if (SignMemoItem) {
         send({ data: JSON.stringify(SignMemoItem.signer) });
         clearInterval(interval);

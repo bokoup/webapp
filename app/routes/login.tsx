@@ -88,7 +88,6 @@ export default function QrCodeLogin() {
 
   useEffect(() => {
     if (userId != "") {
-      console.log("login:", userId);
       submit(formRef.current, { replace: true });
     }
   }, [userId, submit]);

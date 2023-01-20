@@ -171,7 +171,6 @@ export async function logout(request: Request) {
   session.unset(USER_SESSION_KEY);
   session.unset(VISIT_SESSION_KEY);
   await sessionStorage.commitSession(session);
-  console.log("session server 130");
   return redirect("/", {
     headers: {
       "Set-Cookie": await sessionStorage.destroySession(session),

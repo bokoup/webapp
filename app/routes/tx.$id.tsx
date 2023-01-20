@@ -1,15 +1,16 @@
 import type { LoaderArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import { getStoredTransaction } from "~/models/savedtx.server";
-import { getUserId } from "~/session.server";
+import {
+  getStoredTransaction,
+  deleteStoredTransaction,
+} from "~/models/savedtx.server";
 import type { TransactionResponse } from "./__nav/promos.create";
 
-export async function loader({ request, params }: LoaderArgs) {
+export async function action({ request, params }: LoaderArgs) {
   const id = params.id;
-  const { userId } = await getUserId(request);
 
-  if (!userId || !id) {
-    return json({ error: "Payer and id required" }, 404);
+  if (!id) {
+    return json({ error: "Id required" }, 404);
   }
 
   switch (request.method) {
@@ -21,11 +22,9 @@ export async function loader({ request, params }: LoaderArgs) {
     }
     case "POST": {
       const account = (await request.json()).account;
-      if (account != userId) {
-        return json({ error: "Address do not match" }, 404);
-      }
-      const savedTx = await getStoredTransaction({ payer: userId, id });
+      const savedTx = await getStoredTransaction({ payer: account, id });
       if (savedTx) {
+        // const delTx = await deleteStoredTransaction({ id });
         return json({
           transaction: savedTx.tx,
           message: savedTx.message,

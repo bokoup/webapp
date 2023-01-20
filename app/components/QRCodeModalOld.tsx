@@ -32,12 +32,10 @@ export default function QRCodeModal({
 }: QRCodeModalProps) {
   const cancelButtonRef = useRef(null);
   const signMemoItem = useEventSource(`/sse/signmemo`);
-  console.log(signMemoItem);
 
   useEffect(() => {
     if (secret) {
       if (signMemoItem) {
-        console.log(signMemoItem);
         setOpen(false);
         redirect("/");
       }

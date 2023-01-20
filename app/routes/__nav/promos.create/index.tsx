@@ -61,7 +61,6 @@ export const loader = async ({ request }: LoaderArgs) => {
 
 export const action = async ({ request }: ActionArgs) => {
   const { userId } = await getUserId(request);
-  console.log("ding", userId);
 
   // just doing this as memory for now - may be better to write to disk or upload direclty to arweave
   const uploadHandler = createMemoryUploadHandler();
@@ -186,7 +185,6 @@ function ImageFormField({ ...props }: FormFieldProps) {
   const _handleFileChange = async (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
-    console.log("ding");
     const files = event.currentTarget.files;
     if (files) {
       reader = new FileReader();

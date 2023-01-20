@@ -1,7 +1,7 @@
 import { type imageSpec } from "~/utils";
 import { getProxyImgSrc } from "~/utils/imgx";
 import { type IPromoItem } from "~/models/promo.server";
-import { QrCodeIcon } from "@heroicons/react/20/solid";
+import { LinkIcon, QrCodeIcon } from "@heroicons/react/20/solid";
 import { Link, useLocation } from "@remix-run/react";
 
 const promoImageSpec: imageSpec = {
@@ -27,25 +27,38 @@ export default function Promo({ promo }: PromoProps) {
   ]);
 
   return (
-    <div className="flex w-64 flex-shrink-0 flex-col items-start gap-2 rounded-md border p-2 shadow-sm shadow-slate-300">
-      <h3 className="self-start rounded font-semibold">{promo.name}</h3>
+    <div className="flex w-64 flex-shrink-0 flex-col items-start gap-2 rounded-md border shadow-sm shadow-slate-300">
+      <div className="flex w-full items-center justify-between border-b px-2 pt-1">
+        <h3 className="rounde self-start font-semibold">{promo.name}</h3>
+        <a
+          href={`https://explorer.solana.com/address/${promo.mintId}?cluster=devnet`}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <LinkIcon className="h-3 w-3" aria-hidden="true" />
+        </a>
+      </div>
       <img
         src={src}
-        className="mx-auto h-60 w-60 rounded-md border"
+        className="mx-auto h-60 w-60 rounded-md"
         alt={promo.name}
       />
-      <p className="text-xs">{promo.metadataJson.description}</p>
+      <p className="mx-2 border-t pt-1 text-xs">
+        {promo.metadataJson.description}
+      </p>
       <div className="flex w-full flex-col">
-        <div className="flex justify-between">
+        <div className="flex justify-between px-2">
           <span className="w-1/2 text-xs font-semibold">Issued:</span>
           <span className="w-1/2 text-right text-xs font-semibold">
-            {promo.mintCount} / {promo.maxMint}
+            {promo.mintCount}
+            {promo.maxMint ? `/ ${promo.maxMint}` : ""}
           </span>
         </div>
-        <div className="flex justify-between">
+        <div className="flex justify-between border-b px-2 pb-2">
           <span className="w-1/2 text-xs font-semibold">Redeemed:</span>
           <span className="w-1/2 text-right text-xs font-semibold">
-            {promo.burnCount} / {promo.maxBurn}
+            {promo.burnCount}
+            {promo.maxBurn ? `/ ${promo.maxBurn}` : ""}
           </span>
         </div>
       </div>
@@ -55,7 +68,7 @@ export default function Promo({ promo }: PromoProps) {
           promo.mintCount == promo.maxMint
             ? "disabled-link pointer-events-none bg-slate-200"
             : ""
-        } m-auto flex items-center rounded-full bg-bokoupGreen2-400 py-2 px-8 text-center text-sm font-semibold hover:brightness-90`}
+        } m-auto mb-2 flex items-center rounded-full bg-bokoupGreen2-400 py-2 px-8 text-center text-sm font-semibold hover:brightness-90`}
       >
         <QrCodeIcon className="h-4 w-4" aria-hidden="true" />
       </Link>

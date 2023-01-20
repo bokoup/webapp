@@ -1,5 +1,5 @@
-import { Link, useFetcher } from "@remix-run/react";
-import { type ActionArgs, fetch, json } from "@remix-run/node";
+import { Link, useFetcher, useNavigate } from "@remix-run/react";
+import { type ActionArgs, fetch, json, redirect } from "@remix-run/node";
 import { useState } from "react";
 import { RadioGroup } from "@headlessui/react";
 import { createMemoryUploadHandler } from "@remix-run/server-runtime/dist/upload/memoryUploadHandler";
@@ -23,19 +23,18 @@ function MetadataJsonAdapter(formData: FormData): IPromoMetadataJson {
     { trait_type: "promoType", value: promoType },
   ];
 
-  promoTypes[promoType].forEach(
-    (props) =>
-      attributes.push({
-        trait_type: props.id,
-        value: formData.get(props.id)!.toString(),
-      })!
-  );
+  const formFieldIds = promoTypes[promoType]
+    .map((props) => props.id)
+    .concat(["maxMint", "maxBurn"]);
 
-  ["maxMint", "maxBurn"].forEach((attribute) => {
-    if (formData.get(attribute)) {
+  formFieldIds.forEach((id) => {
+    let value = formData.get(id) as string;
+    let parsedVal = +value;
+
+    if (value) {
       attributes.push({
-        trait_type: attribute,
-        value: formData.get(attribute)!.toString(),
+        trait_type: id,
+        value: !Number.isNaN(parsedVal) ? parsedVal : value,
       });
     }
   });
@@ -100,11 +99,19 @@ export const action = async ({ request }: ActionArgs) => {
       message: transResponse.message,
     });
 
-    return json({
-      metadataJson,
-      transResponse,
-      txId: txId.id,
-    });
+    if (txId) {
+      const searchParams = new URLSearchParams([
+        ["promoName", metadataJson.name],
+        ["redirectTo", safeRedirect("/promos")],
+      ]);
+      const url = `/promos/create/${txId.id}?${searchParams}`;
+      return redirect(url);
+    } else {
+      return json({
+        errorMsg: "Something went wrong saving the transaction",
+        error: JSON.stringify(txId),
+      });
+    }
   }
 
   return json({
@@ -257,10 +264,8 @@ export default function CreatePromo() {
     Object.keys(promoTypes)[0]
   );
   const fetcher = useFetcher<ActionData>();
-  const searchParams = new URLSearchParams([
-    ["promoName", fetcher.data ? fetcher.data.metadataJson!.name : "Promo"],
-    ["redirectTo", safeRedirect("/promos")],
-  ]);
+
+  const navigate = useNavigate();
 
   return (
     <>
@@ -310,25 +315,6 @@ export default function CreatePromo() {
             </button>
           </div>
         </fetcher.Form>
-        {fetcher.type === "done" ? (
-          fetcher.data.errorMsg ? (
-            <h2>{fetcher.data.error}</h2>
-          ) : (
-            <>
-              <Link
-                to={`/promos/create/${fetcher.data.txId}?${searchParams}`}
-                className="m-auto flex items-center rounded-full bg-bokoupGreen2-400 py-2 px-8 text-center text-sm font-semibold hover:brightness-90"
-              >
-                <QrCodeIcon className="h-4 w-4" aria-hidden="true" />
-              </Link>
-              <label className="mb-2 block text-sm font-bold text-gray-700">
-                Metdata
-              </label>
-              <div>Promo artwork and metadata have been uploaded:</div>
-              <pre>{JSON.stringify(fetcher.data.metadataJson, null, 2)}</pre>
-            </>
-          )
-        ) : null}
       </div>
     </>
   );

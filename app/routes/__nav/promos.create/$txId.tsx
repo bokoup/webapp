@@ -30,8 +30,8 @@ export const loader = async ({
   const redirectTo = safeRedirect(url.searchParams.get("redirectTo") || "/");
 
   const dataUrl = await getCreatePromoDataUrl(txId);
-  const title = `Scan to receive ${promoName}.`;
-  const description = `Scan with your phone and approve to receive ${promoName}.`;
+  const title = `Scan to create ${promoName}.`;
+  const description = `Scan with your phone and approve the creation of ${promoName}.`;
 
   return json({ dataUrl, title, description, redirectTo } as QRCodeModalProps);
 };

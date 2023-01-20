@@ -69,10 +69,10 @@ export default function Home() {
           Featured Promos
         </h2>
         <p>
-          Collect promos with your phone. Scan the QR code to get a token.
-          Present it where you shop to get a discount.
+          Collect promos with your phone. Scan a QR code to get a token. Present
+          it where you shop to get a discount.
         </p>
-        <div className="flex justify-between gap-4 overflow-hidden overflow-x-auto py-4">
+        <div className="flex gap-4 overflow-hidden overflow-x-auto py-4">
           {promoItems
             .filter(
               (promoItem) =>
@@ -89,8 +89,8 @@ export default function Home() {
           Featured Loyalty Programs
         </h2>
         <p>
-          Joining a rewards program has never been easier. Scan the QR code to
-          get a token. Show your token where you shop to earn points and get
+          Joining a rewards program has never been easier. Scan a QR code to get
+          a token. Show your token where you shop to earn points and get
           discounts.
         </p>
         <div className="flex gap-4 overflow-x-auto pt-4">

@@ -17,10 +17,10 @@ export default function PromoPage() {
           Promos
         </h2>
         <p>
-          Collect valuable promos with your phone. Just scan the QR code to get
-          a token and then present it when you shop to get a discount.
+          Collect promos with your phone. Just scan a QR code to get a token and
+          then present it where you shop to get a discount.
         </p>
-        <div className="flex flex-wrap justify-around gap-4 pt-4">
+        <div className="flex flex-wrap gap-4 pt-4">
           {promoItems.map((promoItem) => (
             <Promo key={promoItem.id} promo={promoItem} />
           ))}

@@ -52,14 +52,14 @@ export default function Promo({ promo }: PromoProps) {
           <span className="w-1/2 text-xs font-semibold">Issued:</span>
           <span className="w-1/2 text-right text-xs font-semibold">
             {promo.mintCount}
-            {promo.maxMint ? `/ ${promo.maxMint}` : ""}
+            {promo.maxMint ? ` / ${promo.maxMint}` : ""}
           </span>
         </div>
         <div className="flex justify-between border-b px-2 pb-2">
           <span className="w-1/2 text-xs font-semibold">Redeemed:</span>
           <span className="w-1/2 text-right text-xs font-semibold">
             {promo.burnCount}
-            {promo.maxBurn ? `/ ${promo.maxBurn}` : ""}
+            {promo.maxBurn ? ` / ${promo.maxBurn}` : ""}
           </span>
         </div>
       </div>

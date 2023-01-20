@@ -32,6 +32,7 @@ export default function Promo({ promo }: PromoProps) {
         <h3 className="rounde self-start font-semibold">{promo.name}</h3>
         <a
           href={`https://explorer.solana.com/address/${promo.mintId}?cluster=devnet`}
+          title="View on Explorer"
           target="_blank"
           rel="noopener noreferrer"
         >

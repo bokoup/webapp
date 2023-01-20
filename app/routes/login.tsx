@@ -64,7 +64,7 @@ export const loader = async ({
 export async function action({ request }: ActionArgs) {
   const data = await request.formData();
   const userId = data.get("userId")?.toString();
-  const redirectTo = safeRedirect(data.get("redirectTo"), "/");
+  const redirectTo = safeRedirect(data.get("redirectTo")?.toString(), "/");
   if (userId && userId != "" && redirectTo) {
     return createUserSession({
       request,

@@ -18,6 +18,7 @@ export const sessionStorage = createCookieSessionStorage({
 
 export const VISIT_SESSION_KEY = "visitId";
 const USER_SESSION_KEY = "userId";
+export const TXID_SESSION_KEY = "txId";
 
 export async function getSession(request: Request) {
   const cookie = request.headers.get("Cookie");
@@ -32,8 +33,14 @@ export interface User {
 export async function getUserId(request: Request): Promise<User> {
   const session = await getSession(request);
   const visitId = session.get(VISIT_SESSION_KEY);
-  const userId = session.get(USER_SESSION_KEY);
+  const userId = session.get(USER_SESSION_KEY).replace(/(^"|"$)/g, "");
   return { userId, visitId };
+}
+
+export async function getTxId(request: Request): Promise<string> {
+  const session = await getSession(request);
+  const txId = session.get(TXID_SESSION_KEY);
+  return txId;
 }
 
 export async function setUserId(request: Request, userId: User["userId"]) {
@@ -43,7 +50,6 @@ export async function setUserId(request: Request, userId: User["userId"]) {
 
 export async function getUser(request: Request) {
   const { userId, visitId } = await getUserId(request);
-  console.log("sesson server 47", userId, visitId);
   if (userId === undefined) return null;
 
   const signMemo = await getSignMemo(visitId);
@@ -117,6 +123,42 @@ export async function createVisitSession({
           ? 60 * 10 // 10 minutes - if userId not added to extend
           : undefined,
       }),
+    },
+  });
+}
+
+export async function createTxIdSession({
+  request,
+  txId,
+  redirectTo,
+}: {
+  request: Request;
+  txId: string;
+  redirectTo: string;
+}) {
+  const session = await getSession(request);
+  session.set(TXID_SESSION_KEY, txId);
+
+  return redirect(redirectTo, {
+    headers: {
+      "Set-Cookie": await sessionStorage.commitSession(session),
+    },
+  });
+}
+
+export async function deleteTxIdSession({
+  request,
+  redirectTo,
+}: {
+  request: Request;
+  redirectTo: string;
+}) {
+  const session = await getSession(request);
+  session.unset(TXID_SESSION_KEY);
+
+  return redirect(redirectTo, {
+    headers: {
+      "Set-Cookie": await sessionStorage.commitSession(session),
     },
   });
 }

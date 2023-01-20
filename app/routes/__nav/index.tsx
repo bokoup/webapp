@@ -74,7 +74,10 @@ export default function Home() {
         </p>
         <div className="flex justify-between gap-4 overflow-hidden overflow-x-auto py-4">
           {promoItems
-            .filter((promoItem) => promoItem.maxMint > promoItem.mintCount)
+            .filter(
+              (promoItem) =>
+                !promoItem.maxMint || promoItem.maxMint > promoItem.mintCount
+            )
             .map((promoItem) => (
               <Promo key={promoItem.id} promo={promoItem} />
             ))}

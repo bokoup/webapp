@@ -1,6 +1,6 @@
 import { type imageSpec } from "~/utils";
 import { getProxyImgSrc } from "~/utils/imgx";
-import { type PromoItem } from "~/models/promo.server";
+import { type IPromoItem } from "~/models/promo.server";
 import { QrCodeIcon } from "@heroicons/react/20/solid";
 import { Link, useLocation } from "@remix-run/react";
 
@@ -15,11 +15,11 @@ const promoImageSpec: imageSpec = {
 };
 
 interface PromoProps {
-  promo: PromoItem;
+  promo: IPromoItem;
 }
 
 export default function Promo({ promo }: PromoProps) {
-  const src = getProxyImgSrc(promo.image, promoImageSpec);
+  const src = getProxyImgSrc(promo.metadataJson!.image!, promoImageSpec);
   const location = useLocation();
   const searchParams = new URLSearchParams([
     ["promoName", promo.name],
@@ -34,7 +34,7 @@ export default function Promo({ promo }: PromoProps) {
         className="mx-auto h-60 w-60 rounded-md border"
         alt={promo.name}
       />
-      <p className="text-xs">{promo.description}</p>
+      <p className="text-xs">{promo.metadataJson.description}</p>
       <div className="flex w-full flex-col">
         <div className="flex justify-between">
           <span className="w-1/2 text-xs font-semibold">Issued:</span>

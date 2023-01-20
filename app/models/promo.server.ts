@@ -1,16 +1,47 @@
 import { request } from "graphql-request";
 import { graphql } from "~/graphql/gql";
 
-export interface PromoItem {
+export interface IPromoItem {
   id: string;
+  mintId: string;
   name: string;
-  image: string;
-  description: string;
-  maxMint: number;
-  maxBurn: number;
+  symbol: string;
+  maxMint: number | null;
+  maxBurn: number | null;
   mintCount: number;
   burnCount: number;
-  mintId: string;
+  promoType: PromoType;
+  metadataJson: IPromoMetadataJson;
+}
+
+type PromoType = "buyXProductGetYFree" | "buyXCurrencyGetYPercent";
+
+export interface IPromoAttribute {
+  trait_type: string;
+  value: string | number;
+}
+
+export interface IPromoCollection {
+  name: string;
+  family: string;
+}
+
+export interface IPromoFileSpec {
+  uri: string;
+  type: string | number;
+}
+
+export interface IPromoMetadataJson {
+  name: string;
+  symbol: string;
+  description: string;
+  image?: string;
+  attributes: IPromoAttribute[];
+  collection: IPromoCollection;
+  properties?: {
+    files: IPromoFileSpec[];
+    category: string;
+  };
 }
 
 function get_endpoint() {
@@ -60,9 +91,7 @@ export async function getPromoItems() {
           name
           symbol
           uri
-          image: metadataJson(path: "image")
-          description: metadataJson(path: "description")
-          attributes: metadataJson(path: "attributes")
+          metadataJson
         }
         mintObject {
           id
@@ -72,19 +101,25 @@ export async function getPromoItems() {
     }
   `);
 
-  let data: PromoItem[] = (await request(endpoint, query)).promo.map((item) => {
-    return {
-      id: item.id,
-      name: item.metadataObject?.name,
-      image: item.metadataObject?.image,
-      description: item.metadataObject?.description,
-      maxMint: item.maxMint,
-      maxBurn: item.maxBurn,
-      mintCount: item.mintCount,
-      burnCount: item.burnCount,
-      mintId: item.mintObject?.id,
-    } as PromoItem;
-  });
-
+  let data: IPromoItem[] = (await request(endpoint, query)).promo.map(
+    (item) => {
+      const promoType = item.metadataObject?.metadataJson.attributes.filter(
+        (attribute: IPromoAttribute) => attribute.trait_type == "promoType"
+      )[0].value;
+      return {
+        id: item.id,
+        mintId: item.mintObject?.id,
+        name: item.metadataObject?.name,
+        symbol: item.metadataObject?.symbol,
+        maxMint: item.maxMint,
+        maxBurn: item.maxBurn,
+        mintCount: item.mintCount,
+        burnCount: item.burnCount,
+        promoType,
+        metadataJson: item.metadataObject?.metadataJson,
+      } as IPromoItem;
+    }
+  );
+  console.log(data[0]);
   return data;
 }

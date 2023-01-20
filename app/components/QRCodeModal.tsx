@@ -3,23 +3,18 @@ import { Dialog, Transition } from "@headlessui/react";
 import { DevicePhoneMobileIcon } from "@heroicons/react/24/solid";
 import { useNavigate } from "@remix-run/react";
 
-interface QRCodeModalProps {
+export interface QRCodeModalProps {
   dataUrl: string;
   title: string;
   description: string;
   redirectTo: string;
 }
 
-export default function QRCodeModal({
-  dataUrl,
-  title,
-  description,
-  redirectTo,
-}: QRCodeModalProps) {
+export default function QRCodeModal({ ...props }: QRCodeModalProps) {
   const cancelButtonRef = useRef(null);
   const navigate = useNavigate();
   function onClose() {
-    navigate(redirectTo);
+    navigate(props.redirectTo);
   }
 
   return (
@@ -67,16 +62,22 @@ export default function QRCodeModal({
                         as="h3"
                         className="text-lg font-medium leading-6 text-gray-900"
                       >
-                        {title}
+                        {props.title}
                       </Dialog.Title>
                       <div className="mt-2">
-                        <p className="text-sm text-gray-500">{description}</p>
+                        <p className="text-sm text-gray-500">
+                          {props.description}
+                        </p>
                       </div>
                     </div>
                   </div>
 
                   <div className="flex items-center justify-center">
-                    <img src={dataUrl} className="h-48 w-48" alt="QR code" />
+                    <img
+                      src={props.dataUrl}
+                      className="h-48 w-48"
+                      alt="QR code"
+                    />
                     <div className="absolute flex h-48 w-48 items-center justify-center">
                       <img
                         src="/images/logo-light.svg"

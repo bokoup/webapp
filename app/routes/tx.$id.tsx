@@ -20,6 +20,10 @@ export async function loader({ request, params }: LoaderArgs) {
       });
     }
     case "POST": {
+      const account = (await request.json()).account;
+      if (account != userId) {
+        return json({ error: "Address do not match" }, 404);
+      }
       const savedTx = await getStoredTransaction({ payer: userId, id });
       if (savedTx) {
         return json({
@@ -27,11 +31,11 @@ export async function loader({ request, params }: LoaderArgs) {
           message: savedTx.message,
         } as TransactionResponse);
       } else {
-        return json({ error: "Saved transaction not found" });
+        return json({ error: "Saved transaction not found" }, 404);
       }
     }
     default: {
-      return json({ error: "Method not supported" });
+      return json({ error: "Method not supported" }, 405);
     }
   }
 }

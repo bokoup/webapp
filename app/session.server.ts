@@ -33,7 +33,10 @@ export interface User {
 export async function getUserId(request: Request): Promise<User> {
   const session = await getSession(request);
   const visitId = session.get(VISIT_SESSION_KEY);
-  const userId = session.get(USER_SESSION_KEY).replace(/(^"|"$)/g, "");
+  let userId = session.get(USER_SESSION_KEY);
+  if (userId) {
+    userId = userId.replace(/(^"|"$)/g, "");
+  }
   return { userId, visitId };
 }
 

@@ -104,7 +104,7 @@ type ActionData = {
   transResponse?: TransactionResponse;
 };
 
-interface TransactionResponse {
+export interface TransactionResponse {
   transaction: string;
   message: string;
 }

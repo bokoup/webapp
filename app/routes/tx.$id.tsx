@@ -6,22 +6,33 @@ import {
 } from "~/models/savedtx.server";
 import type { TransactionResponse } from "./__nav/promos.create";
 
+export async function loader({ params }: LoaderArgs) {
+  const id = params.id;
+
+  if (!id) {
+    return json({ error: "id required" }, 404);
+  }
+
+  return json({
+    label: "bokoup",
+    icon: "https://arweave.net/wrKmRzr2KhH92c1iyFeUqkB-AHjYlE7Md7U5rK4qA8M",
+  });
+}
+
 export async function action({ request, params }: LoaderArgs) {
   const id = params.id;
 
   if (!id) {
-    return json({ error: "Id required" }, 404);
+    return json({ error: "id required" }, 404);
   }
 
   switch (request.method) {
-    case "GET": {
-      return json({
-        label: "bokoup",
-        icon: "https://arweave.net/wrKmRzr2KhH92c1iyFeUqkB-AHjYlE7Md7U5rK4qA8M",
-      });
-    }
     case "POST": {
       const account = (await request.json()).account;
+      if (!account) {
+        return json({ error: "account must be included in body" }, 404);
+      }
+
       const savedTx = await getStoredTransaction({ payer: account, id });
       if (savedTx) {
         // const delTx = await deleteStoredTransaction({ id });

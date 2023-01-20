@@ -8,7 +8,7 @@ import { requireUserId } from "~/session.server";
 import type { QRCodeModalProps } from "~/components/QRCodeModal";
 
 export const getCreatePromoDataUrl = async (txId: string): Promise<string> => {
-  let text = `solana:${`https://bokoup.dev/txId/${txId}`}`;
+  let text = `solana:${`https://bokoup.dev/tx/${txId}`}`;
   return await QRCode.toDataURL(text);
 };
 

@@ -232,7 +232,7 @@ function ImageFormField({ ...props }: FormFieldProps) {
 }
 
 const promoTypes: Record<string, FormFieldProps[]> = {
-  buyXCurrencygetYPercent: [
+  buyXCurrencyGetYPercent: [
     {
       id: "buyXCurrency",
       label: "Required Purchase Amount",
@@ -264,8 +264,6 @@ export default function CreatePromo() {
     Object.keys(promoTypes)[0]
   );
   const fetcher = useFetcher<ActionData>();
-
-  const navigate = useNavigate();
 
   return (
     <>

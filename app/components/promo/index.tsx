@@ -41,13 +41,11 @@ export default function Promo({ promo }: PromoProps) {
       </div>
       <img
         src={src}
-        className="mx-auto h-60 w-60 rounded-md"
+        className="w-58 mx-auto h-60 rounded-md border-b pb-2"
         alt={promo.name}
       />
-      <p className="mx-2 border-t pt-1 text-xs">
-        {promo.metadataJson.description}
-      </p>
-      <div className="flex w-full flex-col">
+      <p className="mx-2 text-xs">{promo.metadataJson.description}</p>
+      <div className="flex w-full flex-grow flex-col border-b">
         <div className="flex justify-between px-2">
           <span className="w-1/2 text-xs font-semibold">Issued:</span>
           <span className="w-1/2 text-right text-xs font-semibold">
@@ -55,7 +53,7 @@ export default function Promo({ promo }: PromoProps) {
             {promo.maxMint ? ` / ${promo.maxMint}` : ""}
           </span>
         </div>
-        <div className="flex justify-between border-b px-2 pb-2">
+        <div className="flex justify-between px-2 pb-2">
           <span className="w-1/2 text-xs font-semibold">Redeemed:</span>
           <span className="w-1/2 text-right text-xs font-semibold">
             {promo.burnCount}

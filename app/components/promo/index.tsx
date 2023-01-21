@@ -19,7 +19,8 @@ interface PromoProps {
 }
 
 export default function Promo({ promo }: PromoProps) {
-  const src = getProxyImgSrc(promo.metadataJson!.image!, promoImageSpec);
+  const src = promo.metadataJson!.image!;
+  // const src = getProxyImgSrc(promo.metadataJson!.image!, promoImageSpec);
   const location = useLocation();
   const searchParams = new URLSearchParams([
     ["promoName", promo.name],

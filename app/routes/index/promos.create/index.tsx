@@ -13,7 +13,6 @@ import { FormData } from "@remix-run/node";
 import { getUserId, requireUserId } from "~/session.server";
 import { createStoredTransaction } from "~/models/savedtx.server";
 import { safeRedirect } from "~/utils";
-import { QrCodeIcon } from "@heroicons/react/24/solid";
 
 function MetadataJsonAdapter(formData: FormData): IPromoMetadataJson {
   let promoType = formData.get("promoType")!.toString();

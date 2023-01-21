@@ -1,6 +1,6 @@
 import { PlusIcon } from "@heroicons/react/24/solid";
 import { Link, Outlet, useLoaderData } from "@remix-run/react";
-import { LoaderArgs } from "@remix-run/server-runtime";
+import type { LoaderArgs } from "@remix-run/server-runtime";
 import Promo from "~/components/promo";
 import { getPromoItems } from "~/models/promo.server";
 import { getUserId } from "~/session.server";

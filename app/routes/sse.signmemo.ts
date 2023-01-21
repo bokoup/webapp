@@ -5,7 +5,7 @@ import { getUserId } from "~/session.server";
 
 // interval set to 200 to stay within 60 req per sec limit on free tier
 export async function loader({ request }: LoaderArgs) {
-  let { userId, visitId } = await getUserId(request);
+  let { visitId } = await getUserId(request);
 
   return eventStream(request.signal, function setup(send) {
     const interval = setInterval(async () => {

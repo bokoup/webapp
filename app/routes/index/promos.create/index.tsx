@@ -1,4 +1,4 @@
-import { Link, useFetcher, useNavigate } from "@remix-run/react";
+import { useFetcher } from "@remix-run/react";
 import { type ActionArgs, fetch, json, redirect } from "@remix-run/node";
 import { useState } from "react";
 import { RadioGroup } from "@headlessui/react";

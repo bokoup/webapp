@@ -4,7 +4,7 @@ import {
   getStoredTransaction,
   deleteStoredTransaction,
 } from "~/models/savedtx.server";
-import type { TransactionResponse } from "./index/promos.create";
+import type { TransactionResponse } from "./__index/promos.create";
 
 export async function loader({ params }: LoaderArgs) {
   const id = params.id;

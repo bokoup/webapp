@@ -42,7 +42,7 @@ export default function Promo({ promo }: PromoProps) {
       </div>
       <img
         src={src}
-        className="w-58 mx-auto h-60 rounded-md border-b pb-2"
+        className="w-58 mx-auto h-60 rounded-md border-b"
         alt={promo.name}
       />
       <p className="mx-2 text-xs">{promo.metadataJson.description}</p>

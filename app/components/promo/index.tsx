@@ -5,10 +5,11 @@ import { LinkIcon, QrCodeIcon } from "@heroicons/react/20/solid";
 import { Link, useLocation } from "@remix-run/react";
 
 const promoImageSpec: imageSpec = {
-  width: 160,
-  height: 160,
+  width: 256,
+  height: 256,
   params: [
     { key: "fit", value: "crop" },
+    { key: "q", value: "100" },
     // { key: "blur", value: "20" },
     // { key: "blend-color", value: "60000000" }
   ],
@@ -42,7 +43,7 @@ export default function Promo({ promo }: PromoProps) {
       </div>
       <img
         src={src}
-        className="w-58 mx-auto h-60 rounded-md border-b"
+        className="w-58 mx-auto h-60 rounded-md border"
         alt={promo.name}
       />
       <p className="mx-2 text-xs">{promo.metadataJson.description}</p>

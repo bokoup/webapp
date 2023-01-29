@@ -122,3 +122,7 @@ export function imgixSrcSet(path: string, imageSpecs: imageSpec[]): string {
     })
     .join(", ");
 }
+
+export function sleep(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}

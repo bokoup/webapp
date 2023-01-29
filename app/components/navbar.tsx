@@ -32,9 +32,9 @@ export default function NavBar({ userId }: { userId: string | undefined }) {
           <img
             src="/images/logo-light.svg"
             alt="bokoup logo"
-            className="h-6 w-6 lg:h-10 lg:w-10"
+            className="h-6 w-6 lg:h-8 lg:w-8"
           />
-          <h2 className="hidden font-logo text-3xl font-semibold tracking-tight lg:block">
+          <h2 className="hidden font-logo text-2xl font-semibold tracking-tight lg:block">
             bokoup
           </h2>
         </Link>

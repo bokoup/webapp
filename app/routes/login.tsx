@@ -39,16 +39,19 @@ export const loader = async ({
   request,
 }: LoaderArgs): Promise<TypedResponse<SignMemoData>> => {
   let url = new URL(request.url);
-  let redirectTo = url.searchParams.get("redirectTo");
+  let redirectTo = url.searchParams.get("redirectTo") || "/";
+  let searchParams = new URLSearchParams([
+    ["redirectTo", safeRedirect(redirectTo)],
+  ]);
 
   let { userId, visitId } = await getUserId(request);
-  if (userId && visitId) return redirect(redirectTo || "/");
+  if (userId && visitId) return redirect(redirectTo!);
 
   if (!visitId) {
     return await createVisitSession({
       request,
       remember: false,
-      redirectTo: `/login${redirectTo ? `?${redirectTo}` : ""}`,
+      redirectTo: `/login?${searchParams}`,
     });
   }
 

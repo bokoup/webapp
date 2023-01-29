@@ -31,7 +31,7 @@ export const loader = async ({
 
   const dataUrl = await getCreatePromoDataUrl(txId);
   const title = `Scan to create ${promoName}.`;
-  const description = `Scan with your phone and approve the creation of ${promoName}.`;
+  const description = `Scan with your phone to approve the creation of ${promoName}.`;
 
   return json({ dataUrl, title, description, redirectTo } as QRCodeModalProps);
 };

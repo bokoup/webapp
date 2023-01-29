@@ -35,7 +35,7 @@ export async function action({ request, params }: LoaderArgs) {
 
       const savedTx = await getStoredTransaction({ payer: account, id });
       if (savedTx) {
-        // const delTx = await deleteStoredTransaction({ id });
+        await deleteStoredTransaction({ id });
         return json({
           transaction: savedTx.tx,
           message: savedTx.message,

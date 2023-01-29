@@ -4,6 +4,7 @@ import Footer from "~/components/footer";
 import { getUserId } from "~/session.server";
 import { type LoaderArgs } from "@remix-run/server-runtime";
 import { json } from "@remix-run/server-runtime";
+import Loading from "~/components/loading";
 
 export async function loader({ request }: LoaderArgs) {
   const { userId } = await getUserId(request);
@@ -14,6 +15,7 @@ export default function Nav() {
   const data = useLoaderData<typeof loader>();
   return (
     <div className="flex h-screen flex-col justify-between">
+      <Loading />
       <NavBar userId={data.userId} />
       <Outlet />
       <Footer />

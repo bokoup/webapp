@@ -68,6 +68,7 @@ export async function requireUserId(
   const { userId, visitId } = await getUserId(request);
   if (!userId) {
     const searchParams = new URLSearchParams([["redirectTo", redirectTo]]);
+    console.log("session.server.ts 71");
     throw redirect(`/login?${searchParams}`);
   }
   return { userId, visitId };

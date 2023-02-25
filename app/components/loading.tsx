@@ -22,8 +22,8 @@ export default function Loading() {
       >
         <defs>
           <linearGradient id="gradient" x1="0%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" stop-color="#26e9c8" />
-            <stop offset="100%" stop-color="#2ea8fe" />
+            <stop offset="0%" stopColor="#26e9c8" />
+            <stop offset="100%" stopColor="#2ea8fe" />
           </linearGradient>
         </defs>
         <circle
@@ -31,7 +31,7 @@ export default function Loading() {
           cy="25"
           r="22"
           stroke="url(#gradient)"
-          stroke-width="4"
+          strokeWidth="4"
           fill="none"
         />
       </svg>

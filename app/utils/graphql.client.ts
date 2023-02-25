@@ -7,14 +7,14 @@ declare global {
 }
 
 if (process.env.NODE_ENV === "production") {
-  let url = process.env.GRAPHQL_API || "";
+  let url = process.env.GRAPHQL_API_DEVNET || "";
   graphqlClient = createClient({
     url: url.replace(/^http:\/\//i, "wss://"),
   });
 } else {
   if (!global.__graphqlClient) {
     global.__graphqlClient = createClient({
-      url: process.env.GRAPHQL_API || "",
+      url: process.env.GRAPHQL_API_LOCALNET || "",
     });
   }
   graphqlClient = global.__graphqlClient;

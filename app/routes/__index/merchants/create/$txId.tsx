@@ -8,7 +8,9 @@ import { requireUserId } from "~/session.server";
 import type { QRCodeModalProps } from "~/components/QRCodeModal";
 import { APP_URL } from "~/models/urls";
 
-export const getCreatePromoDataUrl = async (txId: string): Promise<string> => {
+export const getCreateMerchantDataUrl = async (
+  txId: string
+): Promise<string> => {
   let text = `solana:${`${APP_URL}/tx/${txId}`}`;
   return await QRCode.toDataURL(text);
 };
@@ -27,12 +29,12 @@ export const loader = async ({
   }
 
   const url = new URL(request.url);
-  const promoName = url.searchParams.get("promoName");
+  const merchantName = url.searchParams.get("merchantName");
   const redirectTo = safeRedirect(url.searchParams.get("redirectTo") || "/");
 
-  const dataUrl = await getCreatePromoDataUrl(txId);
-  const title = `Scan to create ${promoName}.`;
-  const description = `Scan with your phone to approve the creation of ${promoName}.`;
+  const dataUrl = await getCreateMerchantDataUrl(txId);
+  const title = `Scan to create ${merchantName}.`;
+  const description = `Scan with your phone to approve the creation of ${merchantName}.`;
 
   return json({ dataUrl, title, description, redirectTo } as QRCodeModalProps);
 };

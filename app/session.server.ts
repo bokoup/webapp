@@ -19,6 +19,7 @@ export const sessionStorage = createCookieSessionStorage({
 export const VISIT_SESSION_KEY = "visitId";
 const USER_SESSION_KEY = "userId";
 export const TXID_SESSION_KEY = "txId";
+const MERCHANT_SESSION_KEY = "merchantId";
 
 export async function getSession(request: Request) {
   const cookie = request.headers.get("Cookie");
@@ -28,6 +29,7 @@ export async function getSession(request: Request) {
 export interface User {
   userId: string | undefined;
   visitId: string | undefined;
+  merchantId: string | undefined;
 }
 
 export async function getUserId(request: Request): Promise<User> {
@@ -37,7 +39,8 @@ export async function getUserId(request: Request): Promise<User> {
   if (userId) {
     userId = userId.replace(/(^"|"$)/g, "");
   }
-  return { userId, visitId };
+  const merchantId = session.get(MERCHANT_SESSION_KEY);
+  return { userId, visitId, merchantId };
 }
 
 export async function getTxId(request: Request): Promise<string> {
@@ -65,13 +68,13 @@ export async function requireUserId(
   request: Request,
   redirectTo: string = new URL(request.url).pathname
 ): Promise<User> {
-  const { userId, visitId } = await getUserId(request);
+  const { userId, visitId, merchantId } = await getUserId(request);
   if (!userId) {
     const searchParams = new URLSearchParams([["redirectTo", redirectTo]]);
     console.log("session.server.ts 71");
     throw redirect(`/login?${searchParams}`);
   }
-  return { userId, visitId };
+  return { userId, visitId, merchantId };
 }
 
 export async function requireUser(request: Request) {

@@ -1,38 +1,33 @@
 import { PlusIcon } from "@heroicons/react/24/solid";
-import { Link, Outlet, useLoaderData } from "@remix-run/react";
+import { Link, useLoaderData } from "@remix-run/react";
 import type { LoaderArgs } from "@remix-run/server-runtime";
-import Promo from "~/components/promo";
-import { getPromoItems } from "~/models/promo.server";
+import Merchant from "~/components/merchant";
+import { getMerchantList } from "~/models/merchant.server";
 import { getUserId } from "~/session.server";
 
 export async function loader({ request }: LoaderArgs) {
-  const promoItems = await getPromoItems();
+  const merchantList = await getMerchantList();
   const { userId } = await getUserId(request);
 
-  return { promoItems, userId };
+  return { userId, merchantList };
 }
 
-export default function PromosPage() {
+export default function Merchants() {
   const data = useLoaderData<typeof loader>();
 
   return (
     <>
-      <Outlet />
       <div className="container mx-auto mb-auto p-2 lg:py-4">
         <div className="flex justify-between">
           <div>
             <h2 className="font-heading text-2xl font-medium lg:text-3xl">
-              Promos
+              Merchants
             </h2>
-            <p>
-              Collect promos with your phone. Just scan a QR code to get a token
-              and then present it where you shop to get a discount.
-            </p>
           </div>
           <Link
-            to="/promos/create"
+            to="/merchants/create"
             title={`${
-              !data.userId ? "Log in to enable" : "create a new promo"
+              !data.userId ? "Log in to enable" : "create a new merchant"
             }`}
             className={`${
               !data.userId
@@ -44,9 +39,11 @@ export default function PromosPage() {
           </Link>
         </div>
         <div className="flex flex-wrap gap-4 pt-4">
-          {data.promoItems.map((promoItem) => (
-            <Promo key={promoItem.id} promo={promoItem} />
-          ))}
+          <div className="flex flex-wrap gap-4 pt-4">
+            {data.merchantList.map((merchantItem) => (
+              <Merchant key={merchantItem.id} merchant={merchantItem} />
+            ))}
+          </div>
         </div>
       </div>
     </>

@@ -1,4 +1,4 @@
-import { type imageSpec } from "~/utils";
+import { type imageSpec } from "~/utils/imgx";
 import Hero from "~/components/hero";
 import PromoSkeleton from "~/components/promo/skeleton";
 import { getPromoItems } from "~/models/promo.server";

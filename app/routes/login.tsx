@@ -21,12 +21,16 @@ import {
 import { useEventSource } from "remix-utils";
 import { useEffect, useRef } from "react";
 import { safeRedirect } from "~/utils";
+import { API_TX } from "~/models/urls";
 
 export const getSignMemoDataUrl = async (visitId: string): Promise<string> => {
-  const message = `Approve to sign in to bokoup.dev`;
+  const message = `Approve to sign in to bokoup`;
   const memo = JSON.stringify({ visitId });
 
-  let text = `solana:${`https://tx.api.bokoup.dev/signmemo/${message}/${memo}`}`;
+  let text = `solana:${`${API_TX}/signmemo/${encodeURIComponent(
+    message
+  )}/${encodeURIComponent(memo)}`}`;
+  console.log("getSignMemoDataUrl", text);
   return QRCode.toDataURL(text);
 };
 

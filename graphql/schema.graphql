@@ -13,6 +13,176 @@ directive @cached(
 ) on QUERY
 
 """
+columns and relationships of "bid_receipt"
+"""
+type BidReceipt {
+  auctionHouse: String!
+  bookkeeper: String!
+  bump: Int!
+  buyer: String!
+  canceledAtOnChain: bigint
+  createdAt: timestamptz!
+  createdAtOnChain: bigint!
+  id: String!
+  metadata: String!
+
+  """An object relationship"""
+  metadataObject: Metadata
+  modifiedAt: timestamptz!
+  price: bigint!
+  purchaseReceipt: String
+  slot: bigint!
+  tokenAccount: String
+  tokenSize: bigint!
+  tradeState: String!
+  tradeStateBump: Int!
+  writeVersion: bigint!
+}
+
+"""
+Boolean expression to filter rows from the table "bid_receipt". All fields are combined with a logical 'AND'.
+"""
+input BidReceiptBoolExp {
+  _and: [BidReceiptBoolExp!]
+  _not: BidReceiptBoolExp
+  _or: [BidReceiptBoolExp!]
+  auctionHouse: StringComparisonExp
+  bookkeeper: StringComparisonExp
+  bump: IntComparisonExp
+  buyer: StringComparisonExp
+  canceledAtOnChain: BigintComparisonExp
+  createdAt: TimestamptzComparisonExp
+  createdAtOnChain: BigintComparisonExp
+  id: StringComparisonExp
+  metadata: StringComparisonExp
+  metadataObject: MetadataBoolExp
+  modifiedAt: TimestamptzComparisonExp
+  price: BigintComparisonExp
+  purchaseReceipt: StringComparisonExp
+  slot: BigintComparisonExp
+  tokenAccount: StringComparisonExp
+  tokenSize: BigintComparisonExp
+  tradeState: StringComparisonExp
+  tradeStateBump: IntComparisonExp
+  writeVersion: BigintComparisonExp
+}
+
+"""Ordering options when selecting data from "bid_receipt"."""
+input BidReceiptOrderBy {
+  auctionHouse: OrderBy
+  bookkeeper: OrderBy
+  bump: OrderBy
+  buyer: OrderBy
+  canceledAtOnChain: OrderBy
+  createdAt: OrderBy
+  createdAtOnChain: OrderBy
+  id: OrderBy
+  metadata: OrderBy
+  metadataObject: MetadataOrderBy
+  modifiedAt: OrderBy
+  price: OrderBy
+  purchaseReceipt: OrderBy
+  slot: OrderBy
+  tokenAccount: OrderBy
+  tokenSize: OrderBy
+  tradeState: OrderBy
+  tradeStateBump: OrderBy
+  writeVersion: OrderBy
+}
+
+"""
+select columns of table "bid_receipt"
+"""
+enum BidReceiptSelectColumn {
+  """column name"""
+  auctionHouse
+
+  """column name"""
+  bookkeeper
+
+  """column name"""
+  bump
+
+  """column name"""
+  buyer
+
+  """column name"""
+  canceledAtOnChain
+
+  """column name"""
+  createdAt
+
+  """column name"""
+  createdAtOnChain
+
+  """column name"""
+  id
+
+  """column name"""
+  metadata
+
+  """column name"""
+  modifiedAt
+
+  """column name"""
+  price
+
+  """column name"""
+  purchaseReceipt
+
+  """column name"""
+  slot
+
+  """column name"""
+  tokenAccount
+
+  """column name"""
+  tokenSize
+
+  """column name"""
+  tradeState
+
+  """column name"""
+  tradeStateBump
+
+  """column name"""
+  writeVersion
+}
+
+"""
+Streaming cursor of the table "bid_receipt"
+"""
+input BidReceiptStreamCursorInput {
+  """Stream column input with initial value"""
+  initialValue: BidReceiptStreamCursorValueInput!
+
+  """cursor ordering"""
+  ordering: CursorOrdering
+}
+
+"""Initial value of the column from where the streaming should start"""
+input BidReceiptStreamCursorValueInput {
+  auctionHouse: String
+  bookkeeper: String
+  bump: Int
+  buyer: String
+  canceledAtOnChain: bigint
+  createdAt: timestamptz
+  createdAtOnChain: bigint
+  id: String
+  metadata: String
+  modifiedAt: timestamptz
+  price: bigint
+  purchaseReceipt: String
+  slot: bigint
+  tokenAccount: String
+  tokenSize: bigint
+  tradeState: String
+  tradeStateBump: Int
+  writeVersion: bigint
+}
+
+"""
 Boolean expression to compare columns of type "bigint". All fields are combined with logical 'AND'.
 """
 input BigintComparisonExp {
@@ -48,7 +218,10 @@ columns and relationships of "burn_delegated_promo_token"
 type BurnDelegatedPromoToken {
   adminSettings: String!
   authority: String!
+  campaign: String!
   createdAt: timestamptz!
+  device: String!
+  location: String!
   memo(
     """JSON select path"""
     path: String
@@ -61,7 +234,6 @@ type BurnDelegatedPromoToken {
   payer: String!
   platform: String!
   promo: String!
-  promoGroup: String!
 
   """An object relationship"""
   promoObject: Promo
@@ -82,7 +254,10 @@ input BurnDelegatedPromoTokenBoolExp {
   _or: [BurnDelegatedPromoTokenBoolExp!]
   adminSettings: StringComparisonExp
   authority: StringComparisonExp
+  campaign: StringComparisonExp
   createdAt: TimestamptzComparisonExp
+  device: StringComparisonExp
+  location: StringComparisonExp
   memo: JsonbComparisonExp
   mint: StringComparisonExp
   mintObject: MintBoolExp
@@ -90,7 +265,6 @@ input BurnDelegatedPromoTokenBoolExp {
   payer: StringComparisonExp
   platform: StringComparisonExp
   promo: StringComparisonExp
-  promoGroup: StringComparisonExp
   promoObject: PromoBoolExp
   signature: StringComparisonExp
   slot: BigintComparisonExp
@@ -104,7 +278,10 @@ Ordering options when selecting data from "burn_delegated_promo_token".
 input BurnDelegatedPromoTokenOrderBy {
   adminSettings: OrderBy
   authority: OrderBy
+  campaign: OrderBy
   createdAt: OrderBy
+  device: OrderBy
+  location: OrderBy
   memo: OrderBy
   mint: OrderBy
   mintObject: MintOrderBy
@@ -112,7 +289,6 @@ input BurnDelegatedPromoTokenOrderBy {
   payer: OrderBy
   platform: OrderBy
   promo: OrderBy
-  promoGroup: OrderBy
   promoObject: PromoOrderBy
   signature: OrderBy
   slot: OrderBy
@@ -131,7 +307,16 @@ enum BurnDelegatedPromoTokenSelectColumn {
   authority
 
   """column name"""
+  campaign
+
+  """column name"""
   createdAt
+
+  """column name"""
+  device
+
+  """column name"""
+  location
 
   """column name"""
   memo
@@ -150,9 +335,6 @@ enum BurnDelegatedPromoTokenSelectColumn {
 
   """column name"""
   promo
-
-  """column name"""
-  promoGroup
 
   """column name"""
   signature
@@ -179,17 +361,168 @@ input BurnDelegatedPromoTokenStreamCursorInput {
 input BurnDelegatedPromoTokenStreamCursorValueInput {
   adminSettings: String
   authority: String
+  campaign: String
   createdAt: timestamptz
+  device: String
+  location: String
   memo: jsonb
   mint: String
   modifiedAt: timestamptz
   payer: String
   platform: String
   promo: String
-  promoGroup: String
   signature: String
   slot: bigint
   tokenAccount: String
+}
+
+"""
+columns and relationships of "campaign"
+"""
+type Campaign {
+  active: Boolean!
+  createdAt: timestamptz!
+  id: String!
+  locations(
+    """JSON select path"""
+    path: String
+  ): jsonb!
+  merchant: String!
+  modifiedAt: timestamptz!
+  name: String!
+
+  """An array relationship"""
+  promos(
+    """distinct select on columns"""
+    distinctOn: [PromoSelectColumn!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    orderBy: [PromoOrderBy!]
+
+    """filter the rows returned"""
+    where: PromoBoolExp
+  ): [Promo!]!
+  slot: bigint!
+  uri: String!
+  writeVersion: bigint!
+}
+
+"""
+order by aggregate values of table "campaign"
+"""
+input CampaignAggregateOrderBy {
+  avg: campaign_avg_order_by
+  count: OrderBy
+  max: campaign_max_order_by
+  min: campaign_min_order_by
+  stddev: campaign_stddev_order_by
+  stddev_pop: campaign_stddev_pop_order_by
+  stddev_samp: campaign_stddev_samp_order_by
+  sum: campaign_sum_order_by
+  var_pop: campaign_var_pop_order_by
+  var_samp: campaign_var_samp_order_by
+  variance: campaign_variance_order_by
+}
+
+"""
+Boolean expression to filter rows from the table "campaign". All fields are combined with a logical 'AND'.
+"""
+input CampaignBoolExp {
+  _and: [CampaignBoolExp!]
+  _not: CampaignBoolExp
+  _or: [CampaignBoolExp!]
+  active: BooleanComparisonExp
+  createdAt: TimestamptzComparisonExp
+  id: StringComparisonExp
+  locations: JsonbComparisonExp
+  merchant: StringComparisonExp
+  modifiedAt: TimestamptzComparisonExp
+  name: StringComparisonExp
+  promos: PromoBoolExp
+  slot: BigintComparisonExp
+  uri: StringComparisonExp
+  writeVersion: BigintComparisonExp
+}
+
+"""Ordering options when selecting data from "campaign"."""
+input CampaignOrderBy {
+  active: OrderBy
+  createdAt: OrderBy
+  id: OrderBy
+  locations: OrderBy
+  merchant: OrderBy
+  modifiedAt: OrderBy
+  name: OrderBy
+  promosAggregate: PromoAggregateOrderBy
+  slot: OrderBy
+  uri: OrderBy
+  writeVersion: OrderBy
+}
+
+"""
+select columns of table "campaign"
+"""
+enum CampaignSelectColumn {
+  """column name"""
+  active
+
+  """column name"""
+  createdAt
+
+  """column name"""
+  id
+
+  """column name"""
+  locations
+
+  """column name"""
+  merchant
+
+  """column name"""
+  modifiedAt
+
+  """column name"""
+  name
+
+  """column name"""
+  slot
+
+  """column name"""
+  uri
+
+  """column name"""
+  writeVersion
+}
+
+"""
+Streaming cursor of the table "campaign"
+"""
+input CampaignStreamCursorInput {
+  """Stream column input with initial value"""
+  initialValue: CampaignStreamCursorValueInput!
+
+  """cursor ordering"""
+  ordering: CursorOrdering
+}
+
+"""Initial value of the column from where the streaming should start"""
+input CampaignStreamCursorValueInput {
+  active: Boolean
+  createdAt: timestamptz
+  id: String
+  locations: jsonb
+  merchant: String
+  modifiedAt: timestamptz
+  name: String
+  slot: bigint
+  uri: String
+  writeVersion: bigint
 }
 
 """ordering argument of a cursor"""
@@ -205,16 +538,19 @@ enum CursorOrdering {
 columns and relationships of "delegate_promo_token"
 """
 type DelegatePromoToken {
+  campaign: String!
   createdAt: timestamptz!
-  delegate: String!
+  device: String!
+  deviceOwner: String!
+  location: String!
   memo(
     """JSON select path"""
     path: String
   ): jsonb
+  mint: String!
   modifiedAt: timestamptz!
   payer: String!
   promo: String!
-  promoGroup: String!
 
   """An object relationship"""
   promoObject: Promo
@@ -234,13 +570,16 @@ input DelegatePromoTokenBoolExp {
   _and: [DelegatePromoTokenBoolExp!]
   _not: DelegatePromoTokenBoolExp
   _or: [DelegatePromoTokenBoolExp!]
+  campaign: StringComparisonExp
   createdAt: TimestamptzComparisonExp
-  delegate: StringComparisonExp
+  device: StringComparisonExp
+  deviceOwner: StringComparisonExp
+  location: StringComparisonExp
   memo: JsonbComparisonExp
+  mint: StringComparisonExp
   modifiedAt: TimestamptzComparisonExp
   payer: StringComparisonExp
   promo: StringComparisonExp
-  promoGroup: StringComparisonExp
   promoObject: PromoBoolExp
   signature: StringComparisonExp
   slot: BigintComparisonExp
@@ -251,13 +590,16 @@ input DelegatePromoTokenBoolExp {
 
 """Ordering options when selecting data from "delegate_promo_token"."""
 input DelegatePromoTokenOrderBy {
+  campaign: OrderBy
   createdAt: OrderBy
-  delegate: OrderBy
+  device: OrderBy
+  deviceOwner: OrderBy
+  location: OrderBy
   memo: OrderBy
+  mint: OrderBy
   modifiedAt: OrderBy
   payer: OrderBy
   promo: OrderBy
-  promoGroup: OrderBy
   promoObject: PromoOrderBy
   signature: OrderBy
   slot: OrderBy
@@ -271,13 +613,25 @@ select columns of table "delegate_promo_token"
 """
 enum DelegatePromoTokenSelectColumn {
   """column name"""
+  campaign
+
+  """column name"""
   createdAt
 
   """column name"""
-  delegate
+  device
+
+  """column name"""
+  deviceOwner
+
+  """column name"""
+  location
 
   """column name"""
   memo
+
+  """column name"""
+  mint
 
   """column name"""
   modifiedAt
@@ -287,9 +641,6 @@ enum DelegatePromoTokenSelectColumn {
 
   """column name"""
   promo
-
-  """column name"""
-  promoGroup
 
   """column name"""
   signature
@@ -317,17 +668,144 @@ input DelegatePromoTokenStreamCursorInput {
 
 """Initial value of the column from where the streaming should start"""
 input DelegatePromoTokenStreamCursorValueInput {
+  campaign: String
   createdAt: timestamptz
-  delegate: String
+  device: String
+  deviceOwner: String
+  location: String
   memo: jsonb
+  mint: String
   modifiedAt: timestamptz
   payer: String
   promo: String
-  promoGroup: String
   signature: String
   slot: bigint
   tokenAccount: String
   tokenOwner: String
+}
+
+"""
+columns and relationships of "device"
+"""
+type Device {
+  active: Boolean!
+  createdAt: timestamptz!
+  id: String!
+  location: String!
+
+  """An object relationship"""
+  locationObject: Location
+  metadataJson(
+    """JSON select path"""
+    path: String
+  ): jsonb
+  modifiedAt: timestamptz!
+  name: String!
+  owner: String!
+  slot: bigint!
+  uri: String!
+  writeVersion: bigint!
+}
+
+"""
+Boolean expression to filter rows from the table "device". All fields are combined with a logical 'AND'.
+"""
+input DeviceBoolExp {
+  _and: [DeviceBoolExp!]
+  _not: DeviceBoolExp
+  _or: [DeviceBoolExp!]
+  active: BooleanComparisonExp
+  createdAt: TimestamptzComparisonExp
+  id: StringComparisonExp
+  location: StringComparisonExp
+  locationObject: LocationBoolExp
+  metadataJson: JsonbComparisonExp
+  modifiedAt: TimestamptzComparisonExp
+  name: StringComparisonExp
+  owner: StringComparisonExp
+  slot: BigintComparisonExp
+  uri: StringComparisonExp
+  writeVersion: BigintComparisonExp
+}
+
+"""Ordering options when selecting data from "device"."""
+input DeviceOrderBy {
+  active: OrderBy
+  createdAt: OrderBy
+  id: OrderBy
+  location: OrderBy
+  locationObject: LocationOrderBy
+  metadataJson: OrderBy
+  modifiedAt: OrderBy
+  name: OrderBy
+  owner: OrderBy
+  slot: OrderBy
+  uri: OrderBy
+  writeVersion: OrderBy
+}
+
+"""
+select columns of table "device"
+"""
+enum DeviceSelectColumn {
+  """column name"""
+  active
+
+  """column name"""
+  createdAt
+
+  """column name"""
+  id
+
+  """column name"""
+  location
+
+  """column name"""
+  metadataJson
+
+  """column name"""
+  modifiedAt
+
+  """column name"""
+  name
+
+  """column name"""
+  owner
+
+  """column name"""
+  slot
+
+  """column name"""
+  uri
+
+  """column name"""
+  writeVersion
+}
+
+"""
+Streaming cursor of the table "device"
+"""
+input DeviceStreamCursorInput {
+  """Stream column input with initial value"""
+  initialValue: DeviceStreamCursorValueInput!
+
+  """cursor ordering"""
+  ordering: CursorOrdering
+}
+
+"""Initial value of the column from where the streaming should start"""
+input DeviceStreamCursorValueInput {
+  active: Boolean
+  createdAt: timestamptz
+  id: String
+  location: String
+  metadataJson: jsonb
+  modifiedAt: timestamptz
+  name: String
+  owner: String
+  slot: bigint
+  uri: String
+  writeVersion: bigint
 }
 
 """
@@ -381,6 +859,557 @@ input JsonbComparisonExp {
 }
 
 """
+columns and relationships of "listing_receipt"
+"""
+type ListingReceipt {
+  auctionHouse: String!
+  bookkeeper: String!
+  bump: Int!
+  canceledAtOnChain: bigint
+  createdAt: timestamptz!
+  createdAtOnChain: bigint!
+  id: String!
+  metadata: String!
+  modifiedAt: timestamptz!
+  price: bigint!
+  purchaseReceipt: String
+  seller: String!
+  slot: bigint!
+  tokenSize: bigint!
+  tradeState: String!
+  tradeStateBump: Int!
+  writeVersion: bigint!
+}
+
+"""
+Boolean expression to filter rows from the table "listing_receipt". All fields are combined with a logical 'AND'.
+"""
+input ListingReceiptBoolExp {
+  _and: [ListingReceiptBoolExp!]
+  _not: ListingReceiptBoolExp
+  _or: [ListingReceiptBoolExp!]
+  auctionHouse: StringComparisonExp
+  bookkeeper: StringComparisonExp
+  bump: IntComparisonExp
+  canceledAtOnChain: BigintComparisonExp
+  createdAt: TimestamptzComparisonExp
+  createdAtOnChain: BigintComparisonExp
+  id: StringComparisonExp
+  metadata: StringComparisonExp
+  modifiedAt: TimestamptzComparisonExp
+  price: BigintComparisonExp
+  purchaseReceipt: StringComparisonExp
+  seller: StringComparisonExp
+  slot: BigintComparisonExp
+  tokenSize: BigintComparisonExp
+  tradeState: StringComparisonExp
+  tradeStateBump: IntComparisonExp
+  writeVersion: BigintComparisonExp
+}
+
+"""Ordering options when selecting data from "listing_receipt"."""
+input ListingReceiptOrderBy {
+  auctionHouse: OrderBy
+  bookkeeper: OrderBy
+  bump: OrderBy
+  canceledAtOnChain: OrderBy
+  createdAt: OrderBy
+  createdAtOnChain: OrderBy
+  id: OrderBy
+  metadata: OrderBy
+  modifiedAt: OrderBy
+  price: OrderBy
+  purchaseReceipt: OrderBy
+  seller: OrderBy
+  slot: OrderBy
+  tokenSize: OrderBy
+  tradeState: OrderBy
+  tradeStateBump: OrderBy
+  writeVersion: OrderBy
+}
+
+"""
+select columns of table "listing_receipt"
+"""
+enum ListingReceiptSelectColumn {
+  """column name"""
+  auctionHouse
+
+  """column name"""
+  bookkeeper
+
+  """column name"""
+  bump
+
+  """column name"""
+  canceledAtOnChain
+
+  """column name"""
+  createdAt
+
+  """column name"""
+  createdAtOnChain
+
+  """column name"""
+  id
+
+  """column name"""
+  metadata
+
+  """column name"""
+  modifiedAt
+
+  """column name"""
+  price
+
+  """column name"""
+  purchaseReceipt
+
+  """column name"""
+  seller
+
+  """column name"""
+  slot
+
+  """column name"""
+  tokenSize
+
+  """column name"""
+  tradeState
+
+  """column name"""
+  tradeStateBump
+
+  """column name"""
+  writeVersion
+}
+
+"""
+Streaming cursor of the table "listing_receipt"
+"""
+input ListingReceiptStreamCursorInput {
+  """Stream column input with initial value"""
+  initialValue: ListingReceiptStreamCursorValueInput!
+
+  """cursor ordering"""
+  ordering: CursorOrdering
+}
+
+"""Initial value of the column from where the streaming should start"""
+input ListingReceiptStreamCursorValueInput {
+  auctionHouse: String
+  bookkeeper: String
+  bump: Int
+  canceledAtOnChain: bigint
+  createdAt: timestamptz
+  createdAtOnChain: bigint
+  id: String
+  metadata: String
+  modifiedAt: timestamptz
+  price: bigint
+  purchaseReceipt: String
+  seller: String
+  slot: bigint
+  tokenSize: bigint
+  tradeState: String
+  tradeStateBump: Int
+  writeVersion: bigint
+}
+
+"""
+columns and relationships of "listing_with_token"
+"""
+type ListingWithToken {
+  createdAtOnChain: bigint
+  id: String
+  metadata: String
+  mint: String
+
+  """An object relationship"""
+  mintObject: Mint
+  price: bigint
+  seller: String
+  slot: bigint
+  tokenAccount: String
+  tokenSize: bigint
+}
+
+"""
+Boolean expression to filter rows from the table "listing_with_token". All fields are combined with a logical 'AND'.
+"""
+input ListingWithTokenBoolExp {
+  _and: [ListingWithTokenBoolExp!]
+  _not: ListingWithTokenBoolExp
+  _or: [ListingWithTokenBoolExp!]
+  createdAtOnChain: BigintComparisonExp
+  id: StringComparisonExp
+  metadata: StringComparisonExp
+  mint: StringComparisonExp
+  mintObject: MintBoolExp
+  price: BigintComparisonExp
+  seller: StringComparisonExp
+  slot: BigintComparisonExp
+  tokenAccount: StringComparisonExp
+  tokenSize: BigintComparisonExp
+}
+
+"""Ordering options when selecting data from "listing_with_token"."""
+input ListingWithTokenOrderBy {
+  createdAtOnChain: OrderBy
+  id: OrderBy
+  metadata: OrderBy
+  mint: OrderBy
+  mintObject: MintOrderBy
+  price: OrderBy
+  seller: OrderBy
+  slot: OrderBy
+  tokenAccount: OrderBy
+  tokenSize: OrderBy
+}
+
+"""
+select columns of table "listing_with_token"
+"""
+enum ListingWithTokenSelectColumn {
+  """column name"""
+  createdAtOnChain
+
+  """column name"""
+  id
+
+  """column name"""
+  metadata
+
+  """column name"""
+  mint
+
+  """column name"""
+  price
+
+  """column name"""
+  seller
+
+  """column name"""
+  slot
+
+  """column name"""
+  tokenAccount
+
+  """column name"""
+  tokenSize
+}
+
+"""
+Streaming cursor of the table "listing_with_token"
+"""
+input ListingWithTokenStreamCursorInput {
+  """Stream column input with initial value"""
+  initialValue: ListingWithTokenStreamCursorValueInput!
+
+  """cursor ordering"""
+  ordering: CursorOrdering
+}
+
+"""Initial value of the column from where the streaming should start"""
+input ListingWithTokenStreamCursorValueInput {
+  createdAtOnChain: bigint
+  id: String
+  metadata: String
+  mint: String
+  price: bigint
+  seller: String
+  slot: bigint
+  tokenAccount: String
+  tokenSize: bigint
+}
+
+"""
+columns and relationships of "location"
+"""
+type Location {
+  active: Boolean!
+  createdAt: timestamptz!
+  id: String!
+  merchant: String!
+
+  """An object relationship"""
+  merchantObject: Merchant
+  metadataJson(
+    """JSON select path"""
+    path: String
+  ): jsonb
+  modifiedAt: timestamptz!
+  name: String!
+  slot: bigint!
+  uri: String!
+  writeVersion: bigint!
+}
+
+"""
+order by aggregate values of table "location"
+"""
+input LocationAggregateOrderBy {
+  avg: location_avg_order_by
+  count: OrderBy
+  max: location_max_order_by
+  min: location_min_order_by
+  stddev: location_stddev_order_by
+  stddev_pop: location_stddev_pop_order_by
+  stddev_samp: location_stddev_samp_order_by
+  sum: location_sum_order_by
+  var_pop: location_var_pop_order_by
+  var_samp: location_var_samp_order_by
+  variance: location_variance_order_by
+}
+
+"""
+Boolean expression to filter rows from the table "location". All fields are combined with a logical 'AND'.
+"""
+input LocationBoolExp {
+  _and: [LocationBoolExp!]
+  _not: LocationBoolExp
+  _or: [LocationBoolExp!]
+  active: BooleanComparisonExp
+  createdAt: TimestamptzComparisonExp
+  id: StringComparisonExp
+  merchant: StringComparisonExp
+  merchantObject: MerchantBoolExp
+  metadataJson: JsonbComparisonExp
+  modifiedAt: TimestamptzComparisonExp
+  name: StringComparisonExp
+  slot: BigintComparisonExp
+  uri: StringComparisonExp
+  writeVersion: BigintComparisonExp
+}
+
+"""Ordering options when selecting data from "location"."""
+input LocationOrderBy {
+  active: OrderBy
+  createdAt: OrderBy
+  id: OrderBy
+  merchant: OrderBy
+  merchantObject: MerchantOrderBy
+  metadataJson: OrderBy
+  modifiedAt: OrderBy
+  name: OrderBy
+  slot: OrderBy
+  uri: OrderBy
+  writeVersion: OrderBy
+}
+
+"""
+select columns of table "location"
+"""
+enum LocationSelectColumn {
+  """column name"""
+  active
+
+  """column name"""
+  createdAt
+
+  """column name"""
+  id
+
+  """column name"""
+  merchant
+
+  """column name"""
+  metadataJson
+
+  """column name"""
+  modifiedAt
+
+  """column name"""
+  name
+
+  """column name"""
+  slot
+
+  """column name"""
+  uri
+
+  """column name"""
+  writeVersion
+}
+
+"""
+Streaming cursor of the table "location"
+"""
+input LocationStreamCursorInput {
+  """Stream column input with initial value"""
+  initialValue: LocationStreamCursorValueInput!
+
+  """cursor ordering"""
+  ordering: CursorOrdering
+}
+
+"""Initial value of the column from where the streaming should start"""
+input LocationStreamCursorValueInput {
+  active: Boolean
+  createdAt: timestamptz
+  id: String
+  merchant: String
+  metadataJson: jsonb
+  modifiedAt: timestamptz
+  name: String
+  slot: bigint
+  uri: String
+  writeVersion: bigint
+}
+
+"""
+columns and relationships of "merchant"
+"""
+type Merchant {
+  active: Boolean!
+
+  """An array relationship"""
+  campaigns(
+    """distinct select on columns"""
+    distinctOn: [CampaignSelectColumn!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    orderBy: [CampaignOrderBy!]
+
+    """filter the rows returned"""
+    where: CampaignBoolExp
+  ): [Campaign!]!
+  createdAt: timestamptz!
+  id: String!
+
+  """An array relationship"""
+  locations(
+    """distinct select on columns"""
+    distinctOn: [LocationSelectColumn!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    orderBy: [LocationOrderBy!]
+
+    """filter the rows returned"""
+    where: LocationBoolExp
+  ): [Location!]!
+  metadataJson(
+    """JSON select path"""
+    path: String
+  ): jsonb
+  modifiedAt: timestamptz!
+  name: String!
+  owner: String!
+  slot: bigint!
+  uri: String!
+  writeVersion: bigint!
+}
+
+"""
+Boolean expression to filter rows from the table "merchant". All fields are combined with a logical 'AND'.
+"""
+input MerchantBoolExp {
+  _and: [MerchantBoolExp!]
+  _not: MerchantBoolExp
+  _or: [MerchantBoolExp!]
+  active: BooleanComparisonExp
+  campaigns: CampaignBoolExp
+  createdAt: TimestamptzComparisonExp
+  id: StringComparisonExp
+  locations: LocationBoolExp
+  metadataJson: JsonbComparisonExp
+  modifiedAt: TimestamptzComparisonExp
+  name: StringComparisonExp
+  owner: StringComparisonExp
+  slot: BigintComparisonExp
+  uri: StringComparisonExp
+  writeVersion: BigintComparisonExp
+}
+
+"""Ordering options when selecting data from "merchant"."""
+input MerchantOrderBy {
+  active: OrderBy
+  campaignsAggregate: CampaignAggregateOrderBy
+  createdAt: OrderBy
+  id: OrderBy
+  locationsAggregate: LocationAggregateOrderBy
+  metadataJson: OrderBy
+  modifiedAt: OrderBy
+  name: OrderBy
+  owner: OrderBy
+  slot: OrderBy
+  uri: OrderBy
+  writeVersion: OrderBy
+}
+
+"""
+select columns of table "merchant"
+"""
+enum MerchantSelectColumn {
+  """column name"""
+  active
+
+  """column name"""
+  createdAt
+
+  """column name"""
+  id
+
+  """column name"""
+  metadataJson
+
+  """column name"""
+  modifiedAt
+
+  """column name"""
+  name
+
+  """column name"""
+  owner
+
+  """column name"""
+  slot
+
+  """column name"""
+  uri
+
+  """column name"""
+  writeVersion
+}
+
+"""
+Streaming cursor of the table "merchant"
+"""
+input MerchantStreamCursorInput {
+  """Stream column input with initial value"""
+  initialValue: MerchantStreamCursorValueInput!
+
+  """cursor ordering"""
+  ordering: CursorOrdering
+}
+
+"""Initial value of the column from where the streaming should start"""
+input MerchantStreamCursorValueInput {
+  active: Boolean
+  createdAt: timestamptz
+  id: String
+  metadataJson: jsonb
+  modifiedAt: timestamptz
+  name: String
+  owner: String
+  slot: bigint
+  uri: String
+  writeVersion: bigint
+}
+
+"""
 columns and relationships of "metadata"
 """
 type Metadata {
@@ -396,6 +1425,9 @@ type Metadata {
     path: String
   ): jsonb
   mint: String!
+
+  """An object relationship"""
+  mintObject: Mint
   modifiedAt: timestamptz!
   name: String!
   primarySaleHappened: Boolean!
@@ -427,6 +1459,7 @@ input MetadataBoolExp {
   key: StringComparisonExp
   metadataJson: JsonbComparisonExp
   mint: StringComparisonExp
+  mintObject: MintBoolExp
   modifiedAt: TimestamptzComparisonExp
   name: StringComparisonExp
   primarySaleHappened: BooleanComparisonExp
@@ -453,6 +1486,7 @@ input MetadataOrderBy {
   key: OrderBy
   metadataJson: OrderBy
   mint: OrderBy
+  mintObject: MintOrderBy
   modifiedAt: OrderBy
   name: OrderBy
   primarySaleHappened: OrderBy
@@ -667,7 +1701,6 @@ type MintPromoToken {
   modifiedAt: timestamptz!
   payer: String!
   promo: String!
-  promoGroup: String!
 
   """An object relationship"""
   promoObject: Promo
@@ -692,7 +1725,6 @@ input MintPromoTokenBoolExp {
   modifiedAt: TimestamptzComparisonExp
   payer: StringComparisonExp
   promo: StringComparisonExp
-  promoGroup: StringComparisonExp
   promoObject: PromoBoolExp
   signature: StringComparisonExp
   slot: BigintComparisonExp
@@ -710,7 +1742,6 @@ input MintPromoTokenOrderBy {
   modifiedAt: OrderBy
   payer: OrderBy
   promo: OrderBy
-  promoGroup: OrderBy
   promoObject: PromoOrderBy
   signature: OrderBy
   slot: OrderBy
@@ -742,9 +1773,6 @@ enum MintPromoTokenSelectColumn {
 
   """column name"""
   promo
-
-  """column name"""
-  promoGroup
 
   """column name"""
   signature
@@ -779,7 +1807,6 @@ input MintPromoTokenStreamCursorValueInput {
   modifiedAt: timestamptz
   payer: String
   promo: String
-  promoGroup: String
   signature: String
   slot: bigint
   tokenAccount: String
@@ -871,11 +1898,13 @@ enum OrderBy {
 columns and relationships of "promo"
 """
 type Promo {
+  active: Boolean!
   burnCount: Int!
-  createdAt: timestamptz!
+  campaign: String!
 
   """An object relationship"""
-  groupObject: PromoGroup
+  campaignObject: Campaign
+  createdAt: timestamptz!
   id: String!
   maxBurn: Int
   maxMint: Int
@@ -889,7 +1918,6 @@ type Promo {
   """An object relationship"""
   mintObject: Mint
   modifiedAt: timestamptz!
-  owner: String!
   slot: bigint!
   writeVersion: bigint!
 }
@@ -918,9 +1946,11 @@ input PromoBoolExp {
   _and: [PromoBoolExp!]
   _not: PromoBoolExp
   _or: [PromoBoolExp!]
+  active: BooleanComparisonExp
   burnCount: IntComparisonExp
+  campaign: StringComparisonExp
+  campaignObject: CampaignBoolExp
   createdAt: TimestamptzComparisonExp
-  groupObject: PromoGroupBoolExp
   id: StringComparisonExp
   maxBurn: IntComparisonExp
   maxMint: IntComparisonExp
@@ -930,141 +1960,17 @@ input PromoBoolExp {
   mintCount: IntComparisonExp
   mintObject: MintBoolExp
   modifiedAt: TimestamptzComparisonExp
-  owner: StringComparisonExp
   slot: BigintComparisonExp
   writeVersion: BigintComparisonExp
-}
-
-"""
-columns and relationships of "promo_group"
-"""
-type PromoGroup {
-  createdAt: timestamptz!
-  id: String!
-  members(
-    """JSON select path"""
-    path: String
-  ): jsonb!
-  modifiedAt: timestamptz!
-  nonce: Int!
-  owner: String!
-
-  """An array relationship"""
-  promos(
-    """distinct select on columns"""
-    distinctOn: [PromoSelectColumn!]
-
-    """limit the number of rows returned"""
-    limit: Int
-
-    """skip the first n rows. Use only with order_by"""
-    offset: Int
-
-    """sort the rows by one or more columns"""
-    orderBy: [PromoOrderBy!]
-
-    """filter the rows returned"""
-    where: PromoBoolExp
-  ): [Promo!]!
-  seed: String!
-  slot: bigint!
-  writeVersion: bigint!
-}
-
-"""
-Boolean expression to filter rows from the table "promo_group". All fields are combined with a logical 'AND'.
-"""
-input PromoGroupBoolExp {
-  _and: [PromoGroupBoolExp!]
-  _not: PromoGroupBoolExp
-  _or: [PromoGroupBoolExp!]
-  createdAt: TimestamptzComparisonExp
-  id: StringComparisonExp
-  members: JsonbComparisonExp
-  modifiedAt: TimestamptzComparisonExp
-  nonce: IntComparisonExp
-  owner: StringComparisonExp
-  promos: PromoBoolExp
-  seed: StringComparisonExp
-  slot: BigintComparisonExp
-  writeVersion: BigintComparisonExp
-}
-
-"""Ordering options when selecting data from "promo_group"."""
-input PromoGroupOrderBy {
-  createdAt: OrderBy
-  id: OrderBy
-  members: OrderBy
-  modifiedAt: OrderBy
-  nonce: OrderBy
-  owner: OrderBy
-  promosAggregate: PromoAggregateOrderBy
-  seed: OrderBy
-  slot: OrderBy
-  writeVersion: OrderBy
-}
-
-"""
-select columns of table "promo_group"
-"""
-enum PromoGroupSelectColumn {
-  """column name"""
-  createdAt
-
-  """column name"""
-  id
-
-  """column name"""
-  members
-
-  """column name"""
-  modifiedAt
-
-  """column name"""
-  nonce
-
-  """column name"""
-  owner
-
-  """column name"""
-  seed
-
-  """column name"""
-  slot
-
-  """column name"""
-  writeVersion
-}
-
-"""
-Streaming cursor of the table "promo_group"
-"""
-input PromoGroupStreamCursorInput {
-  """Stream column input with initial value"""
-  initialValue: PromoGroupStreamCursorValueInput!
-
-  """cursor ordering"""
-  ordering: CursorOrdering
-}
-
-"""Initial value of the column from where the streaming should start"""
-input PromoGroupStreamCursorValueInput {
-  createdAt: timestamptz
-  id: String
-  members: jsonb
-  modifiedAt: timestamptz
-  nonce: Int
-  owner: String
-  seed: String
-  slot: bigint
-  writeVersion: bigint
 }
 
 """Ordering options when selecting data from "promo"."""
 input PromoOrderBy {
+  active: OrderBy
   burnCount: OrderBy
+  campaign: OrderBy
+  campaignObject: CampaignOrderBy
   createdAt: OrderBy
-  groupObject: PromoGroupOrderBy
   id: OrderBy
   maxBurn: OrderBy
   maxMint: OrderBy
@@ -1074,7 +1980,6 @@ input PromoOrderBy {
   mintCount: OrderBy
   mintObject: MintOrderBy
   modifiedAt: OrderBy
-  owner: OrderBy
   slot: OrderBy
   writeVersion: OrderBy
 }
@@ -1084,7 +1989,13 @@ select columns of table "promo"
 """
 enum PromoSelectColumn {
   """column name"""
+  active
+
+  """column name"""
   burnCount
+
+  """column name"""
+  campaign
 
   """column name"""
   createdAt
@@ -1111,9 +2022,6 @@ enum PromoSelectColumn {
   modifiedAt
 
   """column name"""
-  owner
-
-  """column name"""
   slot
 
   """column name"""
@@ -1133,7 +2041,9 @@ input PromoStreamCursorInput {
 
 """Initial value of the column from where the streaming should start"""
 input PromoStreamCursorValueInput {
+  active: Boolean
   burnCount: Int
+  campaign: String
   createdAt: timestamptz
   id: String
   maxBurn: Int
@@ -1142,7 +2052,6 @@ input PromoStreamCursorValueInput {
   mint: String
   mintCount: Int
   modifiedAt: timestamptz
-  owner: String
   slot: bigint
   writeVersion: bigint
 }
@@ -1152,17 +2061,27 @@ columns and relationships of "promo_transactions"
 """
 type PromoTransactions {
   authority: String
+  campaign: String
+  createdAt: timestamptz
+  device: String
+  location: String
   memo(
     """JSON select path"""
     path: String
   ): jsonb
   mint: String
+
+  """An object relationship"""
+  mintObject: Mint
+  modifiedAt: timestamptz
   payer: String
   promo: String
-  promoGroup: String
   signature: String
   slot: bigint
   tokenAccount: String
+
+  """An object relationship"""
+  tokenAccountObject: TokenAccount
   transactionType: String
 }
 
@@ -1174,28 +2093,40 @@ input PromoTransactionsBoolExp {
   _not: PromoTransactionsBoolExp
   _or: [PromoTransactionsBoolExp!]
   authority: StringComparisonExp
+  campaign: StringComparisonExp
+  createdAt: TimestamptzComparisonExp
+  device: StringComparisonExp
+  location: StringComparisonExp
   memo: JsonbComparisonExp
   mint: StringComparisonExp
+  mintObject: MintBoolExp
+  modifiedAt: TimestamptzComparisonExp
   payer: StringComparisonExp
   promo: StringComparisonExp
-  promoGroup: StringComparisonExp
   signature: StringComparisonExp
   slot: BigintComparisonExp
   tokenAccount: StringComparisonExp
+  tokenAccountObject: TokenAccountBoolExp
   transactionType: StringComparisonExp
 }
 
 """Ordering options when selecting data from "promo_transactions"."""
 input PromoTransactionsOrderBy {
   authority: OrderBy
+  campaign: OrderBy
+  createdAt: OrderBy
+  device: OrderBy
+  location: OrderBy
   memo: OrderBy
   mint: OrderBy
+  mintObject: MintOrderBy
+  modifiedAt: OrderBy
   payer: OrderBy
   promo: OrderBy
-  promoGroup: OrderBy
   signature: OrderBy
   slot: OrderBy
   tokenAccount: OrderBy
+  tokenAccountObject: TokenAccountOrderBy
   transactionType: OrderBy
 }
 
@@ -1207,19 +2138,31 @@ enum PromoTransactionsSelectColumn {
   authority
 
   """column name"""
+  campaign
+
+  """column name"""
+  createdAt
+
+  """column name"""
+  device
+
+  """column name"""
+  location
+
+  """column name"""
   memo
 
   """column name"""
   mint
 
   """column name"""
+  modifiedAt
+
+  """column name"""
   payer
 
   """column name"""
   promo
-
-  """column name"""
-  promoGroup
 
   """column name"""
   signature
@@ -1248,15 +2191,156 @@ input PromoTransactionsStreamCursorInput {
 """Initial value of the column from where the streaming should start"""
 input PromoTransactionsStreamCursorValueInput {
   authority: String
+  campaign: String
+  createdAt: timestamptz
+  device: String
+  location: String
   memo: jsonb
   mint: String
+  modifiedAt: timestamptz
   payer: String
   promo: String
-  promoGroup: String
   signature: String
   slot: bigint
   tokenAccount: String
   transactionType: String
+}
+
+"""
+columns and relationships of "purchase_receipt"
+"""
+type PurchaseReceipt {
+  auctionHouse: String!
+  bookkeeper: String!
+  bump: Int!
+  buyer: String!
+  createdAt: timestamptz!
+  createdAtOnChain: bigint!
+  id: String!
+  metadata: String!
+  modifiedAt: timestamptz!
+  price: bigint!
+  seller: String!
+  slot: bigint!
+  tokenSize: bigint!
+  writeVersion: bigint!
+}
+
+"""
+Boolean expression to filter rows from the table "purchase_receipt". All fields are combined with a logical 'AND'.
+"""
+input PurchaseReceiptBoolExp {
+  _and: [PurchaseReceiptBoolExp!]
+  _not: PurchaseReceiptBoolExp
+  _or: [PurchaseReceiptBoolExp!]
+  auctionHouse: StringComparisonExp
+  bookkeeper: StringComparisonExp
+  bump: IntComparisonExp
+  buyer: StringComparisonExp
+  createdAt: TimestamptzComparisonExp
+  createdAtOnChain: BigintComparisonExp
+  id: StringComparisonExp
+  metadata: StringComparisonExp
+  modifiedAt: TimestamptzComparisonExp
+  price: BigintComparisonExp
+  seller: StringComparisonExp
+  slot: BigintComparisonExp
+  tokenSize: BigintComparisonExp
+  writeVersion: BigintComparisonExp
+}
+
+"""Ordering options when selecting data from "purchase_receipt"."""
+input PurchaseReceiptOrderBy {
+  auctionHouse: OrderBy
+  bookkeeper: OrderBy
+  bump: OrderBy
+  buyer: OrderBy
+  createdAt: OrderBy
+  createdAtOnChain: OrderBy
+  id: OrderBy
+  metadata: OrderBy
+  modifiedAt: OrderBy
+  price: OrderBy
+  seller: OrderBy
+  slot: OrderBy
+  tokenSize: OrderBy
+  writeVersion: OrderBy
+}
+
+"""
+select columns of table "purchase_receipt"
+"""
+enum PurchaseReceiptSelectColumn {
+  """column name"""
+  auctionHouse
+
+  """column name"""
+  bookkeeper
+
+  """column name"""
+  bump
+
+  """column name"""
+  buyer
+
+  """column name"""
+  createdAt
+
+  """column name"""
+  createdAtOnChain
+
+  """column name"""
+  id
+
+  """column name"""
+  metadata
+
+  """column name"""
+  modifiedAt
+
+  """column name"""
+  price
+
+  """column name"""
+  seller
+
+  """column name"""
+  slot
+
+  """column name"""
+  tokenSize
+
+  """column name"""
+  writeVersion
+}
+
+"""
+Streaming cursor of the table "purchase_receipt"
+"""
+input PurchaseReceiptStreamCursorInput {
+  """Stream column input with initial value"""
+  initialValue: PurchaseReceiptStreamCursorValueInput!
+
+  """cursor ordering"""
+  ordering: CursorOrdering
+}
+
+"""Initial value of the column from where the streaming should start"""
+input PurchaseReceiptStreamCursorValueInput {
+  auctionHouse: String
+  bookkeeper: String
+  bump: Int
+  buyer: String
+  createdAt: timestamptz
+  createdAtOnChain: bigint
+  id: String
+  metadata: String
+  modifiedAt: timestamptz
+  price: bigint
+  seller: String
+  slot: bigint
+  tokenSize: bigint
+  writeVersion: bigint
 }
 
 """
@@ -1572,7 +2656,191 @@ input TokenAccountStreamCursorValueInput {
 
 scalar bigint
 
+"""
+order by avg() on columns of table "campaign"
+"""
+input campaign_avg_order_by {
+  slot: OrderBy
+  writeVersion: OrderBy
+}
+
+"""
+order by max() on columns of table "campaign"
+"""
+input campaign_max_order_by {
+  createdAt: OrderBy
+  id: OrderBy
+  merchant: OrderBy
+  modifiedAt: OrderBy
+  name: OrderBy
+  slot: OrderBy
+  uri: OrderBy
+  writeVersion: OrderBy
+}
+
+"""
+order by min() on columns of table "campaign"
+"""
+input campaign_min_order_by {
+  createdAt: OrderBy
+  id: OrderBy
+  merchant: OrderBy
+  modifiedAt: OrderBy
+  name: OrderBy
+  slot: OrderBy
+  uri: OrderBy
+  writeVersion: OrderBy
+}
+
+"""
+order by stddev() on columns of table "campaign"
+"""
+input campaign_stddev_order_by {
+  slot: OrderBy
+  writeVersion: OrderBy
+}
+
+"""
+order by stddev_pop() on columns of table "campaign"
+"""
+input campaign_stddev_pop_order_by {
+  slot: OrderBy
+  writeVersion: OrderBy
+}
+
+"""
+order by stddev_samp() on columns of table "campaign"
+"""
+input campaign_stddev_samp_order_by {
+  slot: OrderBy
+  writeVersion: OrderBy
+}
+
+"""
+order by sum() on columns of table "campaign"
+"""
+input campaign_sum_order_by {
+  slot: OrderBy
+  writeVersion: OrderBy
+}
+
+"""
+order by var_pop() on columns of table "campaign"
+"""
+input campaign_var_pop_order_by {
+  slot: OrderBy
+  writeVersion: OrderBy
+}
+
+"""
+order by var_samp() on columns of table "campaign"
+"""
+input campaign_var_samp_order_by {
+  slot: OrderBy
+  writeVersion: OrderBy
+}
+
+"""
+order by variance() on columns of table "campaign"
+"""
+input campaign_variance_order_by {
+  slot: OrderBy
+  writeVersion: OrderBy
+}
+
 scalar jsonb
+
+"""
+order by avg() on columns of table "location"
+"""
+input location_avg_order_by {
+  slot: OrderBy
+  writeVersion: OrderBy
+}
+
+"""
+order by max() on columns of table "location"
+"""
+input location_max_order_by {
+  createdAt: OrderBy
+  id: OrderBy
+  merchant: OrderBy
+  modifiedAt: OrderBy
+  name: OrderBy
+  slot: OrderBy
+  uri: OrderBy
+  writeVersion: OrderBy
+}
+
+"""
+order by min() on columns of table "location"
+"""
+input location_min_order_by {
+  createdAt: OrderBy
+  id: OrderBy
+  merchant: OrderBy
+  modifiedAt: OrderBy
+  name: OrderBy
+  slot: OrderBy
+  uri: OrderBy
+  writeVersion: OrderBy
+}
+
+"""
+order by stddev() on columns of table "location"
+"""
+input location_stddev_order_by {
+  slot: OrderBy
+  writeVersion: OrderBy
+}
+
+"""
+order by stddev_pop() on columns of table "location"
+"""
+input location_stddev_pop_order_by {
+  slot: OrderBy
+  writeVersion: OrderBy
+}
+
+"""
+order by stddev_samp() on columns of table "location"
+"""
+input location_stddev_samp_order_by {
+  slot: OrderBy
+  writeVersion: OrderBy
+}
+
+"""
+order by sum() on columns of table "location"
+"""
+input location_sum_order_by {
+  slot: OrderBy
+  writeVersion: OrderBy
+}
+
+"""
+order by var_pop() on columns of table "location"
+"""
+input location_var_pop_order_by {
+  slot: OrderBy
+  writeVersion: OrderBy
+}
+
+"""
+order by var_samp() on columns of table "location"
+"""
+input location_var_samp_order_by {
+  slot: OrderBy
+  writeVersion: OrderBy
+}
+
+"""
+order by variance() on columns of table "location"
+"""
+input location_variance_order_by {
+  slot: OrderBy
+  writeVersion: OrderBy
+}
 
 """
 order by avg() on columns of table "promo"
@@ -1591,6 +2859,7 @@ order by max() on columns of table "promo"
 """
 input promo_max_order_by {
   burnCount: OrderBy
+  campaign: OrderBy
   createdAt: OrderBy
   id: OrderBy
   maxBurn: OrderBy
@@ -1599,7 +2868,6 @@ input promo_max_order_by {
   mint: OrderBy
   mintCount: OrderBy
   modifiedAt: OrderBy
-  owner: OrderBy
   slot: OrderBy
   writeVersion: OrderBy
 }
@@ -1609,6 +2877,7 @@ order by min() on columns of table "promo"
 """
 input promo_min_order_by {
   burnCount: OrderBy
+  campaign: OrderBy
   createdAt: OrderBy
   id: OrderBy
   maxBurn: OrderBy
@@ -1617,7 +2886,6 @@ input promo_min_order_by {
   mint: OrderBy
   mintCount: OrderBy
   modifiedAt: OrderBy
-  owner: OrderBy
   slot: OrderBy
   writeVersion: OrderBy
 }
@@ -1708,6 +2976,29 @@ input promo_variance_order_by {
 
 type query_root {
   """
+  fetch data from the table: "bid_receipt"
+  """
+  bidReceipt(
+    """distinct select on columns"""
+    distinctOn: [BidReceiptSelectColumn!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    orderBy: [BidReceiptOrderBy!]
+
+    """filter the rows returned"""
+    where: BidReceiptBoolExp
+  ): [BidReceipt!]!
+
+  """fetch data from the table: "bid_receipt" using primary key columns"""
+  bidReceiptByPk(id: String!): BidReceipt
+
+  """
   fetch data from the table: "burn_delegated_promo_token"
   """
   burnDelegatedPromoToken(
@@ -1733,6 +3024,29 @@ type query_root {
   burnDelegatedPromoTokenByPk(signature: String!): BurnDelegatedPromoToken
 
   """
+  fetch data from the table: "campaign"
+  """
+  campaign(
+    """distinct select on columns"""
+    distinctOn: [CampaignSelectColumn!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    orderBy: [CampaignOrderBy!]
+
+    """filter the rows returned"""
+    where: CampaignBoolExp
+  ): [Campaign!]!
+
+  """fetch data from the table: "campaign" using primary key columns"""
+  campaignByPk(id: String!): Campaign
+
+  """
   fetch data from the table: "delegate_promo_token"
   """
   delegatePromoToken(
@@ -1756,6 +3070,118 @@ type query_root {
   fetch data from the table: "delegate_promo_token" using primary key columns
   """
   delegatePromoTokenByPk(signature: String!): DelegatePromoToken
+
+  """
+  fetch data from the table: "device"
+  """
+  device(
+    """distinct select on columns"""
+    distinctOn: [DeviceSelectColumn!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    orderBy: [DeviceOrderBy!]
+
+    """filter the rows returned"""
+    where: DeviceBoolExp
+  ): [Device!]!
+
+  """fetch data from the table: "device" using primary key columns"""
+  deviceByPk(id: String!): Device
+
+  """
+  fetch data from the table: "listing_receipt"
+  """
+  listingReceipt(
+    """distinct select on columns"""
+    distinctOn: [ListingReceiptSelectColumn!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    orderBy: [ListingReceiptOrderBy!]
+
+    """filter the rows returned"""
+    where: ListingReceiptBoolExp
+  ): [ListingReceipt!]!
+
+  """fetch data from the table: "listing_receipt" using primary key columns"""
+  listingReceiptByPk(id: String!): ListingReceipt
+
+  """
+  fetch data from the table: "listing_with_token"
+  """
+  listingWithToken(
+    """distinct select on columns"""
+    distinctOn: [ListingWithTokenSelectColumn!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    orderBy: [ListingWithTokenOrderBy!]
+
+    """filter the rows returned"""
+    where: ListingWithTokenBoolExp
+  ): [ListingWithToken!]!
+
+  """
+  fetch data from the table: "location"
+  """
+  location(
+    """distinct select on columns"""
+    distinctOn: [LocationSelectColumn!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    orderBy: [LocationOrderBy!]
+
+    """filter the rows returned"""
+    where: LocationBoolExp
+  ): [Location!]!
+
+  """fetch data from the table: "location" using primary key columns"""
+  locationByPk(id: String!): Location
+
+  """
+  fetch data from the table: "merchant"
+  """
+  merchant(
+    """distinct select on columns"""
+    distinctOn: [MerchantSelectColumn!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    orderBy: [MerchantOrderBy!]
+
+    """filter the rows returned"""
+    where: MerchantBoolExp
+  ): [Merchant!]!
+
+  """fetch data from the table: "merchant" using primary key columns"""
+  merchantByPk(id: String!): Merchant
 
   """
   fetch data from the table: "metadata"
@@ -1852,29 +3278,6 @@ type query_root {
   promoByPk(id: String!): Promo
 
   """
-  fetch data from the table: "promo_group"
-  """
-  promoGroup(
-    """distinct select on columns"""
-    distinctOn: [PromoGroupSelectColumn!]
-
-    """limit the number of rows returned"""
-    limit: Int
-
-    """skip the first n rows. Use only with order_by"""
-    offset: Int
-
-    """sort the rows by one or more columns"""
-    orderBy: [PromoGroupOrderBy!]
-
-    """filter the rows returned"""
-    where: PromoGroupBoolExp
-  ): [PromoGroup!]!
-
-  """fetch data from the table: "promo_group" using primary key columns"""
-  promoGroupByPk(id: String!): PromoGroup
-
-  """
   fetch data from the table: "promo_transactions"
   """
   promoTransactions(
@@ -1893,6 +3296,31 @@ type query_root {
     """filter the rows returned"""
     where: PromoTransactionsBoolExp
   ): [PromoTransactions!]!
+
+  """
+  fetch data from the table: "purchase_receipt"
+  """
+  purchaseReceipt(
+    """distinct select on columns"""
+    distinctOn: [PurchaseReceiptSelectColumn!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    orderBy: [PurchaseReceiptOrderBy!]
+
+    """filter the rows returned"""
+    where: PurchaseReceiptBoolExp
+  ): [PurchaseReceipt!]!
+
+  """
+  fetch data from the table: "purchase_receipt" using primary key columns
+  """
+  purchaseReceiptByPk(id: String!): PurchaseReceipt
 
   """
   fetch data from the table: "sign_memo"
@@ -1943,6 +3371,43 @@ type query_root {
 
 type subscription_root {
   """
+  fetch data from the table: "bid_receipt"
+  """
+  bidReceipt(
+    """distinct select on columns"""
+    distinctOn: [BidReceiptSelectColumn!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    orderBy: [BidReceiptOrderBy!]
+
+    """filter the rows returned"""
+    where: BidReceiptBoolExp
+  ): [BidReceipt!]!
+
+  """fetch data from the table: "bid_receipt" using primary key columns"""
+  bidReceiptByPk(id: String!): BidReceipt
+
+  """
+  fetch data from the table in a streaming manner: "bid_receipt"
+  """
+  bidReceiptStream(
+    """maximum number of rows returned in a single batch"""
+    batchSize: Int!
+
+    """cursor to stream the results returned by the query"""
+    cursor: [BidReceiptStreamCursorInput]!
+
+    """filter the rows returned"""
+    where: BidReceiptBoolExp
+  ): [BidReceipt!]!
+
+  """
   fetch data from the table: "burn_delegated_promo_token"
   """
   burnDelegatedPromoToken(
@@ -1982,6 +3447,43 @@ type subscription_root {
   ): [BurnDelegatedPromoToken!]!
 
   """
+  fetch data from the table: "campaign"
+  """
+  campaign(
+    """distinct select on columns"""
+    distinctOn: [CampaignSelectColumn!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    orderBy: [CampaignOrderBy!]
+
+    """filter the rows returned"""
+    where: CampaignBoolExp
+  ): [Campaign!]!
+
+  """fetch data from the table: "campaign" using primary key columns"""
+  campaignByPk(id: String!): Campaign
+
+  """
+  fetch data from the table in a streaming manner: "campaign"
+  """
+  campaignStream(
+    """maximum number of rows returned in a single batch"""
+    batchSize: Int!
+
+    """cursor to stream the results returned by the query"""
+    cursor: [CampaignStreamCursorInput]!
+
+    """filter the rows returned"""
+    where: CampaignBoolExp
+  ): [Campaign!]!
+
+  """
   fetch data from the table: "delegate_promo_token"
   """
   delegatePromoToken(
@@ -2019,6 +3521,188 @@ type subscription_root {
     """filter the rows returned"""
     where: DelegatePromoTokenBoolExp
   ): [DelegatePromoToken!]!
+
+  """
+  fetch data from the table: "device"
+  """
+  device(
+    """distinct select on columns"""
+    distinctOn: [DeviceSelectColumn!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    orderBy: [DeviceOrderBy!]
+
+    """filter the rows returned"""
+    where: DeviceBoolExp
+  ): [Device!]!
+
+  """fetch data from the table: "device" using primary key columns"""
+  deviceByPk(id: String!): Device
+
+  """
+  fetch data from the table in a streaming manner: "device"
+  """
+  deviceStream(
+    """maximum number of rows returned in a single batch"""
+    batchSize: Int!
+
+    """cursor to stream the results returned by the query"""
+    cursor: [DeviceStreamCursorInput]!
+
+    """filter the rows returned"""
+    where: DeviceBoolExp
+  ): [Device!]!
+
+  """
+  fetch data from the table: "listing_receipt"
+  """
+  listingReceipt(
+    """distinct select on columns"""
+    distinctOn: [ListingReceiptSelectColumn!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    orderBy: [ListingReceiptOrderBy!]
+
+    """filter the rows returned"""
+    where: ListingReceiptBoolExp
+  ): [ListingReceipt!]!
+
+  """fetch data from the table: "listing_receipt" using primary key columns"""
+  listingReceiptByPk(id: String!): ListingReceipt
+
+  """
+  fetch data from the table in a streaming manner: "listing_receipt"
+  """
+  listingReceiptStream(
+    """maximum number of rows returned in a single batch"""
+    batchSize: Int!
+
+    """cursor to stream the results returned by the query"""
+    cursor: [ListingReceiptStreamCursorInput]!
+
+    """filter the rows returned"""
+    where: ListingReceiptBoolExp
+  ): [ListingReceipt!]!
+
+  """
+  fetch data from the table: "listing_with_token"
+  """
+  listingWithToken(
+    """distinct select on columns"""
+    distinctOn: [ListingWithTokenSelectColumn!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    orderBy: [ListingWithTokenOrderBy!]
+
+    """filter the rows returned"""
+    where: ListingWithTokenBoolExp
+  ): [ListingWithToken!]!
+
+  """
+  fetch data from the table in a streaming manner: "listing_with_token"
+  """
+  listingWithTokenStream(
+    """maximum number of rows returned in a single batch"""
+    batchSize: Int!
+
+    """cursor to stream the results returned by the query"""
+    cursor: [ListingWithTokenStreamCursorInput]!
+
+    """filter the rows returned"""
+    where: ListingWithTokenBoolExp
+  ): [ListingWithToken!]!
+
+  """
+  fetch data from the table: "location"
+  """
+  location(
+    """distinct select on columns"""
+    distinctOn: [LocationSelectColumn!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    orderBy: [LocationOrderBy!]
+
+    """filter the rows returned"""
+    where: LocationBoolExp
+  ): [Location!]!
+
+  """fetch data from the table: "location" using primary key columns"""
+  locationByPk(id: String!): Location
+
+  """
+  fetch data from the table in a streaming manner: "location"
+  """
+  locationStream(
+    """maximum number of rows returned in a single batch"""
+    batchSize: Int!
+
+    """cursor to stream the results returned by the query"""
+    cursor: [LocationStreamCursorInput]!
+
+    """filter the rows returned"""
+    where: LocationBoolExp
+  ): [Location!]!
+
+  """
+  fetch data from the table: "merchant"
+  """
+  merchant(
+    """distinct select on columns"""
+    distinctOn: [MerchantSelectColumn!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    orderBy: [MerchantOrderBy!]
+
+    """filter the rows returned"""
+    where: MerchantBoolExp
+  ): [Merchant!]!
+
+  """fetch data from the table: "merchant" using primary key columns"""
+  merchantByPk(id: String!): Merchant
+
+  """
+  fetch data from the table in a streaming manner: "merchant"
+  """
+  merchantStream(
+    """maximum number of rows returned in a single batch"""
+    batchSize: Int!
+
+    """cursor to stream the results returned by the query"""
+    cursor: [MerchantStreamCursorInput]!
+
+    """filter the rows returned"""
+    where: MerchantBoolExp
+  ): [Merchant!]!
 
   """
   fetch data from the table: "metadata"
@@ -2157,43 +3841,6 @@ type subscription_root {
   promoByPk(id: String!): Promo
 
   """
-  fetch data from the table: "promo_group"
-  """
-  promoGroup(
-    """distinct select on columns"""
-    distinctOn: [PromoGroupSelectColumn!]
-
-    """limit the number of rows returned"""
-    limit: Int
-
-    """skip the first n rows. Use only with order_by"""
-    offset: Int
-
-    """sort the rows by one or more columns"""
-    orderBy: [PromoGroupOrderBy!]
-
-    """filter the rows returned"""
-    where: PromoGroupBoolExp
-  ): [PromoGroup!]!
-
-  """fetch data from the table: "promo_group" using primary key columns"""
-  promoGroupByPk(id: String!): PromoGroup
-
-  """
-  fetch data from the table in a streaming manner: "promo_group"
-  """
-  promoGroupStream(
-    """maximum number of rows returned in a single batch"""
-    batchSize: Int!
-
-    """cursor to stream the results returned by the query"""
-    cursor: [PromoGroupStreamCursorInput]!
-
-    """filter the rows returned"""
-    where: PromoGroupBoolExp
-  ): [PromoGroup!]!
-
-  """
   fetch data from the table in a streaming manner: "promo"
   """
   promoStream(
@@ -2240,6 +3887,45 @@ type subscription_root {
     """filter the rows returned"""
     where: PromoTransactionsBoolExp
   ): [PromoTransactions!]!
+
+  """
+  fetch data from the table: "purchase_receipt"
+  """
+  purchaseReceipt(
+    """distinct select on columns"""
+    distinctOn: [PurchaseReceiptSelectColumn!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    orderBy: [PurchaseReceiptOrderBy!]
+
+    """filter the rows returned"""
+    where: PurchaseReceiptBoolExp
+  ): [PurchaseReceipt!]!
+
+  """
+  fetch data from the table: "purchase_receipt" using primary key columns
+  """
+  purchaseReceiptByPk(id: String!): PurchaseReceipt
+
+  """
+  fetch data from the table in a streaming manner: "purchase_receipt"
+  """
+  purchaseReceiptStream(
+    """maximum number of rows returned in a single batch"""
+    batchSize: Int!
+
+    """cursor to stream the results returned by the query"""
+    cursor: [PurchaseReceiptStreamCursorInput]!
+
+    """filter the rows returned"""
+    where: PurchaseReceiptBoolExp
+  ): [PurchaseReceipt!]!
 
   """
   fetch data from the table: "sign_memo"

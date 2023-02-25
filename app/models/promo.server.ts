@@ -1,5 +1,6 @@
 import { request } from "graphql-request";
 import { graphql } from "~/graphql/gql";
+import { API_DATA } from "~/models/urls";
 
 export interface IPromoItem {
   id: string;
@@ -44,20 +45,7 @@ export interface IPromoMetadataJson {
   };
 }
 
-function get_endpoint() {
-  let endpoint: string;
-
-  if (process.env.NODE_ENV === "production" || true) {
-    endpoint = process.env.GRAPHQL_API_DEVNET || "";
-  } else {
-    endpoint = process.env.GRAPHQL_API_LOCALNET || "";
-  }
-  return endpoint;
-}
-
 export async function getPromoItem(id: string) {
-  const endpoint = get_endpoint();
-
   const query = graphql(`
     query PromoQueryDocument($id: String!) {
       promoByPk(id: $id) {
@@ -70,12 +58,10 @@ export async function getPromoItem(id: string) {
   `);
 
   const variables = { id };
-  return await request(endpoint, query, variables);
+  return await request(API_DATA!, query, variables);
 }
 
 export async function getPromoItems() {
-  const endpoint = get_endpoint();
-
   const query = graphql(`
     query PromoListQueryDocument {
       promo(
@@ -83,7 +69,7 @@ export async function getPromoItems() {
         where: { createdAt: { _gte: "2023-01-21T03:37" } }
       ) {
         id
-        owner
+        campaign
         maxMint
         maxBurn
         mintCount
@@ -104,7 +90,7 @@ export async function getPromoItems() {
     }
   `);
 
-  let data: IPromoItem[] = (await request(endpoint, query)).promo.map(
+  let data: IPromoItem[] = (await request(API_DATA!, query)).promo.map(
     (item) => {
       const promoType = item.metadataObject?.metadataJson.attributes.filter(
         (attribute: IPromoAttribute) => attribute.trait_type == "promoType"

@@ -5,6 +5,7 @@ import type { LoaderArgs } from "@remix-run/node";
 import QRCodeModal from "~/components/QRCodeModal";
 import { safeRedirect } from "~/utils";
 import type { QRCodeModalProps } from "~/components/QRCodeModal";
+import { API_TX } from "~/models/urls";
 
 export const getMintPromoDataUrl = async (
   promoName: string,
@@ -13,7 +14,7 @@ export const getMintPromoDataUrl = async (
 ): Promise<string> => {
   const message = `Approve to receive ${promoName}`;
   const memo = JSON.stringify({ source });
-  let text = `solana:${`https://tx.api.bokoup.dev/promo/mint/${mintId}/${message}/${memo}`}`;
+  let text = `solana:${`${API_TX}/promo/mint/${mintId}/${message}/${memo}`}`;
   return await QRCode.toDataURL(text);
 };
 

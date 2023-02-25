@@ -1,5 +1,4 @@
-import { type imageSpec } from "~/utils";
-import { getProxyImgSrc } from "~/utils/imgx";
+import { getProxyImgSrc, type imageSpec } from "~/utils/imgx";
 import { type IPromoItem } from "~/models/promo.server";
 import { LinkIcon, QrCodeIcon } from "@heroicons/react/20/solid";
 import { Link, useLocation } from "@remix-run/react";

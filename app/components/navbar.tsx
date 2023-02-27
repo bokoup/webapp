@@ -1,5 +1,6 @@
 import { Link, useLocation } from "@remix-run/react";
 import { safeRedirect } from "~/utils";
+import LogoutMenu from "./LogoutMenu";
 
 export interface NavItem {
   label: string;
@@ -15,7 +16,13 @@ export const navItems: NavItem[] = [
   { label: "FAQ", pathname: "/FAQ" },
 ];
 
-export default function NavBar({ userId }: { userId: string | undefined }) {
+export default function NavBar({
+  userId,
+  merchantId,
+}: {
+  userId: string | undefined;
+  merchantId: string | undefined;
+}) {
   const location = useLocation();
   const searchParams = new URLSearchParams([
     ["redirectTo", safeRedirect(location.pathname)],
@@ -56,12 +63,7 @@ export default function NavBar({ userId }: { userId: string | undefined }) {
               Log In
             </Link>
           ) : (
-            <Link
-              to={`/logout`}
-              className="m-auto rounded-full bg-bokoupBlue2-400 py-2 px-6 text-center font-semibold hover:brightness-90"
-            >
-              Log Out
-            </Link>
+            <LogoutMenu userId={userId} merchantId={merchantId} />
           )}
         </div>
       </div>

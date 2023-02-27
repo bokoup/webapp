@@ -24,7 +24,7 @@ export default function Merchant({ merchant }: MerchantProps) {
   return (
     <div className="flex w-64 flex-shrink-0 flex-col items-start gap-2 rounded-md border shadow-sm shadow-slate-300">
       <div className="flex w-full items-center justify-between border-b px-2 pt-1">
-        <h3 className="rounde self-start font-semibold">{merchant.name}</h3>
+        <h3 className="self-start rounded font-semibold">{merchant.name}</h3>
         <a
           href={`https://explorer.solana.com/address/${merchant.id}?cluster=devnet`}
           title="View on Explorer"

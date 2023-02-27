@@ -5,8 +5,9 @@ import { API_DATA } from "~/models/urls";
 
 export interface SignMemoItem {
   signature: string;
-  signer: string;
+  userId: string;
   visitId: string;
+  merchantId: string | null;
 }
 
 export async function getSignMemo(
@@ -20,6 +21,9 @@ export async function getSignMemo(
         visitId: memo(path: "visitId")
         signer
         signature
+        merchantObject {
+          id
+        }
       }
     }
   `);
@@ -35,8 +39,9 @@ export async function getSignMemo(
   ).signMemo.map((item) => {
     return {
       signature: item.signature,
-      signer: item.signer,
+      userId: item.signer,
       visitId: item.visitId,
+      merchantId: item.merchantObject?.id,
     } as SignMemoItem;
   });
 

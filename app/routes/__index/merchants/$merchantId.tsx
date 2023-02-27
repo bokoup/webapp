@@ -20,17 +20,21 @@ const merchantImageSpec: imageSpec = {
 export const loader = async ({
   request,
   params,
-}: LoaderArgs): Promise<TypedResponse<MerchantProps | Record<string, any>>> => {
-  const userId = await getUserId(request);
-  const merchantId = params.merchantId;
-  if (!merchantId) {
+}: LoaderArgs): Promise<
+  TypedResponse<
+    { merchant: MerchantProps; merchantId: string } | Record<string, any>
+  >
+> => {
+  const { merchantId } = await getUserId(request);
+  const merchantIdParam = params.merchantId;
+  if (!merchantIdParam) {
     return json({
       errorMsg: "merchantId not in params",
     });
   } else {
-    const merchant = await getMerchantItem(merchantId);
+    const merchant = await getMerchantItem(merchantIdParam);
     if (merchant) {
-      return json({ merchant });
+      return json({ merchant, merchantId });
     } else {
       return json({
         errorMsg: "Something went wrong with getting merchant.",
@@ -40,7 +44,7 @@ export const loader = async ({
 };
 
 export default function MerchantPage() {
-  const { merchant } = useLoaderData<typeof loader>();
+  const { merchant, merchantId } = useLoaderData<typeof loader>();
   const src = getProxyImgSrc(merchant.metadataJson!.image!, merchantImageSpec);
 
   return (
@@ -80,6 +84,7 @@ export default function MerchantPage() {
         <h3 className="mt-8 font-heading text-lg font-medium lg:text-2xl">
           Campaigns
         </h3>
+        <p>{merchantId}</p>
       </div>
     </>
   );

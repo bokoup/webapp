@@ -7,9 +7,9 @@ import { getUserId } from "~/session.server";
 
 export async function loader({ request }: LoaderArgs) {
   const merchantList = await getMerchantList();
-  const { userId } = await getUserId(request);
+  const { userId, merchantId } = await getUserId(request);
 
-  return { userId, merchantList };
+  return { userId, merchantId, merchantList };
 }
 
 export default function Merchants() {
@@ -30,7 +30,7 @@ export default function Merchants() {
               !data.userId ? "Log in to enable" : "create a new merchant"
             }`}
             className={`${
-              !data.userId
+              !data.userId || data.merchantId
                 ? "disabled-link pointer-events-none bg-slate-200"
                 : ""
             } m-2 flex flex-shrink items-center rounded-full bg-bokoupGreen2-400 py-5 px-5 text-center text-sm font-semibold shadow hover:brightness-90`}

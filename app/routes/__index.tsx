@@ -7,8 +7,8 @@ import { json } from "@remix-run/server-runtime";
 import Loading from "~/components/loading";
 
 export async function loader({ request }: LoaderArgs) {
-  const { userId } = await getUserId(request);
-  return json({ userId });
+  const { userId, merchantId } = await getUserId(request);
+  return json({ userId, merchantId });
 }
 
 export default function Nav() {
@@ -16,7 +16,7 @@ export default function Nav() {
   return (
     <div className="flex h-screen flex-col justify-between">
       <Loading />
-      <NavBar userId={data.userId} />
+      <NavBar userId={data.userId} merchantId={data.merchantId} />
       <Outlet />
       <Footer />
     </div>

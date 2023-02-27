@@ -59,7 +59,7 @@ export async function getUser(request: Request) {
   if (userId === undefined) return null;
 
   const signMemo = await getSignMemo(visitId);
-  if (signMemo) return signMemo.signer;
+  if (signMemo) return signMemo.userId;
 
   throw await logout(request);
 }
@@ -71,7 +71,6 @@ export async function requireUserId(
   const { userId, visitId, merchantId } = await getUserId(request);
   if (!userId) {
     const searchParams = new URLSearchParams([["redirectTo", redirectTo]]);
-    console.log("session.server.ts 71");
     throw redirect(`/login?${searchParams}`);
   }
   return { userId, visitId, merchantId };
@@ -89,16 +88,21 @@ export async function requireUser(request: Request) {
 export async function createUserSession({
   request,
   userId,
+  merchantId,
   remember,
   redirectTo,
 }: {
   request: Request;
   userId: string;
+  merchantId: string | null;
   remember: boolean;
   redirectTo: string;
 }) {
   const session = await getSession(request);
   session.set(USER_SESSION_KEY, userId);
+  if (merchantId) {
+    session.set(MERCHANT_SESSION_KEY, merchantId);
+  }
   return redirect(redirectTo, {
     headers: {
       "Set-Cookie": await sessionStorage.commitSession(session, {

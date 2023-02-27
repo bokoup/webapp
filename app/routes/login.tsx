@@ -71,11 +71,15 @@ export const loader = async ({
 export async function action({ request }: ActionArgs) {
   const data = await request.formData();
   const userId = data.get("userId")?.toString();
+  const merchantVal = data.get("merchantId")?.toString();
   const redirectTo = safeRedirect(data.get("redirectTo")?.toString(), "/");
+  const merchantId = !merchantVal || merchantVal == "" ? null : merchantVal;
+  console.log("action", userId);
   if (userId && userId != "" && redirectTo) {
     return createUserSession({
       request,
       userId,
+      merchantId,
       remember: false,
       redirectTo,
     });
@@ -89,7 +93,10 @@ export default function QrCodeLogin() {
   const redirectTo = safeRedirect(searchParams.get("redirectTo") || "/");
 
   const data = useLoaderData<typeof loader>();
-  const userId = useEventSource(`/sse/signmemo`);
+  const signMemoItem = useEventSource(`/sse/signmemo`);
+  const { userId, merchantId } = signMemoItem
+    ? JSON.parse(signMemoItem)
+    : { userId: "", merchantId: "" };
   const formRef = useRef<HTMLFormElement>(null);
   const submit = useSubmit();
 
@@ -109,6 +116,11 @@ export default function QrCodeLogin() {
       />
       <Form ref={formRef} method="post">
         <input type="hidden" name="userId" value={userId ? userId : ""} />
+        <input
+          type="hidden"
+          name="merchantId"
+          value={merchantId ? merchantId : ""}
+        />
         <input type="hidden" name="redirectTo" value={redirectTo} />
       </Form>
     </>

@@ -708,6 +708,54 @@ type Device {
 }
 
 """
+aggregated selection of "device"
+"""
+type DeviceAggregate {
+  aggregate: DeviceAggregateFields
+  nodes: [Device!]!
+}
+
+"""
+aggregate fields of "device"
+"""
+type DeviceAggregateFields {
+  avg: DeviceAvgFields
+  count(columns: [DeviceSelectColumn!], distinct: Boolean): Int!
+  max: DeviceMaxFields
+  min: DeviceMinFields
+  stddev: DeviceStddevFields
+  stddevPop: DeviceStddev_popFields
+  stddevSamp: DeviceStddev_sampFields
+  sum: DeviceSumFields
+  varPop: DeviceVar_popFields
+  varSamp: DeviceVar_sampFields
+  variance: DeviceVarianceFields
+}
+
+"""
+order by aggregate values of table "device"
+"""
+input DeviceAggregateOrderBy {
+  avg: device_avg_order_by
+  count: OrderBy
+  max: device_max_order_by
+  min: device_min_order_by
+  stddev: device_stddev_order_by
+  stddev_pop: device_stddev_pop_order_by
+  stddev_samp: device_stddev_samp_order_by
+  sum: device_sum_order_by
+  var_pop: device_var_pop_order_by
+  var_samp: device_var_samp_order_by
+  variance: device_variance_order_by
+}
+
+"""aggregate avg on columns"""
+type DeviceAvgFields {
+  slot: Float
+  writeVersion: Float
+}
+
+"""
 Boolean expression to filter rows from the table "device". All fields are combined with a logical 'AND'.
 """
 input DeviceBoolExp {
@@ -726,6 +774,32 @@ input DeviceBoolExp {
   slot: BigintComparisonExp
   uri: StringComparisonExp
   writeVersion: BigintComparisonExp
+}
+
+"""aggregate max on columns"""
+type DeviceMaxFields {
+  createdAt: timestamptz
+  id: String
+  location: String
+  modifiedAt: timestamptz
+  name: String
+  owner: String
+  slot: bigint
+  uri: String
+  writeVersion: bigint
+}
+
+"""aggregate min on columns"""
+type DeviceMinFields {
+  createdAt: timestamptz
+  id: String
+  location: String
+  modifiedAt: timestamptz
+  name: String
+  owner: String
+  slot: bigint
+  uri: String
+  writeVersion: bigint
 }
 
 """Ordering options when selecting data from "device"."""
@@ -782,6 +856,24 @@ enum DeviceSelectColumn {
   writeVersion
 }
 
+"""aggregate stddev on columns"""
+type DeviceStddevFields {
+  slot: Float
+  writeVersion: Float
+}
+
+"""aggregate stddev_pop on columns"""
+type DeviceStddev_popFields {
+  slot: Float
+  writeVersion: Float
+}
+
+"""aggregate stddev_samp on columns"""
+type DeviceStddev_sampFields {
+  slot: Float
+  writeVersion: Float
+}
+
 """
 Streaming cursor of the table "device"
 """
@@ -806,6 +898,30 @@ input DeviceStreamCursorValueInput {
   slot: bigint
   uri: String
   writeVersion: bigint
+}
+
+"""aggregate sum on columns"""
+type DeviceSumFields {
+  slot: bigint
+  writeVersion: bigint
+}
+
+"""aggregate var_pop on columns"""
+type DeviceVar_popFields {
+  slot: Float
+  writeVersion: Float
+}
+
+"""aggregate var_samp on columns"""
+type DeviceVar_sampFields {
+  slot: Float
+  writeVersion: Float
+}
+
+"""aggregate variance on columns"""
+type DeviceVarianceFields {
+  slot: Float
+  writeVersion: Float
 }
 
 """
@@ -1129,6 +1245,42 @@ columns and relationships of "location"
 type Location {
   active: Boolean!
   createdAt: timestamptz!
+
+  """An array relationship"""
+  devices(
+    """distinct select on columns"""
+    distinctOn: [DeviceSelectColumn!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    orderBy: [DeviceOrderBy!]
+
+    """filter the rows returned"""
+    where: DeviceBoolExp
+  ): [Device!]!
+
+  """An aggregate relationship"""
+  devicesAggregate(
+    """distinct select on columns"""
+    distinctOn: [DeviceSelectColumn!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    orderBy: [DeviceOrderBy!]
+
+    """filter the rows returned"""
+    where: DeviceBoolExp
+  ): DeviceAggregate!
   id: String!
   merchant: String!
 
@@ -1171,6 +1323,8 @@ input LocationBoolExp {
   _or: [LocationBoolExp!]
   active: BooleanComparisonExp
   createdAt: TimestamptzComparisonExp
+  devices: DeviceBoolExp
+  devices_aggregate: device_aggregate_bool_exp
   id: StringComparisonExp
   merchant: StringComparisonExp
   merchantObject: MerchantBoolExp
@@ -1186,6 +1340,7 @@ input LocationBoolExp {
 input LocationOrderBy {
   active: OrderBy
   createdAt: OrderBy
+  devicesAggregate: DeviceAggregateOrderBy
   id: OrderBy
   merchant: OrderBy
   merchantObject: MerchantOrderBy
@@ -2753,6 +2908,143 @@ input campaign_variance_order_by {
   writeVersion: OrderBy
 }
 
+input device_aggregate_bool_exp {
+  bool_and: device_aggregate_bool_exp_bool_and
+  bool_or: device_aggregate_bool_exp_bool_or
+  count: device_aggregate_bool_exp_count
+}
+
+input device_aggregate_bool_exp_bool_and {
+  arguments: device_select_column_device_aggregate_bool_exp_bool_and_arguments_columns!
+  distinct: Boolean
+  filter: DeviceBoolExp
+  predicate: BooleanComparisonExp!
+}
+
+input device_aggregate_bool_exp_bool_or {
+  arguments: device_select_column_device_aggregate_bool_exp_bool_or_arguments_columns!
+  distinct: Boolean
+  filter: DeviceBoolExp
+  predicate: BooleanComparisonExp!
+}
+
+input device_aggregate_bool_exp_count {
+  arguments: [DeviceSelectColumn!]
+  distinct: Boolean
+  filter: DeviceBoolExp
+  predicate: IntComparisonExp!
+}
+
+"""
+order by avg() on columns of table "device"
+"""
+input device_avg_order_by {
+  slot: OrderBy
+  writeVersion: OrderBy
+}
+
+"""
+order by max() on columns of table "device"
+"""
+input device_max_order_by {
+  createdAt: OrderBy
+  id: OrderBy
+  location: OrderBy
+  modifiedAt: OrderBy
+  name: OrderBy
+  owner: OrderBy
+  slot: OrderBy
+  uri: OrderBy
+  writeVersion: OrderBy
+}
+
+"""
+order by min() on columns of table "device"
+"""
+input device_min_order_by {
+  createdAt: OrderBy
+  id: OrderBy
+  location: OrderBy
+  modifiedAt: OrderBy
+  name: OrderBy
+  owner: OrderBy
+  slot: OrderBy
+  uri: OrderBy
+  writeVersion: OrderBy
+}
+
+"""
+select "device_aggregate_bool_exp_bool_and_arguments_columns" columns of table "device"
+"""
+enum device_select_column_device_aggregate_bool_exp_bool_and_arguments_columns {
+  """column name"""
+  active
+}
+
+"""
+select "device_aggregate_bool_exp_bool_or_arguments_columns" columns of table "device"
+"""
+enum device_select_column_device_aggregate_bool_exp_bool_or_arguments_columns {
+  """column name"""
+  active
+}
+
+"""
+order by stddev() on columns of table "device"
+"""
+input device_stddev_order_by {
+  slot: OrderBy
+  writeVersion: OrderBy
+}
+
+"""
+order by stddev_pop() on columns of table "device"
+"""
+input device_stddev_pop_order_by {
+  slot: OrderBy
+  writeVersion: OrderBy
+}
+
+"""
+order by stddev_samp() on columns of table "device"
+"""
+input device_stddev_samp_order_by {
+  slot: OrderBy
+  writeVersion: OrderBy
+}
+
+"""
+order by sum() on columns of table "device"
+"""
+input device_sum_order_by {
+  slot: OrderBy
+  writeVersion: OrderBy
+}
+
+"""
+order by var_pop() on columns of table "device"
+"""
+input device_var_pop_order_by {
+  slot: OrderBy
+  writeVersion: OrderBy
+}
+
+"""
+order by var_samp() on columns of table "device"
+"""
+input device_var_samp_order_by {
+  slot: OrderBy
+  writeVersion: OrderBy
+}
+
+"""
+order by variance() on columns of table "device"
+"""
+input device_variance_order_by {
+  slot: OrderBy
+  writeVersion: OrderBy
+}
+
 scalar jsonb
 
 """
@@ -3095,6 +3387,26 @@ type query_root {
     """filter the rows returned"""
     where: DeviceBoolExp
   ): [Device!]!
+
+  """
+  fetch aggregated fields from the table: "device"
+  """
+  deviceAggregate(
+    """distinct select on columns"""
+    distinctOn: [DeviceSelectColumn!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    orderBy: [DeviceOrderBy!]
+
+    """filter the rows returned"""
+    where: DeviceBoolExp
+  ): DeviceAggregate!
 
   """fetch data from the table: "device" using primary key columns"""
   deviceByPk(id: String!): Device
@@ -3546,6 +3858,26 @@ type subscription_root {
     """filter the rows returned"""
     where: DeviceBoolExp
   ): [Device!]!
+
+  """
+  fetch aggregated fields from the table: "device"
+  """
+  deviceAggregate(
+    """distinct select on columns"""
+    distinctOn: [DeviceSelectColumn!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    orderBy: [DeviceOrderBy!]
+
+    """filter the rows returned"""
+    where: DeviceBoolExp
+  ): DeviceAggregate!
 
   """fetch data from the table: "device" using primary key columns"""
   deviceByPk(id: String!): Device

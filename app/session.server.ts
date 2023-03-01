@@ -76,6 +76,14 @@ export async function requireUserId(
   return { userId, visitId, merchantId };
 }
 
+export async function requireMerchantId(request: Request): Promise<User> {
+  const { userId, visitId, merchantId } = await getUserId(request);
+  if (!merchantId) {
+    throw redirect("/merchants");
+  }
+  return { userId, visitId, merchantId };
+}
+
 export async function requireUser(request: Request) {
   const { visitId } = await requireUserId(request);
 

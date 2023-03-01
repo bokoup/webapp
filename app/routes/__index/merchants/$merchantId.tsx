@@ -1,10 +1,11 @@
-import { json, type TypedResponse } from "@remix-run/node";
+import { json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import type { LoaderArgs } from "@remix-run/node";
 import { getUserId } from "~/session.server";
-import { type MerchantProps } from "~/components/merchant";
 import { getMerchantItem } from "~/models/merchant.server";
 import { getProxyImgSrc, imageSpec } from "~/utils/imgx";
+import Locations from "~/components/Locations";
+import Devices from "~/components/Devices";
 
 const merchantImageSpec: imageSpec = {
   width: 256,
@@ -17,18 +18,11 @@ const merchantImageSpec: imageSpec = {
   ],
 };
 
-export const loader = async ({
-  request,
-  params,
-}: LoaderArgs): Promise<
-  TypedResponse<
-    { merchant: MerchantProps; merchantId: string } | Record<string, any>
-  >
-> => {
+export const loader = async ({ request, params }: LoaderArgs) => {
   const { merchantId } = await getUserId(request);
   const merchantIdParam = params.merchantId;
   if (!merchantIdParam) {
-    return json({
+    throw json({
       errorMsg: "merchantId not in params",
     });
   } else {
@@ -36,7 +30,7 @@ export const loader = async ({
     if (merchant) {
       return json({ merchant, merchantId });
     } else {
-      return json({
+      throw json({
         errorMsg: "Something went wrong with getting merchant.",
       });
     }
@@ -78,9 +72,12 @@ export default function MerchantPage() {
           </div>
         </div>
         <div className="flex flex-wrap gap-4 pt-4"></div>
-        <h3 className="font-heading text-lg font-medium lg:text-2xl">
-          Locations
-        </h3>
+        <Locations locations={merchant.locations} />
+        <Devices
+          devices={merchant.locations.flatMap((location) => {
+            return location.devices;
+          })}
+        />
         <h3 className="mt-8 font-heading text-lg font-medium lg:text-2xl">
           Campaigns
         </h3>

@@ -1,7 +1,7 @@
 import { PlusIcon } from "@heroicons/react/24/solid";
 import { Link, useLoaderData } from "@remix-run/react";
 import type { LoaderArgs } from "@remix-run/server-runtime";
-import Merchant from "~/components/merchant";
+import Merchant from "~/components/Merchant";
 import { getMerchantList } from "~/models/merchant.server";
 import { getUserId } from "~/session.server";
 
@@ -14,6 +14,7 @@ export async function loader({ request }: LoaderArgs) {
 
 export default function Merchants() {
   const data = useLoaderData<typeof loader>();
+  console.log("data", data.merchantId);
 
   return (
     <>
@@ -32,8 +33,8 @@ export default function Merchants() {
             className={`${
               !data.userId || data.merchantId
                 ? "disabled-link pointer-events-none bg-slate-200"
-                : ""
-            } m-2 flex flex-shrink items-center rounded-full bg-bokoupGreen2-400 py-5 px-5 text-center text-sm font-semibold shadow hover:brightness-90`}
+                : "bg-bokoupGreen2-400 hover:brightness-90"
+            } m-2 flex flex-shrink items-center rounded-full py-5 px-5 text-center text-sm font-semibold shadow`}
           >
             <PlusIcon className="h-4 w-4" aria-hidden="true" />
           </Link>

@@ -1,10 +1,10 @@
 import type { LoaderArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
+import { TransactionResponse } from "~/components/form";
 import {
   getStoredTransaction,
   deleteStoredTransaction,
 } from "~/models/savedtx.server";
-import type { TransactionResponse } from "./__index/promos.create";
 
 export async function loader({ params }: LoaderArgs) {
   const id = params.id;

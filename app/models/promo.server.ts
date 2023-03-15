@@ -64,10 +64,7 @@ export async function getPromoItem(id: string) {
 export async function getPromoItems() {
   const query = graphql(`
     query PromoListQueryDocument {
-      promo(
-        orderBy: { createdAt: DESC }
-        where: { createdAt: { _gte: "2023-01-21T03:37" } }
-      ) {
+      promo(orderBy: { createdAt: DESC }) {
         id
         campaign
         maxMint

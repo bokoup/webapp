@@ -30,7 +30,6 @@ export const getSignMemoDataUrl = async (visitId: string): Promise<string> => {
   let text = `solana:${`${API_TX}/signmemo/${encodeURIComponent(
     message
   )}/${encodeURIComponent(memo)}`}`;
-  console.log("getSignMemoDataUrl", text);
   return QRCode.toDataURL(text);
 };
 
@@ -39,6 +38,7 @@ interface SignMemoData {
   title: string;
   description: string;
 }
+
 export const loader = async ({
   request,
 }: LoaderArgs): Promise<TypedResponse<SignMemoData>> => {
@@ -63,9 +63,9 @@ export const loader = async ({
 
   const title = `Scan to sign in.`;
   const description = `Scan with your phone to approve sign in transaction.`;
-  const mintPromoData: SignMemoData = { dataUrl, title, description };
+  const signMemoData: SignMemoData = { dataUrl, title, description };
 
-  return json(mintPromoData);
+  return json(signMemoData);
 };
 
 export async function action({ request }: ActionArgs) {

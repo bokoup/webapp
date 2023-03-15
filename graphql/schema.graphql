@@ -388,6 +388,10 @@ type Campaign {
     path: String
   ): jsonb!
   merchant: String!
+  metadataJson(
+    """JSON select path"""
+    path: String
+  ): jsonb
   modifiedAt: timestamptz!
   name: String!
 
@@ -442,6 +446,7 @@ input CampaignBoolExp {
   id: StringComparisonExp
   locations: JsonbComparisonExp
   merchant: StringComparisonExp
+  metadataJson: JsonbComparisonExp
   modifiedAt: TimestamptzComparisonExp
   name: StringComparisonExp
   promos: PromoBoolExp
@@ -457,6 +462,7 @@ input CampaignOrderBy {
   id: OrderBy
   locations: OrderBy
   merchant: OrderBy
+  metadataJson: OrderBy
   modifiedAt: OrderBy
   name: OrderBy
   promosAggregate: PromoAggregateOrderBy
@@ -483,6 +489,9 @@ enum CampaignSelectColumn {
 
   """column name"""
   merchant
+
+  """column name"""
+  metadataJson
 
   """column name"""
   modifiedAt
@@ -518,6 +527,7 @@ input CampaignStreamCursorValueInput {
   id: String
   locations: jsonb
   merchant: String
+  metadataJson: jsonb
   modifiedAt: timestamptz
   name: String
   slot: bigint

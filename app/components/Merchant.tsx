@@ -19,7 +19,7 @@ export interface MerchantProps {
 }
 
 export default function Merchant({ merchant }: MerchantProps) {
-  const src = getProxyImgSrc(merchant.metadataJson!.image!, merchantImageSpec);
+  let src = getProxyImgSrc(merchant.metadataJson!.image!, merchantImageSpec);
 
   return (
     <div className="flex w-64 flex-shrink-0 flex-col items-start gap-2 rounded-md border shadow-sm shadow-slate-300">

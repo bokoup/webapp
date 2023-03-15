@@ -1,43 +1,49 @@
-import { Form, useActionData, useSubmit } from "@remix-run/react";
+import { Form, useActionData, useLoaderData } from "@remix-run/react";
 import { type ActionArgs, fetch, json, redirect } from "@remix-run/node";
 import { createMemoryUploadHandler } from "@remix-run/server-runtime/dist/upload/memoryUploadHandler";
 import { parseMultipartFormData } from "@remix-run/server-runtime/dist/formData";
-import type { LoaderArgs } from "@remix-run/node";
-import type { ILocationMetadataJson } from "~/models/merchant.server";
+import {
+  getMerchantItem,
+  ICampaignMetadataJson,
+} from "~/models/merchant.server";
 import { FormData } from "@remix-run/node";
-import { requireUserId } from "~/session.server";
+import { requireMerchantId } from "~/session.server";
 import { createStoredTransaction } from "~/models/savedtx.server";
 import { safeRedirect } from "~/utils";
 import { API_TX } from "~/models/urls";
 import {
   descriptionFormField,
   FormFieldProps,
-  imageFormField,
   TransactionResponse,
 } from "~/components/form";
 import FormField from "~/components/form/FormField";
-import ImageFormField from "~/components/form/ImageFormField";
 import TextAreaFormField from "~/components/form/TextAreaFormField";
 import ActiveFormField from "~/components/form/ActiveFormField";
+import { Fragment, useState } from "react";
+import { Listbox, Transition } from "@headlessui/react";
+import { ChevronUpDownIcon, CheckIcon } from "@heroicons/react/24/solid";
 
-function MetadataJsonAdapter(formData: FormData): ILocationMetadataJson {
-  const metadataJson: ILocationMetadataJson = {
-    name: formData.get("locationName")!.toString(),
+function MetadataJsonAdapter(formData: FormData): ICampaignMetadataJson {
+  const metadataJson: ICampaignMetadataJson = {
+    name: formData.get("campaignName")!.toString(),
     description: formData.get("description")!.toString(),
-    address: formData.get("address")!.toString(),
     active: formData.get("active")!.toString() == "on",
   };
 
   return metadataJson;
 }
 
-export const loader = async ({ request }: LoaderArgs) => {
-  await requireUserId(request);
-  return json({});
+export const loader = async ({ request }: ActionArgs) => {
+  const { merchantId } = await requireMerchantId(request);
+  const merchantItem = await getMerchantItem(merchantId!);
+  const locations = merchantItem.locations.sort((locationA, locationB) =>
+    locationA.name.localeCompare(locationB.name)
+  );
+  return json({ locations });
 };
 
 export const action = async ({ request }: ActionArgs) => {
-  const { userId, merchantId } = await requireUserId(request);
+  const { userId, merchantId } = await requireMerchantId(request);
 
   // just doing this as memory for now - may be better to write to disk or upload directly to arweave
   const uploadHandler = createMemoryUploadHandler();
@@ -48,23 +54,17 @@ export const action = async ({ request }: ActionArgs) => {
 
   const formData = await parseMultipartFormData(request, uploadHandler);
   const metadataJson = MetadataJsonAdapter(formData);
-  const image = formData.get("image") as File;
+  const lamports = formData.get("lamports")?.toString();
+  const locations = formData.get("locations")?.toString();
   const memo = formData.get("memo") ? formData.get("memo")?.toString() : null;
 
   const txForm = new FormData();
 
   txForm.append("metadata", JSON.stringify(metadataJson));
-  txForm.append("image", image);
-
-  if (!image) {
-    return json({
-      errorMsg: "Something went wrong while uploading",
-    });
-  }
 
   const url = memo
-    ? `${API_TX}/location/create/${userId}/${memo}`
-    : `${API_TX}/location/create/${userId}`;
+    ? `${API_TX}/campaign/create/${userId}/${lamports}/${memo}`
+    : `${API_TX}/campaign/create/${userId}/${lamports}/${memo}`;
 
   const res = await fetch(url, { method: "post", body: txForm });
 
@@ -78,20 +78,20 @@ export const action = async ({ request }: ActionArgs) => {
 
     if (txId) {
       const searchParams = new URLSearchParams([
-        ["locationName", metadataJson.name],
+        ["campaignName", metadataJson.name],
         ["redirectTo", safeRedirect(`/merchants/${merchantId}`)],
       ]);
-      const url = `/locations/create/${txId.id}?${searchParams}`;
+      const url = `/campaigns/create/${txId.id}?${searchParams}`;
       return redirect(url);
     } else {
-      return json({
+      throw json({
         errorMsg: "Something went wrong saving the transaction",
         error: JSON.stringify(txId),
       });
     }
   }
 
-  return json({
+  throw json({
     errorMsg: "Something went wrong on the transaction server",
     error: await res.text(),
   });
@@ -99,36 +99,48 @@ export const action = async ({ request }: ActionArgs) => {
 
 const formFields: FormFieldProps[] = [
   {
-    id: "locationName",
-    label: "Location Name",
-    inputType: "text",
-  },
-  {
-    id: "address",
-    label: "Address",
+    id: "campaignName",
+    label: "Campaign Name",
     inputType: "text",
   },
   { id: "memo", label: "Memo", inputType: "text" },
 ];
 
-export default function CreateLocation() {
+export default function CreateCampaign() {
+  const loaderData = useLoaderData<typeof loader>();
+  const [locations, setSelectedLocation] = useState(loaderData!.locations![0]);
+
+  function handleOnChange(value: string) {
+    const location = loaderData.locations.filter(
+      (location) => location.name == value
+    )[0];
+    setSelectedLocation(location);
+  }
   const data = useActionData();
+  console.log(data);
 
   return (
     <>
       <div className="container mx-auto mb-auto p-2 lg:py-4">
         <h2 className="mb-10 font-heading text-2xl font-medium lg:text-3xl">
-          Create New Location
+          Create New Campaign
         </h2>
         <Form method="post" encType="multipart/form-data" className="pt-8">
           <div className="gap-4 md:flex">
-            <ImageFormField {...imageFormField} />
             <div className="w-full max-w-md">
-              {formFields.slice(0, 2).map((props) => (
+              <select id="chkveg" multiple>
+                <option value="cheese">Cheese</option>
+                <option value="tomatoes">Tomatoes</option>
+                <option value="mozarella">Mozzarella</option>
+                <option value="mushrooms">Mushrooms</option>
+                <option value="pepperoni">Pepperoni</option>
+                <option value="onions">Onions</option>
+              </select>
+              {formFields.slice(0, 1).map((props) => (
                 <FormField key={props.id} {...props} />
               ))}
               <TextAreaFormField {...descriptionFormField} />
-              {formFields.slice(2).map((props) => (
+              {formFields.slice(1).map((props) => (
                 <FormField key={props.id} {...props} />
               ))}
               <ActiveFormField />

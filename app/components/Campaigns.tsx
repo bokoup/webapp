@@ -1,27 +1,26 @@
 import { PlusIcon } from "@heroicons/react/24/solid";
 import { Link } from "@remix-run/react";
-import { IDeviceItem } from "~/models/merchant.server";
+import { ICampaignItem } from "~/models/merchant.server";
 
-export default function Devices({
-  devices,
+export default function Campaigns({
+  campaigns,
   locationsExist,
 }: {
-  devices: IDeviceItem[];
+  campaigns: ICampaignItem[];
   locationsExist: boolean;
 }) {
-  console.log("fu", locationsExist);
   return (
     <div className=" mt-4 rounded-md border p-2 shadow-sm">
       <div className="justify-between sm:flex sm:items-center">
         <h3 className="font-heading text-lg font-medium lg:text-2xl">
-          Devices
+          Campaigns
         </h3>
         <Link
-          to={`/devices/create`}
+          to={`/campaigns/create`}
           title={`${
             locationsExist
-              ? "Location must exist to create device"
-              : "Create new device"
+              ? "Location must exist to create campaign"
+              : "Create new campaign"
           }`}
           className={`${
             !locationsExist
@@ -33,9 +32,13 @@ export default function Devices({
         </Link>
       </div>
       <div className="justify-between sm:flex sm:items-center">
-        <p>Devices have a unique name and are assigned to a single location.</p>
+        <p>
+          Campaigns have a unique name and include one or more locations. Promos
+          can be redeemed by any device assigned to any location included in a
+          campaign.
+        </p>
       </div>
-      {devices.length > 0 ? (
+      {campaigns.length > 0 ? (
         <div className="mt-8 flow-root">
           <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
@@ -58,7 +61,7 @@ export default function Devices({
                       scope="col"
                       className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
                     >
-                      Location
+                      Location Count
                     </th>
                     <th
                       scope="col"
@@ -69,30 +72,28 @@ export default function Devices({
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-200 bg-white">
-                  {devices.map((device) => (
-                    <tr key={device.name}>
+                  {campaigns.map((campaign) => (
+                    <tr key={campaign.name}>
                       <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm sm:pl-0">
                         <div className="flex items-center">
                           <div className="ml-4">
                             <div className="font-medium text-gray-900">
-                              {device.name}
+                              {campaign.name}
                             </div>
                           </div>
                         </div>
                       </td>
                       <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                         <div className="text-gray-900">
-                          {device.metadataJson.description}
+                          {campaign.metadataJson.description}
                         </div>
                       </td>
                       <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                        <div className="text-gray-900">
-                          {device.locationName}
-                        </div>
+                        <div className="text-gray-900">{0}</div>
                       </td>
                       <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                         <span className="inline-flex rounded-full bg-green-100 px-2 text-xs font-semibold leading-5 text-green-800">
-                          {device.active ? "Active" : "Inactive"}
+                          {campaign.active ? "Active" : "Inactive"}
                         </span>
                       </td>
                     </tr>

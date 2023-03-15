@@ -40,9 +40,9 @@ export interface imageSpec {
   height: number | null;
 }
 
-export const imageSizes = `
-  calc(100vw - 48px)
-  `;
+// export const imageSizes = `
+//   calc(100vw - 48px)
+//   `;
 
 // export const defaultImageSpecs: imageSpec[] = [
 //   { width: 480, height: null, aspectRatio: '5:4', fit: "clip" },

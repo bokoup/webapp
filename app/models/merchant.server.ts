@@ -5,6 +5,7 @@ import {
   MerchantItemQueryDocumentQuery,
   MerchantListQueryDocumentQuery,
 } from "~/graphql/graphql";
+import { User } from "~/session.server";
 
 export interface IMerchantItem {
   id: string;
@@ -13,6 +14,7 @@ export interface IMerchantItem {
   active: boolean;
   metadataJson: IMerchantMetadataJson;
   locations: ILocationItem[];
+  campaigns: ICampaignItem[];
 }
 
 export interface ILocationItem {
@@ -33,6 +35,15 @@ export interface IDeviceItem {
   name: string;
   active: boolean;
   metadataJson: ILocationMetadataJson;
+}
+
+export interface ICampaignItem {
+  id: string;
+  merchant: string;
+  name: string;
+  locations: string[];
+  active: boolean;
+  metadataJson: ICampaignMetadataJson;
 }
 
 export interface IAttribute {
@@ -70,6 +81,13 @@ export interface IDeviceMetadataJson {
   attributes?: IAttribute[];
 }
 
+export interface ICampaignMetadataJson {
+  name: string;
+  description: string;
+  active: boolean;
+  attributes?: IAttribute[];
+}
+
 function merchantItemAdapter(
   data: MerchantItemQueryDocumentQuery["merchantByPk"]
 ): IMerchantItem {
@@ -98,6 +116,16 @@ function merchantItemAdapter(
             metadataJson: device.metadataJson,
           };
         }),
+      };
+    }),
+    campaigns: data!.campaigns.map((campaign) => {
+      return {
+        id: campaign.id,
+        merchant: campaign.merchant,
+        name: campaign.name,
+        locations: campaign.locations,
+        active: campaign.active,
+        metadataJson: campaign.metadataJson,
       };
     }),
   };
@@ -132,6 +160,16 @@ function merchantListAdapter(
               metadataJson: device.metadataJson,
             };
           }),
+        };
+      }),
+      campaigns: m.campaigns.map((campaign) => {
+        return {
+          id: campaign.id,
+          merchant: campaign.merchant,
+          name: campaign.name,
+          locations: campaign.locations,
+          active: campaign.active,
+          metadataJson: campaign.metadataJson,
         };
       }),
     };
@@ -170,7 +208,11 @@ export async function getMerchantItem(id: string): Promise<IMerchantItem> {
         }
         campaigns {
           id
+          merchant
           name
+          locations
+          active
+          metadataJson
         }
       }
     }
@@ -213,7 +255,11 @@ export async function getMerchantList(): Promise<IMerchantItem[]> {
         }
         campaigns {
           id
+          merchant
           name
+          locations
+          active
+          metadataJson
         }
       }
     }
@@ -222,4 +268,53 @@ export async function getMerchantList(): Promise<IMerchantItem[]> {
   return await request(API_DATA!, query).then((data) =>
     merchantListAdapter(data.merchant)
   );
+}
+
+export async function getMerchantId(
+  userId: User["userId"]
+): Promise<string | null> {
+  if (!userId) return null;
+
+  const query = graphql(`
+    query MerchantIdQueryDocument($owner: String!) {
+      merchant(where: { owner: { _eq: $owner } }) {
+        id
+      }
+    }
+  `);
+
+  const variables = { owner: userId };
+  const data = (await request(API_DATA!, query, variables)).merchant.map(
+    (item) => {
+      return item.id;
+    }
+  );
+
+  return data ? data[0] : null;
+}
+
+export async function getLocationId(
+  merchant: User["merchantId"],
+  name: string
+): Promise<string | null> {
+  if (!merchant) return null;
+
+  const query = graphql(`
+    query LocationIdQueryDocument($merchant: String!, $name: String!) {
+      location(
+        where: { _and: { merchant: { _eq: $merchant } }, name: { _eq: $name } }
+      ) {
+        id
+      }
+    }
+  `);
+
+  const variables = { merchant, name };
+  const data = (await request(API_DATA!, query, variables)).location.map(
+    (item) => {
+      return item.id;
+    }
+  );
+
+  return data ? data[0] : null;
 }

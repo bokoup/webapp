@@ -6,6 +6,7 @@ import { getMerchantItem } from "~/models/merchant.server";
 import { getProxyImgSrc, imageSpec } from "~/utils/imgx";
 import Locations from "~/components/Locations";
 import Devices from "~/components/Devices";
+import Campaigns from "~/components/Campaigns";
 
 const merchantImageSpec: imageSpec = {
   width: 256,
@@ -40,6 +41,13 @@ export const loader = async ({ request, params }: LoaderArgs) => {
 export default function MerchantPage() {
   const { merchant, merchantId } = useLoaderData<typeof loader>();
   const src = getProxyImgSrc(merchant.metadataJson!.image!, merchantImageSpec);
+  const merchantLoggedIn = merchant.id == merchantId;
+  const locationsExist =
+    merchant.locations != null &&
+    merchant.locations != undefined &&
+    merchant.locations.length > 0;
+
+  console.log(locationsExist);
 
   return (
     <>
@@ -71,17 +79,25 @@ export default function MerchantPage() {
             </div>
           </div>
         </div>
-        <div className="flex flex-wrap gap-4 pt-4"></div>
-        <Locations locations={merchant.locations} />
-        <Devices
-          devices={merchant.locations.flatMap((location) => {
-            return location.devices;
-          })}
+        <div className="flex flex-col"></div>
+        <Locations
+          locations={merchant.locations}
+          merchantLoggedIn={merchantLoggedIn}
         />
-        <h3 className="mt-8 font-heading text-lg font-medium lg:text-2xl">
-          Campaigns
-        </h3>
-        <p>{merchantId}</p>
+        {merchantLoggedIn ? (
+          <>
+            <Devices
+              devices={merchant.locations.flatMap((location) => {
+                return location.devices;
+              })}
+              locationsExist={locationsExist}
+            />
+            <Campaigns
+              campaigns={merchant.campaigns}
+              locationsExist={locationsExist}
+            />
+          </>
+        ) : null}
       </div>
     </>
   );

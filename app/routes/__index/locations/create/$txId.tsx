@@ -1,12 +1,19 @@
-import { json, type TypedResponse } from "@remix-run/node";
+import {
+  ActionArgs,
+  json,
+  redirect,
+  type TypedResponse,
+} from "@remix-run/node";
 import QRCode from "qrcode";
-import { useLoaderData } from "@remix-run/react";
+import { Form, useLoaderData, useSubmit } from "@remix-run/react";
 import type { LoaderArgs } from "@remix-run/node";
 import QRCodeModal from "~/components/QRCodeModal";
 import { safeRedirect } from "~/utils";
-import { requireUserId } from "~/session.server";
+import { requireMerchantId } from "~/session.server";
 import type { QRCodeModalProps } from "~/components/QRCodeModal";
 import { APP_URL } from "~/models/urls";
+import { useEventSource } from "remix-utils";
+import { useEffect, useRef } from "react";
 
 export const getCreateMerchantDataUrl = async (
   txId: string
@@ -15,39 +22,69 @@ export const getCreateMerchantDataUrl = async (
   return await QRCode.toDataURL(text);
 };
 
-export const loader = async ({
-  request,
-  params,
-}: LoaderArgs): Promise<
-  TypedResponse<QRCodeModalProps | Record<string, any>>
-> => {
-  await requireUserId(request);
+export const loader = async ({ request, params }: LoaderArgs) => {
+  await requireMerchantId(request);
   const txId = params.txId;
 
   if (!txId) {
-    return json({ error: "Saved transaction id not found" });
+    throw json({ error: "Saved transaction id not found" });
   }
 
   const url = new URL(request.url);
   const locationName = url.searchParams.get("locationName");
+  if (!locationName) {
+    throw json({ error: "locationName not provided as search parameter" }, 400);
+  }
+
   const redirectTo = safeRedirect(url.searchParams.get("redirectTo") || "/");
 
   const dataUrl = await getCreateMerchantDataUrl(txId);
   const title = `Scan to create ${locationName}.`;
   const description = `Scan with your phone to approve the creation of ${locationName}.`;
 
-  return json({ dataUrl, title, description, redirectTo } as QRCodeModalProps);
+  return json({
+    props: { dataUrl, title, description, redirectTo },
+    locationName,
+  });
 };
+
+export async function action({ request }: ActionArgs) {
+  const { merchantId } = await requireMerchantId(request);
+  const data = await request.formData();
+  const locationId = data.get("locationId")?.toString();
+
+  if (locationId != "") {
+    return redirect(`/merchants/${merchantId}`);
+  }
+
+  return null;
+}
 
 export default function QrCodeSavedTransactionPromo() {
   const data = useLoaderData<typeof loader>();
+  const searchParams = new URLSearchParams([
+    ["locationName", data.locationName!],
+  ]);
+  const locationId = useEventSource(`/sse/location?${searchParams}`);
+  const formRef = useRef<HTMLFormElement>(null);
+  const submit = useSubmit();
+
+  useEffect(() => {
+    if (locationId) {
+      submit(formRef.current, { replace: true });
+    }
+  }, [locationId, submit]);
 
   return (
-    <QRCodeModal
-      dataUrl={data.dataUrl}
-      title={data.title}
-      description={data.description}
-      redirectTo={data.redirectTo}
-    />
+    <>
+      <QRCodeModal {...data.props} />{" "}
+      <Form ref={formRef} method="post">
+        <input
+          type="hidden"
+          name="locationId"
+          value={locationId ? locationId : ""}
+        />
+      </Form>
+    </>
   );
 }

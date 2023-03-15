@@ -1,6 +1,6 @@
 import { Form, useActionData } from "@remix-run/react";
 import { type ActionArgs, fetch, json, redirect } from "@remix-run/node";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { Switch } from "@headlessui/react";
 import { createMemoryUploadHandler } from "@remix-run/server-runtime/dist/upload/memoryUploadHandler";
 import { parseMultipartFormData } from "@remix-run/server-runtime/dist/formData";
@@ -9,7 +9,6 @@ import type { IMerchantMetadataJson } from "~/models/merchant.server";
 import { FormData } from "@remix-run/node";
 import { requireUserId } from "~/session.server";
 import { createStoredTransaction } from "~/models/savedtx.server";
-import { safeRedirect } from "~/utils";
 import { API_TX } from "~/models/urls";
 import {
   TransactionResponse,
@@ -80,7 +79,6 @@ export const action = async ({ request }: ActionArgs) => {
     if (txId) {
       const searchParams = new URLSearchParams([
         ["merchantName", metadataJson.name],
-        ["redirectTo", safeRedirect("/merchants")],
       ]);
       const url = `/merchants/create/${txId.id}?${searchParams}`;
       return redirect(url);
@@ -152,24 +150,6 @@ export default function CreateMerchant() {
         <h2 className="mb-10 font-heading text-2xl font-medium lg:text-3xl">
           Create New Merchant
         </h2>
-        <p>Creating a merchant account is a three part process.</p>
-        <ol>
-          <li className="list-inside list-decimal pl-2">
-            First we create a merchant.
-          </li>
-          <li className="list-inside list-decimal pl-2">
-            Next we add locations.
-          </li>
-          <li className="list-inside list-decimal pl-2">
-            And finally we add devices to locations.
-          </li>
-        </ol>
-        <p className="pt-4">
-          Once we have devices added to locations we can create a campaign that
-          includes one or more loctions. Promos get assigned to a campaign so
-          that they can be redeemed by all devices associated with a campaign's
-          locations.
-        </p>
         <Form method="post" encType="multipart/form-data" className="pt-8">
           <div className="gap-4 md:flex">
             <ImageFormField {...imageFormField} />

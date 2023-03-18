@@ -21,6 +21,6 @@ export async function loader({ request }: LoaderArgs) {
       description,
     } as QRCodeData);
   } catch (error: any) {
-    return json({ error: error.message });
+    throw json({ error: error.message });
   }
 }

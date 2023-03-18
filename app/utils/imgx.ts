@@ -74,3 +74,10 @@ export function imgixSrcSet(path: string, imageSpecs: imageSpec[]): string {
     })
     .join(", ");
 }
+
+export async function purgeImgix(url: string) {
+  await fetch("/purge", {
+    method: "POST",
+    body: JSON.stringify({ url }),
+  });
+}

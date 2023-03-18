@@ -7,9 +7,7 @@ export async function action({ request }: ActionArgs) {
   const data = await request.formData();
   const myData = data.get("mydata")?.toString();
   const redirectTo = safeRedirect(data.get("redirectTo")?.toString(), "/");
-  console.log(myData);
   await sleep(1000);
-  console.log(redirectTo);
   if (false) {
     return redirect(redirectTo);
   }

@@ -29,12 +29,12 @@ export const loader = async ({
   }
 
   const url = new URL(request.url);
-  const deviceName = url.searchParams.get("deviceName");
+  const campaignName = url.searchParams.get("campaignName");
   const redirectTo = safeRedirect(url.searchParams.get("redirectTo") || "/");
 
   const dataUrl = await getCreateMerchantDataUrl(txId);
-  const title = `Scan to create ${deviceName}.`;
-  const description = `Scan with your phone to approve the creation of ${deviceName}.`;
+  const title = `Scan to create ${campaignName}.`;
+  const description = `Scan with your phone to approve the creation of ${campaignName}.`;
 
   return json({ dataUrl, title, description, redirectTo } as QRCodeModalProps);
 };

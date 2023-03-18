@@ -3,7 +3,7 @@ import { useLoaderData } from "@remix-run/react";
 import type { LoaderArgs } from "@remix-run/node";
 import { getUserId } from "~/session.server";
 import { getMerchantItem } from "~/models/merchant.server";
-import { getProxyImgSrc, imageSpec } from "~/utils/imgx";
+import { getProxyImgSrc, imageSpec, purgeImgix } from "~/utils/imgx";
 import Locations from "~/components/Locations";
 import Devices from "~/components/Devices";
 import Campaigns from "~/components/Campaigns";
@@ -47,8 +47,6 @@ export default function MerchantPage() {
     merchant.locations != undefined &&
     merchant.locations.length > 0;
 
-  console.log(locationsExist);
-
   return (
     <>
       <div className="container mx-auto mb-auto p-2 lg:py-4">
@@ -60,6 +58,7 @@ export default function MerchantPage() {
             src={src}
             className="w-58 h-60 rounded-md border"
             alt={merchant.name}
+            onError={() => purgeImgix(src)}
           />
           <div>
             <div>

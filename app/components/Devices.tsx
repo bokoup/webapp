@@ -9,7 +9,6 @@ export default function Devices({
   devices: IDeviceItem[];
   locationsExist: boolean;
 }) {
-  console.log("fu", locationsExist);
   return (
     <div className=" mt-4 rounded-md border p-2 shadow-sm">
       <div className="justify-between sm:flex sm:items-center">

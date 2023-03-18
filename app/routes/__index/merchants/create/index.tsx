@@ -142,7 +142,6 @@ function FormField({ ...props }: FormFieldProps) {
 export default function CreateMerchant() {
   const [active, setActive] = useState(true);
   const data = useActionData();
-  console.log(data);
 
   return (
     <>

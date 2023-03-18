@@ -75,7 +75,8 @@ export const action = async ({ request }: ActionArgs) => {
 
     if (txId) {
       const searchParams = new URLSearchParams([
-        ["deviceName", metadataJson.name],
+        ["name", metadataJson.name],
+        ["location", locationId!],
         ["redirectTo", safeRedirect(`/merchants/${merchantId}`)],
       ]);
       const url = `/devices/create/${txId.id}?${searchParams}`;
@@ -120,8 +121,6 @@ export default function CreateDevice() {
     )[0];
     setSelectedLocation(location);
   }
-  const data = useActionData();
-  console.log(data);
 
   return (
     <>

@@ -1,6 +1,7 @@
 import { PlusIcon } from "@heroicons/react/24/solid";
 import { Link } from "@remix-run/react";
 import { ILocationItem } from "~/models/merchant.server";
+import { purgeImgix } from "~/utils/imgx";
 
 export default function Locations({
   locations,
@@ -81,6 +82,11 @@ export default function Locations({
                               className="h-12 w-12 rounded-md"
                               src={location.metadataJson.image}
                               alt=""
+                              onError={() => {
+                                if (location.metadataJson.image) {
+                                  purgeImgix(location.metadataJson.image);
+                                }
+                              }}
                             />
                           </div>
                           <div className="ml-4">

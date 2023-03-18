@@ -14,7 +14,6 @@ export async function loader({ request }: LoaderArgs) {
 
 export default function Merchants() {
   const data = useLoaderData<typeof loader>();
-  console.log("data", data.merchantId);
 
   return (
     <>

@@ -74,7 +74,7 @@ export async function action({ request }: ActionArgs) {
   const merchantVal = data.get("merchantId")?.toString();
   const redirectTo = safeRedirect(data.get("redirectTo")?.toString(), "/");
   const merchantId = !merchantVal || merchantVal == "" ? null : merchantVal;
-  console.log("action", userId);
+
   if (userId && userId != "" && redirectTo) {
     return createUserSession({
       request,

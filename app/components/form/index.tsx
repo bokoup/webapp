@@ -15,6 +15,7 @@ export interface FormFieldProps {
   max?: number;
   minLength?: number;
   maxLength?: number;
+  required?: boolean;
 }
 
 export const imageFormField: FormFieldProps = {

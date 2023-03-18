@@ -1,5 +1,5 @@
-import { getProxyImgSrc, type imageSpec } from "~/utils/imgx";
-import { LinkIcon, QrCodeIcon } from "@heroicons/react/20/solid";
+import { getProxyImgSrc, purgeImgix, type imageSpec } from "~/utils/imgx";
+import { LinkIcon } from "@heroicons/react/20/solid";
 import { Link } from "@remix-run/react";
 import { IMerchantItem } from "~/models/merchant.server";
 
@@ -40,6 +40,7 @@ export default function Merchant({ merchant }: MerchantProps) {
           src={src}
           className="w-58 mx-auto h-60 rounded-md border"
           alt={merchant.name}
+          onError={() => purgeImgix(src)}
         />
       </Link>
       <p className="mx-2 text-sm">{merchant.metadataJson.description}</p>

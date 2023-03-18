@@ -24,6 +24,7 @@ export default function FormField({ ...props }: FormFieldProps) {
         aria-errormessage={"error"}
         min={props.min}
         max={props.max}
+        required={props.required}
       />
     </div>
   );

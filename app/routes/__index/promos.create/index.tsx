@@ -90,7 +90,6 @@ export const action = async ({ request }: ActionArgs) => {
   txForm.append("image", image);
 
   if (!image) {
-    console.log("ding");
     return json({
       errorMsg: "Something went wrong while uploading",
     });

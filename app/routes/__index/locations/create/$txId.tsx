@@ -53,7 +53,7 @@ export async function action({ request }: ActionArgs) {
   const data = await request.formData();
   const locationId = data.get("locationId")?.toString();
 
-  if (locationId != "") {
+  if (locationId && locationId != "") {
     return redirect(`/merchants/${merchantId}`);
   }
 

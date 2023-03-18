@@ -297,7 +297,7 @@ export async function getLocationId(
   merchant: User["merchantId"],
   name: string
 ): Promise<string | null> {
-  if (!merchant) return null;
+  if (!merchant || !name) return null;
 
   const query = graphql(`
     query LocationIdQueryDocument($merchant: String!, $name: String!) {
@@ -311,6 +311,32 @@ export async function getLocationId(
 
   const variables = { merchant, name };
   const data = (await request(API_DATA!, query, variables)).location.map(
+    (item) => {
+      return item.id;
+    }
+  );
+
+  return data ? data[0] : null;
+}
+
+export async function getDeviceId(
+  location: string,
+  name: string
+): Promise<string | null> {
+  if (!location || !name) return null;
+
+  const query = graphql(`
+    query DeviceIdQueryDocument($location: String!, $name: String!) {
+      device(
+        where: { _and: { location: { _eq: $location } }, name: { _eq: $name } }
+      ) {
+        id
+      }
+    }
+  `);
+
+  const variables = { location, name };
+  const data = (await request(API_DATA!, query, variables)).device.map(
     (item) => {
       return item.id;
     }

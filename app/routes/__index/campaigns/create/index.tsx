@@ -5,6 +5,7 @@ import { parseMultipartFormData } from "@remix-run/server-runtime/dist/formData"
 import {
   getMerchantItem,
   ICampaignMetadataJson,
+  ILocationItem,
 } from "~/models/merchant.server";
 import { FormData } from "@remix-run/node";
 import { requireMerchantId } from "~/session.server";
@@ -19,9 +20,7 @@ import {
 import FormField from "~/components/form/FormField";
 import TextAreaFormField from "~/components/form/TextAreaFormField";
 import ActiveFormField from "~/components/form/ActiveFormField";
-import { Fragment, useState } from "react";
-import { Listbox, Transition } from "@headlessui/react";
-import { ChevronUpDownIcon, CheckIcon } from "@heroicons/react/24/solid";
+import LocationSwitches from "~/components/form/LocationsSwitches";
 
 function MetadataJsonAdapter(formData: FormData): ICampaignMetadataJson {
   const metadataJson: ICampaignMetadataJson = {
@@ -56,15 +55,13 @@ export const action = async ({ request }: ActionArgs) => {
   const metadataJson = MetadataJsonAdapter(formData);
   const lamports = formData.get("lamports")?.toString();
   const locations = formData.get("locations")?.toString();
-  const memo = formData.get("memo") ? formData.get("memo")?.toString() : null;
+  const memo = formData.get("memo")?.toString();
 
   const txForm = new FormData();
 
   txForm.append("metadata", JSON.stringify(metadataJson));
 
-  const url = memo
-    ? `${API_TX}/campaign/create/${userId}/${lamports}/${memo}`
-    : `${API_TX}/campaign/create/${userId}/${lamports}/${memo}`;
+  const url = `${API_TX}/campaign/create/${userId}/${lamports}/${memo}/${locations}`;
 
   const res = await fetch(url, { method: "post", body: txForm });
 
@@ -102,22 +99,14 @@ const formFields: FormFieldProps[] = [
     id: "campaignName",
     label: "Campaign Name",
     inputType: "text",
+    required: true,
   },
-  { id: "memo", label: "Memo", inputType: "text" },
+  { id: "lamports", label: "Lamports", inputType: "number", required: true },
+  { id: "memo", label: "Memo", inputType: "text", required: true },
 ];
 
 export default function CreateCampaign() {
-  const loaderData = useLoaderData<typeof loader>();
-  const [locations, setSelectedLocation] = useState(loaderData!.locations![0]);
-
-  function handleOnChange(value: string) {
-    const location = loaderData.locations.filter(
-      (location) => location.name == value
-    )[0];
-    setSelectedLocation(location);
-  }
-  const data = useActionData();
-  console.log(data);
+  const data = useLoaderData<typeof loader>();
 
   return (
     <>
@@ -128,18 +117,11 @@ export default function CreateCampaign() {
         <Form method="post" encType="multipart/form-data" className="pt-8">
           <div className="gap-4 md:flex">
             <div className="w-full max-w-md">
-              <select id="chkveg" multiple>
-                <option value="cheese">Cheese</option>
-                <option value="tomatoes">Tomatoes</option>
-                <option value="mozarella">Mozzarella</option>
-                <option value="mushrooms">Mushrooms</option>
-                <option value="pepperoni">Pepperoni</option>
-                <option value="onions">Onions</option>
-              </select>
               {formFields.slice(0, 1).map((props) => (
                 <FormField key={props.id} {...props} />
               ))}
               <TextAreaFormField {...descriptionFormField} />
+              <LocationSwitches locations={data.locations} />
               {formFields.slice(1).map((props) => (
                 <FormField key={props.id} {...props} />
               ))}

@@ -14,7 +14,6 @@ interface LogoutMenuProps {
 }
 
 export default function LogoutMenu(props: LogoutMenuProps) {
-  console.log(JSON.stringify(props));
   return (
     <Menu as="div" className="relative my-auto inline-block bg-white text-left">
       <Menu.Button className="pt-1">

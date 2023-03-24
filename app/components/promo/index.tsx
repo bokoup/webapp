@@ -24,6 +24,8 @@ export default function Promo({ promo }: PromoProps) {
   const location = useLocation();
   const searchParams = new URLSearchParams([
     ["promoName", promo.name],
+    ["mintId", promo.mintId],
+    ["campaignId", promo.campaignId],
     ["redirectTo", location.pathname],
   ]);
 
@@ -32,7 +34,7 @@ export default function Promo({ promo }: PromoProps) {
       <div className="flex w-full items-center justify-between border-b px-2 pt-1">
         <h3 className="rounde self-start font-semibold">{promo.name}</h3>
         <a
-          href={`https://explorer.solana.com/address/${promo.mintId}?cluster=devnet`}
+          href={`https://explorer.solana.com/address/${promo.mintId}?cluster=custom&customUrl=http%3A%2F%2Flocalhost%3A8899`}
           title="View on Explorer"
           target="_blank"
           rel="noopener noreferrer"
@@ -63,7 +65,7 @@ export default function Promo({ promo }: PromoProps) {
         </div>
       </div>
       <Link
-        to={`/promos/${promo.mintId}/mint?${searchParams}`}
+        to={`/promos/mint?${searchParams}`}
         className={`${
           promo.mintCount == promo.maxMint
             ? "disabled-link pointer-events-none bg-slate-200"

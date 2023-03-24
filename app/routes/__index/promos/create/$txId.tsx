@@ -9,9 +9,7 @@ import { APP_URL } from "~/models/constants";
 import { useEventSource } from "remix-utils";
 import { useEffect, useRef } from "react";
 
-export const getCreateMerchantDataUrl = async (
-  txId: string
-): Promise<string> => {
+export const getCreatePromoDataUrl = async (txId: string): Promise<string> => {
   let text = `solana:${`${APP_URL}/tx/${txId}`}`;
   return await QRCode.toDataURL(text);
 };
@@ -25,29 +23,27 @@ export const loader = async ({ request, params }: LoaderArgs) => {
   }
 
   const url = new URL(request.url);
-  const locationName = url.searchParams.get("locationName");
-  if (!locationName) {
-    throw json({ error: "locationName not provided as search parameter" }, 400);
-  }
-
+  const promoName = url.searchParams.get("promoName");
+  const campaignId = url.searchParams.get("campaignId");
   const redirectTo = safeRedirect(url.searchParams.get("redirectTo") || "/");
 
-  const dataUrl = await getCreateMerchantDataUrl(txId);
-  const title = `Scan to create ${locationName}.`;
-  const description = `Scan with your phone to approve the creation of ${locationName}.`;
+  const dataUrl = await getCreatePromoDataUrl(txId);
+  const title = `Scan to create ${promoName}.`;
+  const description = `Scan with your phone to approve the creation of ${promoName}.`;
 
   return json({
     props: { dataUrl, title, description, redirectTo },
-    locationName,
+    promoName,
+    campaignId,
   });
 };
 
 export async function action({ request }: ActionArgs) {
   const { merchantId } = await requireMerchantId(request);
   const data = await request.formData();
-  const locationId = data.get("locationId")?.toString();
+  const promoId = data.get("promoId")?.toString();
 
-  if (locationId && locationId != "") {
+  if (promoId && promoId != "") {
     return redirect(`/merchants/${merchantId}`);
   }
 
@@ -57,27 +53,24 @@ export async function action({ request }: ActionArgs) {
 export default function QrCodeSavedTransactionPromo() {
   const data = useLoaderData<typeof loader>();
   const searchParams = new URLSearchParams([
-    ["locationName", data.locationName!],
+    ["promoName", data.promoName!],
+    ["campaignId", data.campaignId!],
   ]);
-  const locationId = useEventSource(`/sse/location?${searchParams}`);
+  const promoId = useEventSource(`/sse/promo?${searchParams}`);
   const formRef = useRef<HTMLFormElement>(null);
   const submit = useSubmit();
 
   useEffect(() => {
-    if (locationId) {
+    if (promoId) {
       submit(formRef.current, { replace: true });
     }
-  }, [locationId, submit]);
+  }, [promoId, submit]);
 
   return (
     <>
-      <QRCodeModal {...data.props} />{" "}
+      <QRCodeModal {...data.props} />
       <Form ref={formRef} method="post">
-        <input
-          type="hidden"
-          name="locationId"
-          value={locationId ? locationId : ""}
-        />
+        <input type="hidden" name="promoId" value={promoId ? promoId : ""} />
       </Form>
     </>
   );

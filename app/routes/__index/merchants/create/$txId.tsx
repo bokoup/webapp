@@ -16,7 +16,7 @@ import QRCodeModal from "~/components/QRCodeModal";
 import { safeRedirect } from "~/utils";
 import { createUserSession, getUserId, requireUserId } from "~/session.server";
 import type { QRCodeModalProps } from "~/components/QRCodeModal";
-import { APP_URL } from "~/models/urls";
+import { APP_URL } from "~/models/constants";
 import { useEventSource } from "remix-utils";
 import { useEffect, useRef } from "react";
 

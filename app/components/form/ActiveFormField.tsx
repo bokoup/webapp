@@ -1,10 +1,10 @@
 import { Switch } from "@headlessui/react";
 import { useState } from "react";
 
-export default function SwitchFormField() {
+export default function ActiveFormField() {
   const [active, setActive] = useState(true);
   return (
-    <>
+    <div className="mb-4">
       <label
         className="mb-2 block text-sm font-bold text-gray-700"
         htmlFor="active"
@@ -26,6 +26,6 @@ export default function SwitchFormField() {
           } inline-block h-4 w-4 transform rounded-full bg-white transition`}
         />
       </Switch>
-    </>
+    </div>
   );
 }

@@ -1,17 +1,16 @@
-import { Form, useActionData, useLoaderData } from "@remix-run/react";
+import { Form, useLoaderData } from "@remix-run/react";
 import { type ActionArgs, fetch, json, redirect } from "@remix-run/node";
 import { createMemoryUploadHandler } from "@remix-run/server-runtime/dist/upload/memoryUploadHandler";
 import { parseMultipartFormData } from "@remix-run/server-runtime/dist/formData";
 import {
   getMerchantItem,
   ICampaignMetadataJson,
-  ILocationItem,
 } from "~/models/merchant.server";
 import { FormData } from "@remix-run/node";
 import { requireMerchantId } from "~/session.server";
 import { createStoredTransaction } from "~/models/savedtx.server";
 import { safeRedirect } from "~/utils";
-import { API_TX } from "~/models/urls";
+import { API_TX } from "~/models/constants";
 import {
   descriptionFormField,
   FormFieldProps,

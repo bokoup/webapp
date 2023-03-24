@@ -1,7 +1,5 @@
 import { Form, useActionData } from "@remix-run/react";
 import { type ActionArgs, fetch, json, redirect } from "@remix-run/node";
-import { useState } from "react";
-import { Switch } from "@headlessui/react";
 import { createMemoryUploadHandler } from "@remix-run/server-runtime/dist/upload/memoryUploadHandler";
 import { parseMultipartFormData } from "@remix-run/server-runtime/dist/formData";
 import type { LoaderArgs } from "@remix-run/node";
@@ -9,7 +7,7 @@ import type { IMerchantMetadataJson } from "~/models/merchant.server";
 import { FormData } from "@remix-run/node";
 import { requireUserId } from "~/session.server";
 import { createStoredTransaction } from "~/models/savedtx.server";
-import { API_TX } from "~/models/urls";
+import { API_TX } from "~/models/constants";
 import {
   TransactionResponse,
   FormFieldProps,
@@ -18,6 +16,7 @@ import {
 } from "~/components/form";
 import ImageFormField from "~/components/form/ImageFormField";
 import TextAreaFormField from "~/components/form/TextAreaFormField";
+import ActiveFormField from "~/components/form/ActiveFormField";
 
 function MetadataJsonAdapter(formData: FormData): IMerchantMetadataJson {
   const metadataJson: IMerchantMetadataJson = {
@@ -140,7 +139,6 @@ function FormField({ ...props }: FormFieldProps) {
 }
 
 export default function CreateMerchant() {
-  const [active, setActive] = useState(true);
   const data = useActionData();
 
   return (
@@ -161,27 +159,7 @@ export default function CreateMerchant() {
               {formFields.slice(2).map((props) => (
                 <FormField key={props.id} {...props} />
               ))}
-              <label
-                className="mb-2 block text-sm font-bold text-gray-700"
-                htmlFor="active"
-              >
-                {active ? "Active" : "Inactive"}
-              </label>
-              <Switch
-                name="active"
-                checked={active}
-                onChange={setActive}
-                className={`${
-                  active ? "bg-bokoupGreen2-400" : "bg-gray-200"
-                } relative inline-flex h-6 w-11 items-center rounded-full`}
-              >
-                <span className="sr-only">Set merchant active</span>
-                <span
-                  className={`${
-                    active ? "translate-x-6" : "translate-x-1"
-                  } inline-block h-4 w-4 transform rounded-full bg-white transition`}
-                />
-              </Switch>
+              <ActiveFormField />
               <div className="flex items-center justify-between pt-4">
                 <button
                   className="focus:shadow-outline rounded-full bg-bokoupGreen2-400 py-2 px-4 font-semibold hover:brightness-90 focus:outline-none"

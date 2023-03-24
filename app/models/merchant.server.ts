@@ -1,11 +1,12 @@
 import { request } from "graphql-request";
 import { graphql } from "~/graphql/gql";
-import { API_DATA } from "~/models/urls";
+import { API_DATA } from "~/models/constants";
 import {
   MerchantItemQueryDocumentQuery,
   MerchantListQueryDocumentQuery,
 } from "~/graphql/graphql";
 import { User } from "~/session.server";
+import { IPromoItem, promoAdapter } from "./promo.server";
 
 export interface IMerchantItem {
   id: string;
@@ -44,6 +45,7 @@ export interface ICampaignItem {
   locations: string[];
   active: boolean;
   metadataJson: ICampaignMetadataJson;
+  promos?: IPromoItem[];
 }
 
 export interface IAttribute {
@@ -126,6 +128,9 @@ function merchantItemAdapter(
         locations: campaign.locations,
         active: campaign.active,
         metadataJson: campaign.metadataJson,
+        promos: campaign.promos.map((promo) => {
+          return promoAdapter(promo);
+        }),
       };
     }),
   };
@@ -206,12 +211,33 @@ export async function getMerchantItem(id: string): Promise<IMerchantItem> {
             active
           }
         }
-        campaigns {
+        campaigns(orderBy: { createdAt: ASC }) {
           id
           merchant
           name
           locations
           active
+          promos(orderBy: { createdAt: DESC }) {
+            id
+            campaign
+            maxMint
+            maxBurn
+            mintCount
+            burnCount
+            active
+            createdAt
+            metadataObject {
+              id
+              name
+              symbol
+              uri
+              metadataJson
+            }
+            mintObject {
+              id
+              supply
+            }
+          }
           metadataJson
         }
       }
@@ -249,8 +275,8 @@ export async function getMerchantList(): Promise<IMerchantItem[]> {
             owner
             location
             name
-            metadataJson
             active
+            metadataJson
           }
         }
         campaigns {
@@ -337,6 +363,61 @@ export async function getDeviceId(
 
   const variables = { location, name };
   const data = (await request(API_DATA!, query, variables)).device.map(
+    (item) => {
+      return item.id;
+    }
+  );
+
+  return data ? data[0] : null;
+}
+
+export async function getDeviceIdByOwner(
+  locations: string[],
+  owner: string
+): Promise<string | null> {
+  if (!locations || !owner) return null;
+
+  const query = graphql(`
+    query DeviceIdByOwnerQueryDocument($locations: [String!], $owner: String!) {
+      device(
+        where: {
+          _and: { location: { _in: $locations } }
+          owner: { _eq: $owner }
+        }
+      ) {
+        id
+      }
+    }
+  `);
+
+  const variables = { locations, owner };
+  const data = (await request(API_DATA!, query, variables)).device.map(
+    (item) => {
+      return item.id;
+    }
+  );
+
+  return data ? data[0] : null;
+}
+
+export async function getCampaignId(
+  merchant: User["merchantId"],
+  name: string
+): Promise<string | null> {
+  if (!merchant || !name) return null;
+
+  const query = graphql(`
+    query CampaignIdQueryDocument($merchant: String!, $name: String!) {
+      campaign(
+        where: { _and: { merchant: { _eq: $merchant } }, name: { _eq: $name } }
+      ) {
+        id
+      }
+    }
+  `);
+
+  const variables = { merchant, name };
+  const data = (await request(API_DATA!, query, variables)).campaign.map(
     (item) => {
       return item.id;
     }

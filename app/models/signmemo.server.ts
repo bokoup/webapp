@@ -1,7 +1,7 @@
 import { request } from "graphql-request";
 import { graphql } from "~/graphql/gql";
 import { type User } from "~/session.server";
-import { API_DATA } from "~/models/urls";
+import { API_DATA } from "~/models/constants";
 
 export interface SignMemoItem {
   signature: string;

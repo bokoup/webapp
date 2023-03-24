@@ -13,13 +13,28 @@ interface LogoutMenuProps {
   merchantId: string | undefined;
 }
 
+// Opens menu button on hover
+function handleMouseEnter(target: EventTarget) {
+  if (target instanceof HTMLElement) {
+    target.click();
+  }
+}
+
 export default function LogoutMenu(props: LogoutMenuProps) {
   return (
-    <Menu as="div" className="relative my-auto inline-block bg-white text-left">
-      <Menu.Button className="pt-1">
+    <Menu
+      as="div"
+      className="relative my-auto inline-block bg-white text-left focus:outline-none"
+    >
+      <Menu.Button
+        className="pt-1"
+        onMouseEnter={(
+          target: React.MouseEvent<HTMLButtonElement, MouseEvent>
+        ) => target.currentTarget.click()}
+      >
         <UserCircleIcon className="h-8 w-8 text-bokoupBlue-500" />
       </Menu.Button>
-      <Menu.Items className=" absolute right-0 z-50 w-44 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+      <Menu.Items className="absolute right-0 z-50 w-44 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
         <Menu.Item
           as="div"
           className="w-full rounded-b-md p-1 ui-active:bg-bokoupBlue-100 ui-not-active:bg-white"

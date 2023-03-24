@@ -21,7 +21,7 @@ import {
 import { useEventSource } from "remix-utils";
 import { useEffect, useRef } from "react";
 import { safeRedirect } from "~/utils";
-import { API_TX } from "~/models/urls";
+import { API_TX } from "~/models/constants";
 
 export const getSignMemoDataUrl = async (visitId: string): Promise<string> => {
   const message = `Approve to sign in to bokoup`;

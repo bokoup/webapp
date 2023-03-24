@@ -1,21 +1,20 @@
-import { Form } from "@remix-run/react";
+import { Form, useLoaderData } from "@remix-run/react";
 import { type ActionArgs, fetch, json, redirect } from "@remix-run/node";
 import { useState } from "react";
 import { Listbox, Transition } from "@headlessui/react";
 import { createMemoryUploadHandler } from "@remix-run/server-runtime/dist/upload/memoryUploadHandler";
 import { parseMultipartFormData } from "@remix-run/server-runtime/dist/formData";
-import type { LoaderArgs } from "@remix-run/node";
 import type {
   IPromoAttribute,
   IPromoMetadataJson,
 } from "~/models/promo.server";
 import { FormData } from "@remix-run/node";
-import { requireUserId } from "~/session.server";
+import { requireMerchantId } from "~/session.server";
 import { createStoredTransaction } from "~/models/savedtx.server";
 import { safeRedirect } from "~/utils";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
 import { Fragment } from "react";
-import { API_TX } from "~/models/urls";
+import { API_TX } from "~/models/constants";
 import {
   descriptionFormField,
   FormFieldProps,
@@ -25,6 +24,9 @@ import {
 import FormField from "~/components/form/FormField";
 import ImageFormField from "~/components/form/ImageFormField";
 import TextAreaFormField from "~/components/form/TextAreaFormField";
+import ActiveFormField from "~/components/form/ActiveFormField";
+import { getMerchantItem } from "~/models/merchant.server";
+import ItemsListBox from "~/components/form/ItemsListBox";
 
 function MetadataJsonAdapter(formData: FormData): IPromoMetadataJson {
   let promoType = formData.get("promoType")!.toString();
@@ -59,18 +61,23 @@ function MetadataJsonAdapter(formData: FormData): IPromoMetadataJson {
       name: formData.get("collectionName")!.toString(),
       family: formData.get("collectionFamily")!.toString(),
     },
+    active: formData.get("active")!.toString() == "on",
   };
 
   return metadataJson;
 }
 
-export const loader = async ({ request }: LoaderArgs) => {
-  await requireUserId(request);
-  return json({});
+export const loader = async ({ request }: ActionArgs) => {
+  const { merchantId } = await requireMerchantId(request);
+  const merchantItem = await getMerchantItem(merchantId!);
+  const campaigns = merchantItem.campaigns.sort((campaignA, campaignB) =>
+    campaignA.name.localeCompare(campaignB.name)
+  );
+  return json({ campaigns });
 };
 
 export const action = async ({ request }: ActionArgs) => {
-  const { userId } = await requireUserId(request);
+  const { userId, merchantId } = await requireMerchantId(request);
 
   // just doing this as memory for now - may be better to write to disk or upload directly to arweave
   const uploadHandler = createMemoryUploadHandler();
@@ -81,8 +88,10 @@ export const action = async ({ request }: ActionArgs) => {
 
   const formData = await parseMultipartFormData(request, uploadHandler);
   const metadataJson = MetadataJsonAdapter(formData);
+  console.log(metadataJson);
   const image = formData.get("image") as File;
   const memo = formData.get("memo") ? formData.get("memo")?.toString() : null;
+  const campaignId = formData.get("campaignId")?.toString();
 
   const txForm = new FormData();
 
@@ -90,22 +99,20 @@ export const action = async ({ request }: ActionArgs) => {
   txForm.append("image", image);
 
   if (!image) {
-    return json({
+    throw json({
       errorMsg: "Something went wrong while uploading",
     });
   }
 
-  // hard wiring these here temporarily to get this working
-  // will come from logged in merchant queries
-  const groupSeed = "FqVhBMr1T6pLCr4Ka5LNJNpSag8tgoK6fgx5bxfipySJ";
   const url = memo
-    ? `${API_TX}/promo/create/${userId}/${groupSeed}/${memo}`
-    : `${API_TX}/promo/create/${userId}/${groupSeed}`;
+    ? `${API_TX}/promo/create/${userId}/${campaignId}/${memo}`
+    : `${API_TX}/promo/create/${userId}/${campaignId}`;
 
   const res = await fetch(url, { method: "post", body: txForm });
 
   if (res.status == 200) {
     let transResponse = (await res.json()) as TransactionResponse;
+
     let txId = await createStoredTransaction({
       payer: userId!,
       tx: transResponse.transaction,
@@ -115,19 +122,20 @@ export const action = async ({ request }: ActionArgs) => {
     if (txId) {
       const searchParams = new URLSearchParams([
         ["promoName", metadataJson.name],
-        ["redirectTo", safeRedirect("/promos")],
+        ["campaignId", campaignId!],
+        ["redirectTo", safeRedirect(`/merchants/${merchantId}`)],
       ]);
       const url = `/promos/create/${txId.id}?${searchParams}`;
       return redirect(url);
     } else {
-      return json({
+      throw json({
         errorMsg: "Something went wrong saving the transaction",
         error: JSON.stringify(txId),
       });
     }
   }
 
-  return json({
+  throw json({
     errorMsg: "Something went wrong on the transaction server",
     error: await res.text(),
   });
@@ -186,6 +194,7 @@ const promoTypes: Record<string, FormFieldProps[]> = {
 };
 
 export default function CreatePromo() {
+  const loaderData = useLoaderData<typeof loader>();
   const [selectedPromoType, setSelectedPromoType] = useState<string>(
     Object.keys(promoTypes)[0]
   );
@@ -202,6 +211,11 @@ export default function CreatePromo() {
           <div className="gap-4 md:flex">
             <ImageFormField {...imageFormField} />
             <div className="w-full max-w-md">
+              <ItemsListBox
+                items={loaderData.campaigns}
+                label="Campaign"
+                fieldName="campaignId"
+              />
               {formFields.slice(0, 4).map((props) => (
                 <FormField key={props.id} {...props} />
               ))}
@@ -275,6 +289,7 @@ export default function CreatePromo() {
                   return <FormField key={props.id} {...props} />;
                 })}
               </>
+              <ActiveFormField />
               <div className="flex items-center justify-between">
                 <button
                   className="focus:shadow-outline rounded-full bg-bokoupGreen2-400 py-2 px-4 font-semibold hover:brightness-90 focus:outline-none"

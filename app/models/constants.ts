@@ -17,3 +17,9 @@ export const APP_URL =
     ? process.env.APP_URL_DEVNET
     : process.env.APP_URL_LOCALNET;
 invariant(APP_URL, "APP_URL must be set");
+
+export const PLATFORM_SIGNER_ADDRESS = process.env.PLATFORM_SIGNER_PUBLIC_KEY;
+invariant(
+  process.env.PLATFORM_SIGNER_PUBLIC_KEY,
+  "PLATFORM_SIGNER_PUBLIC_KEY must be set"
+);

@@ -1,29 +1,28 @@
 import { PlusIcon } from "@heroicons/react/24/solid";
 import { Link } from "@remix-run/react";
-import { IDeviceItem } from "~/models/merchant.server";
+import { IPromoItem } from "~/models/promo.server";
+import { purgeImgix } from "~/utils/imgx";
 
-export default function Devices({
-  devices,
-  locationsExist,
+export default function Promos({
+  promos,
+  campaignsExist,
 }: {
-  devices: IDeviceItem[];
-  locationsExist: boolean;
+  promos: IPromoItem[];
+  campaignsExist: boolean;
 }) {
   return (
     <div className=" mt-4 rounded-md border p-2 shadow-sm">
       <div className="justify-between sm:flex sm:items-center">
-        <h3 className="font-heading text-lg font-medium lg:text-2xl">
-          Devices
-        </h3>
+        <h3 className="font-heading text-lg font-medium lg:text-2xl">Promos</h3>
         <Link
-          to={`/devices/create`}
+          to={`/promos/create`}
           title={`${
-            locationsExist
-              ? "Location must exist to create device"
-              : "Create new device"
+            campaignsExist
+              ? "Campaigns must exist to create promo"
+              : "Create new promo"
           }`}
           className={`${
-            !locationsExist
+            !campaignsExist
               ? "disabled-link pointer-events-none bg-slate-200"
               : "bg-bokoupGreen2-400 hover:brightness-90"
           } flex flex-shrink items-center rounded-full py-3 px-3 text-center text-sm font-semibold shadow`}
@@ -32,9 +31,9 @@ export default function Devices({
         </Link>
       </div>
       <div className="justify-between sm:flex sm:items-center">
-        <p>Devices have a unique name and are assigned to a single location.</p>
+        <p>Promos are assigned to a campaign owned by a merchant.</p>
       </div>
-      {devices.length > 0 ? (
+      {promos.length > 0 ? (
         <div className="mt-8 flow-root">
           <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
@@ -57,7 +56,19 @@ export default function Devices({
                       scope="col"
                       className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
                     >
-                      Location
+                      Type
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                    >
+                      Issued
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                    >
+                      Redeemed
                     </th>
                     <th
                       scope="col"
@@ -68,30 +79,46 @@ export default function Devices({
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-200 bg-white">
-                  {devices.map((device) => (
-                    <tr key={device.location + device.name}>
+                  {promos.map((promo) => (
+                    <tr key={promo.name}>
                       <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm sm:pl-0">
                         <div className="flex items-center">
+                          <div className="h-12 w-12 flex-shrink-0">
+                            <img
+                              className="h-12 w-12 rounded-md"
+                              src={promo.metadataJson.image}
+                              alt=""
+                              onError={() => {
+                                if (promo.metadataJson.image) {
+                                  purgeImgix(promo.metadataJson.image);
+                                }
+                              }}
+                            />
+                          </div>
                           <div className="ml-4">
                             <div className="font-medium text-gray-900">
-                              {device.name}
+                              {promo.name}
                             </div>
                           </div>
                         </div>
                       </td>
                       <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                         <div className="text-gray-900">
-                          {device.metadataJson.description}
+                          {promo.metadataJson.description}
                         </div>
                       </td>
                       <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                        <div className="text-gray-900">
-                          {device.locationName}
-                        </div>
+                        <div className="text-gray-900">{promo.promoType}</div>
+                      </td>
+                      <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                        <div className="text-gray-900">{`${promo.mintCount} / ${promo.maxMint}`}</div>
+                      </td>
+                      <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                        <div className="text-gray-900">{`${promo.burnCount} / ${promo.maxBurn}`}</div>
                       </td>
                       <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                         <span className="inline-flex rounded-full bg-green-100 px-2 text-xs font-semibold leading-5 text-green-800">
-                          {device.active ? "Active" : "Inactive"}
+                          {promo.active ? "Active" : "Inactive"}
                         </span>
                       </td>
                     </tr>

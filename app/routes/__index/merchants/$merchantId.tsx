@@ -7,6 +7,7 @@ import { getProxyImgSrc, imageSpec, purgeImgix } from "~/utils/imgx";
 import Locations from "~/components/Locations";
 import Devices from "~/components/Devices";
 import Campaigns from "~/components/Campaigns";
+import Promos from "~/components/Promos";
 
 const merchantImageSpec: imageSpec = {
   width: 256,
@@ -46,6 +47,10 @@ export default function MerchantPage() {
     merchant.locations != null &&
     merchant.locations != undefined &&
     merchant.locations.length > 0;
+  const campaignsExist =
+    merchant.campaigns != null &&
+    merchant.campaigns != undefined &&
+    merchant.campaigns.length > 0;
 
   return (
     <>
@@ -94,6 +99,12 @@ export default function MerchantPage() {
             <Campaigns
               campaigns={merchant.campaigns}
               locationsExist={locationsExist}
+            />
+            <Promos
+              promos={merchant.campaigns.flatMap((campaign) => {
+                return campaign.promos || [];
+              })}
+              campaignsExist={campaignsExist}
             />
           </>
         ) : null}

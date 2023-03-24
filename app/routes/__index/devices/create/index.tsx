@@ -1,4 +1,4 @@
-import { Form, useActionData, useLoaderData } from "@remix-run/react";
+import { Form, useLoaderData } from "@remix-run/react";
 import { type ActionArgs, fetch, json, redirect } from "@remix-run/node";
 import { createMemoryUploadHandler } from "@remix-run/server-runtime/dist/upload/memoryUploadHandler";
 import { parseMultipartFormData } from "@remix-run/server-runtime/dist/formData";
@@ -7,7 +7,7 @@ import { FormData } from "@remix-run/node";
 import { requireMerchantId } from "~/session.server";
 import { createStoredTransaction } from "~/models/savedtx.server";
 import { safeRedirect } from "~/utils";
-import { API_TX } from "~/models/urls";
+import { API_TX } from "~/models/constants";
 import {
   descriptionFormField,
   FormFieldProps,
@@ -16,9 +16,7 @@ import {
 import FormField from "~/components/form/FormField";
 import TextAreaFormField from "~/components/form/TextAreaFormField";
 import ActiveFormField from "~/components/form/ActiveFormField";
-import { Fragment, useState } from "react";
-import { Listbox, Transition } from "@headlessui/react";
-import { ChevronUpDownIcon, CheckIcon } from "@heroicons/react/24/solid";
+import ItemsListBox from "~/components/form/ItemsListBox";
 
 function MetadataJsonAdapter(formData: FormData): IDeviceMetadataJson {
   const metadataJson: IDeviceMetadataJson = {
@@ -111,16 +109,6 @@ const formFields: FormFieldProps[] = [
 
 export default function CreateDevice() {
   const loaderData = useLoaderData<typeof loader>();
-  const [selectedLocation, setSelectedLocation] = useState(
-    loaderData!.locations![0]
-  );
-
-  function handleOnChange(value: string) {
-    const location = loaderData.locations.filter(
-      (location) => location.name == value
-    )[0];
-    setSelectedLocation(location);
-  }
 
   return (
     <>
@@ -131,68 +119,10 @@ export default function CreateDevice() {
         <Form method="post" encType="multipart/form-data" className="pt-8">
           <div className="gap-4 md:flex">
             <div className="w-full max-w-md">
-              <Listbox value={selectedLocation.name} onChange={handleOnChange}>
-                <Listbox.Label className="mb-2 block text-sm font-bold text-gray-700">
-                  Location
-                </Listbox.Label>
-                <div className="relative mt-1 mb-4">
-                  <Listbox.Button className="focus:shadow-outline relative w-full appearance-none rounded border py-2 px-3 text-left leading-tight text-gray-700 shadow focus:outline-none">
-                    <span className="block truncate">
-                      {selectedLocation.name}
-                    </span>
-                    <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
-                      <ChevronUpDownIcon
-                        className="h-5 w-5 text-gray-400"
-                        aria-hidden="true"
-                      />
-                    </span>
-                  </Listbox.Button>
-                  <Transition
-                    as={Fragment}
-                    leave="transition ease-in duration-100"
-                    leaveFrom="opacity-100"
-                    leaveTo="opacity-0"
-                  >
-                    <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
-                      {loaderData.locations!.map((location) => (
-                        <Listbox.Option
-                          key={location.id}
-                          className={({ active }) =>
-                            `relative cursor-default select-none py-2 pl-10 pr-4 ${
-                              active ? "bg-bokoupBlue-100" : ""
-                            }`
-                          }
-                          value={location.name}
-                        >
-                          {({ selected }) => (
-                            <>
-                              <span
-                                className={`block truncate ${
-                                  selected ? "font-medium" : "font-normal"
-                                }`}
-                              >
-                                {location.name}
-                              </span>
-                              {selected ? (
-                                <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-bokoupGreen2-900">
-                                  <CheckIcon
-                                    className="h-5 w-5"
-                                    aria-hidden="true"
-                                  />
-                                </span>
-                              ) : null}
-                            </>
-                          )}
-                        </Listbox.Option>
-                      ))}
-                    </Listbox.Options>
-                  </Transition>
-                </div>
-              </Listbox>
-              <input
-                name="locationId"
-                hidden={true}
-                value={selectedLocation.id}
+              <ItemsListBox
+                items={loaderData.locations}
+                label="Location"
+                fieldName="locationId"
               />
               {formFields.slice(0, 2).map((props) => (
                 <FormField key={props.id} {...props} />

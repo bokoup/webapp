@@ -1,10 +1,10 @@
-import { json } from "@remix-run/node";
+import { ActionArgs, json, redirect } from "@remix-run/node";
 import QRCode from "qrcode";
 import { Form, useLoaderData, useSubmit } from "@remix-run/react";
 import type { LoaderArgs } from "@remix-run/node";
 import QRCodeModal from "~/components/QRCodeModal";
 import { safeRedirect } from "~/utils";
-import { API_TX, PLATFORM_SIGNER_ADDRESS } from "~/models/constants";
+import { API_TX } from "~/models/constants";
 import { useEventSource } from "remix-utils";
 import { useEffect, useRef } from "react";
 import { requireUserId } from "~/session.server";
@@ -14,12 +14,13 @@ export const getMintPromoDataUrl = async (
   promoName: string,
   mintId: string,
   deviceId: string,
+  deviceOwner: string,
+  locationId: string,
   campaignId: string,
   memo: string
 ): Promise<string> => {
-  const deviceOwner = PLATFORM_SIGNER_ADDRESS;
   const message = `Approve to receive ${promoName}`;
-  let text = `solana:${`${API_TX}/promo/mint/${mintId}/${deviceId}/${deviceOwner}/${campaignId}/${message}/${memo}`}`;
+  let text = `solana:${`${API_TX}/promo/mint/${mintId}/${deviceId}/${deviceOwner}/${locationId}/${campaignId}/${message}/${memo}`}`;
   return await QRCode.toDataURL(text);
 };
 
@@ -28,11 +29,21 @@ export const loader = async ({ request }: LoaderArgs) => {
   const url = new URL(request.url);
   const promoName = url.searchParams.get("promoName");
   const mintId = url.searchParams.get("mintId");
+  const deviceId = url.searchParams.get("deviceId");
+  const deviceOwner = url.searchParams.get("deviceOwner");
+  const locationId = url.searchParams.get("locationId");
   const campaignId = url.searchParams.get("campaignId");
 
-  if (!mintId || !promoName || !campaignId || !userId) {
+  if (
+    !mintId ||
+    !promoName ||
+    !deviceId ||
+    !deviceOwner ||
+    !locationId ||
+    !campaignId
+  ) {
     throw json({
-      error: "Missing userId, mintId, promoName or campaignId",
+      error: "Missing userId or mintId",
     });
   }
   const redirectTo = safeRedirect(url.searchParams.get("redirectTo") || "/");
@@ -45,8 +56,10 @@ export const loader = async ({ request }: LoaderArgs) => {
   const dataUrl = await getMintPromoDataUrl(
     promoName,
     mintId,
+    deviceId,
+    deviceOwner,
+    locationId,
     campaignId,
-    userId,
     memo
   );
   const title = `Scan to receive ${promoName}.`;
@@ -62,6 +75,18 @@ export const loader = async ({ request }: LoaderArgs) => {
     uuid,
   });
 };
+
+export async function action({ request }: ActionArgs) {
+  await requireUserId(request);
+  const data = await request.formData();
+  const txId = data.get("txId")?.toString();
+
+  if (txId && txId != "") {
+    return redirect(`/promos`);
+  }
+
+  return null;
+}
 
 export default function QrCodeMintPromo() {
   const data = useLoaderData<typeof loader>();

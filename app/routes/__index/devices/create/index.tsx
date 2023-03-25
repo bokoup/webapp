@@ -114,7 +114,7 @@ export default function CreateDevice() {
     <>
       <div className="container mx-auto mb-auto p-2 lg:py-4">
         <h2 className="mb-10 font-heading text-2xl font-medium lg:text-3xl">
-          Create New Location
+          Create New Device
         </h2>
         <Form method="post" encType="multipart/form-data" className="pt-8">
           <div className="gap-4 md:flex">

@@ -2,12 +2,12 @@ import { useLoaderData } from "@remix-run/react";
 import type { LoaderArgs } from "@remix-run/server-runtime";
 import Promo from "~/components/promo";
 import { getPromoItems } from "~/models/promo.server";
-import { getUserId, requireUserId } from "~/session.server";
+import { getUserId } from "~/session.server";
 
 export async function loader({ request }: LoaderArgs) {
-  const { userId } = await requireUserId(request);
+  const { userId } = await getUserId(request);
   const promoItems = await getPromoItems();
-  
+
   return { promoItems, userId };
 }
 

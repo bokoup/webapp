@@ -100,14 +100,14 @@ export default function MerchantPage() {
               campaigns={merchant.campaigns}
               locationsExist={locationsExist}
             />
-            <Promos
-              promos={merchant.campaigns.flatMap((campaign) => {
-                return campaign.promos || [];
-              })}
-              campaignsExist={campaignsExist}
-            />
           </>
         ) : null}
+        <Promos
+          promos={merchant.campaigns.flatMap((campaign) => {
+            return campaign.promos || [];
+          })}
+          campaignsExist={campaignsExist}
+        />
       </div>
     </>
   );

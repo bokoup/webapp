@@ -54,6 +54,12 @@ export default function Locations({
                     >
                       Address
                     </th>
+                    <th
+                      scope="col"
+                      className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                    >
+                      Description
+                    </th>
                     {merchantLoggedIn ? (
                       <>
                         <th
@@ -99,6 +105,11 @@ export default function Locations({
                       <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                         <div className="text-gray-900">
                           {location.metadataJson.address}
+                        </div>
+                      </td>
+                      <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                        <div className="text-gray-900">
+                          {location.metadataJson.description}
                         </div>
                       </td>
                       {merchantLoggedIn ? (

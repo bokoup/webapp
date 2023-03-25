@@ -17,6 +17,86 @@ export type Scalars = {
   timestamptz: any;
 };
 
+/** columns and relationships of "admin_settings" */
+export type AdminSettings = {
+  __typename?: 'AdminSettings';
+  burnPromoTokenLamports: Scalars['bigint'];
+  createPromoLamports: Scalars['bigint'];
+  createdAt: Scalars['timestamptz'];
+  id: Scalars['String'];
+  modifiedAt: Scalars['timestamptz'];
+  platform: Scalars['String'];
+  slot: Scalars['bigint'];
+  writeVersion: Scalars['bigint'];
+};
+
+/** Boolean expression to filter rows from the table "admin_settings". All fields are combined with a logical 'AND'. */
+export type AdminSettingsBoolExp = {
+  _and?: InputMaybe<Array<AdminSettingsBoolExp>>;
+  _not?: InputMaybe<AdminSettingsBoolExp>;
+  _or?: InputMaybe<Array<AdminSettingsBoolExp>>;
+  burnPromoTokenLamports?: InputMaybe<BigintComparisonExp>;
+  createPromoLamports?: InputMaybe<BigintComparisonExp>;
+  createdAt?: InputMaybe<TimestamptzComparisonExp>;
+  id?: InputMaybe<StringComparisonExp>;
+  modifiedAt?: InputMaybe<TimestamptzComparisonExp>;
+  platform?: InputMaybe<StringComparisonExp>;
+  slot?: InputMaybe<BigintComparisonExp>;
+  writeVersion?: InputMaybe<BigintComparisonExp>;
+};
+
+/** Ordering options when selecting data from "admin_settings". */
+export type AdminSettingsOrderBy = {
+  burnPromoTokenLamports?: InputMaybe<OrderBy>;
+  createPromoLamports?: InputMaybe<OrderBy>;
+  createdAt?: InputMaybe<OrderBy>;
+  id?: InputMaybe<OrderBy>;
+  modifiedAt?: InputMaybe<OrderBy>;
+  platform?: InputMaybe<OrderBy>;
+  slot?: InputMaybe<OrderBy>;
+  writeVersion?: InputMaybe<OrderBy>;
+};
+
+/** select columns of table "admin_settings" */
+export enum AdminSettingsSelectColumn {
+  /** column name */
+  BurnPromoTokenLamports = 'burnPromoTokenLamports',
+  /** column name */
+  CreatePromoLamports = 'createPromoLamports',
+  /** column name */
+  CreatedAt = 'createdAt',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  ModifiedAt = 'modifiedAt',
+  /** column name */
+  Platform = 'platform',
+  /** column name */
+  Slot = 'slot',
+  /** column name */
+  WriteVersion = 'writeVersion'
+}
+
+/** Streaming cursor of the table "admin_settings" */
+export type AdminSettingsStreamCursorInput = {
+  /** Stream column input with initial value */
+  initialValue: AdminSettingsStreamCursorValueInput;
+  /** cursor ordering */
+  ordering?: InputMaybe<CursorOrdering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type AdminSettingsStreamCursorValueInput = {
+  burnPromoTokenLamports?: InputMaybe<Scalars['bigint']>;
+  createPromoLamports?: InputMaybe<Scalars['bigint']>;
+  createdAt?: InputMaybe<Scalars['timestamptz']>;
+  id?: InputMaybe<Scalars['String']>;
+  modifiedAt?: InputMaybe<Scalars['timestamptz']>;
+  platform?: InputMaybe<Scalars['String']>;
+  slot?: InputMaybe<Scalars['bigint']>;
+  writeVersion?: InputMaybe<Scalars['bigint']>;
+};
+
 /** columns and relationships of "bid_receipt" */
 export type BidReceipt = {
   __typename?: 'BidReceipt';
@@ -193,16 +273,20 @@ export type BurnDelegatedPromoToken = {
   adminSettings: Scalars['String'];
   authority: Scalars['String'];
   campaign: Scalars['String'];
+  campaignBalance: Scalars['bigint'];
+  campaignLocation: Scalars['String'];
   createdAt: Scalars['timestamptz'];
   device: Scalars['String'];
-  location: Scalars['String'];
+  deviceOwner: Scalars['String'];
   memo?: Maybe<Scalars['jsonb']>;
   mint: Scalars['String'];
   /** An object relationship */
   mintObject?: Maybe<Mint>;
   modifiedAt: Scalars['timestamptz'];
   payer: Scalars['String'];
+  payerBalance: Scalars['bigint'];
   platform: Scalars['String'];
+  platformBalance: Scalars['bigint'];
   promo: Scalars['String'];
   /** An object relationship */
   promoObject?: Maybe<Promo>;
@@ -227,15 +311,19 @@ export type BurnDelegatedPromoTokenBoolExp = {
   adminSettings?: InputMaybe<StringComparisonExp>;
   authority?: InputMaybe<StringComparisonExp>;
   campaign?: InputMaybe<StringComparisonExp>;
+  campaignBalance?: InputMaybe<BigintComparisonExp>;
+  campaignLocation?: InputMaybe<StringComparisonExp>;
   createdAt?: InputMaybe<TimestamptzComparisonExp>;
   device?: InputMaybe<StringComparisonExp>;
-  location?: InputMaybe<StringComparisonExp>;
+  deviceOwner?: InputMaybe<StringComparisonExp>;
   memo?: InputMaybe<JsonbComparisonExp>;
   mint?: InputMaybe<StringComparisonExp>;
   mintObject?: InputMaybe<MintBoolExp>;
   modifiedAt?: InputMaybe<TimestamptzComparisonExp>;
   payer?: InputMaybe<StringComparisonExp>;
+  payerBalance?: InputMaybe<BigintComparisonExp>;
   platform?: InputMaybe<StringComparisonExp>;
+  platformBalance?: InputMaybe<BigintComparisonExp>;
   promo?: InputMaybe<StringComparisonExp>;
   promoObject?: InputMaybe<PromoBoolExp>;
   signature?: InputMaybe<StringComparisonExp>;
@@ -249,15 +337,19 @@ export type BurnDelegatedPromoTokenOrderBy = {
   adminSettings?: InputMaybe<OrderBy>;
   authority?: InputMaybe<OrderBy>;
   campaign?: InputMaybe<OrderBy>;
+  campaignBalance?: InputMaybe<OrderBy>;
+  campaignLocation?: InputMaybe<OrderBy>;
   createdAt?: InputMaybe<OrderBy>;
   device?: InputMaybe<OrderBy>;
-  location?: InputMaybe<OrderBy>;
+  deviceOwner?: InputMaybe<OrderBy>;
   memo?: InputMaybe<OrderBy>;
   mint?: InputMaybe<OrderBy>;
   mintObject?: InputMaybe<MintOrderBy>;
   modifiedAt?: InputMaybe<OrderBy>;
   payer?: InputMaybe<OrderBy>;
+  payerBalance?: InputMaybe<OrderBy>;
   platform?: InputMaybe<OrderBy>;
+  platformBalance?: InputMaybe<OrderBy>;
   promo?: InputMaybe<OrderBy>;
   promoObject?: InputMaybe<PromoOrderBy>;
   signature?: InputMaybe<OrderBy>;
@@ -275,11 +367,15 @@ export enum BurnDelegatedPromoTokenSelectColumn {
   /** column name */
   Campaign = 'campaign',
   /** column name */
+  CampaignBalance = 'campaignBalance',
+  /** column name */
+  CampaignLocation = 'campaignLocation',
+  /** column name */
   CreatedAt = 'createdAt',
   /** column name */
   Device = 'device',
   /** column name */
-  Location = 'location',
+  DeviceOwner = 'deviceOwner',
   /** column name */
   Memo = 'memo',
   /** column name */
@@ -289,7 +385,11 @@ export enum BurnDelegatedPromoTokenSelectColumn {
   /** column name */
   Payer = 'payer',
   /** column name */
+  PayerBalance = 'payerBalance',
+  /** column name */
   Platform = 'platform',
+  /** column name */
+  PlatformBalance = 'platformBalance',
   /** column name */
   Promo = 'promo',
   /** column name */
@@ -313,14 +413,18 @@ export type BurnDelegatedPromoTokenStreamCursorValueInput = {
   adminSettings?: InputMaybe<Scalars['String']>;
   authority?: InputMaybe<Scalars['String']>;
   campaign?: InputMaybe<Scalars['String']>;
+  campaignBalance?: InputMaybe<Scalars['bigint']>;
+  campaignLocation?: InputMaybe<Scalars['String']>;
   createdAt?: InputMaybe<Scalars['timestamptz']>;
   device?: InputMaybe<Scalars['String']>;
-  location?: InputMaybe<Scalars['String']>;
+  deviceOwner?: InputMaybe<Scalars['String']>;
   memo?: InputMaybe<Scalars['jsonb']>;
   mint?: InputMaybe<Scalars['String']>;
   modifiedAt?: InputMaybe<Scalars['timestamptz']>;
   payer?: InputMaybe<Scalars['String']>;
+  payerBalance?: InputMaybe<Scalars['bigint']>;
   platform?: InputMaybe<Scalars['String']>;
+  platformBalance?: InputMaybe<Scalars['bigint']>;
   promo?: InputMaybe<Scalars['String']>;
   signature?: InputMaybe<Scalars['String']>;
   slot?: InputMaybe<Scalars['bigint']>;
@@ -331,10 +435,13 @@ export type BurnDelegatedPromoTokenStreamCursorValueInput = {
 export type Campaign = {
   __typename?: 'Campaign';
   active: Scalars['Boolean'];
+  /** An array relationship */
+  campaignLocations: Array<CampaignLocation>;
   createdAt: Scalars['timestamptz'];
   id: Scalars['String'];
-  locations: Scalars['jsonb'];
   merchant: Scalars['String'];
+  /** An object relationship */
+  merchantObject?: Maybe<Merchant>;
   metadataJson?: Maybe<Scalars['jsonb']>;
   modifiedAt: Scalars['timestamptz'];
   name: Scalars['String'];
@@ -347,8 +454,12 @@ export type Campaign = {
 
 
 /** columns and relationships of "campaign" */
-export type CampaignLocationsArgs = {
-  path?: InputMaybe<Scalars['String']>;
+export type CampaignCampaignLocationsArgs = {
+  distinctOn?: InputMaybe<Array<CampaignLocationSelectColumn>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Array<CampaignLocationOrderBy>>;
+  where?: InputMaybe<CampaignLocationBoolExp>;
 };
 
 
@@ -369,17 +480,23 @@ export type CampaignPromosArgs = {
 
 /** order by aggregate values of table "campaign" */
 export type CampaignAggregateOrderBy = {
-  avg?: InputMaybe<Campaign_Avg_Order_By>;
+  avg?: InputMaybe<CampaignAvgOrderBy>;
   count?: InputMaybe<OrderBy>;
-  max?: InputMaybe<Campaign_Max_Order_By>;
-  min?: InputMaybe<Campaign_Min_Order_By>;
-  stddev?: InputMaybe<Campaign_Stddev_Order_By>;
-  stddev_pop?: InputMaybe<Campaign_Stddev_Pop_Order_By>;
-  stddev_samp?: InputMaybe<Campaign_Stddev_Samp_Order_By>;
-  sum?: InputMaybe<Campaign_Sum_Order_By>;
-  var_pop?: InputMaybe<Campaign_Var_Pop_Order_By>;
-  var_samp?: InputMaybe<Campaign_Var_Samp_Order_By>;
-  variance?: InputMaybe<Campaign_Variance_Order_By>;
+  max?: InputMaybe<CampaignMaxOrderBy>;
+  min?: InputMaybe<CampaignMinOrderBy>;
+  stddev?: InputMaybe<CampaignStddevOrderBy>;
+  stddevPop?: InputMaybe<CampaignStddevPopOrderBy>;
+  stddevSamp?: InputMaybe<CampaignStddevSampOrderBy>;
+  sum?: InputMaybe<CampaignSumOrderBy>;
+  varPop?: InputMaybe<CampaignVarPopOrderBy>;
+  varSamp?: InputMaybe<CampaignVarSampOrderBy>;
+  variance?: InputMaybe<CampaignVarianceOrderBy>;
+};
+
+/** order by avg() on columns of table "campaign" */
+export type CampaignAvgOrderBy = {
+  slot?: InputMaybe<OrderBy>;
+  writeVersion?: InputMaybe<OrderBy>;
 };
 
 /** Boolean expression to filter rows from the table "campaign". All fields are combined with a logical 'AND'. */
@@ -388,10 +505,11 @@ export type CampaignBoolExp = {
   _not?: InputMaybe<CampaignBoolExp>;
   _or?: InputMaybe<Array<CampaignBoolExp>>;
   active?: InputMaybe<BooleanComparisonExp>;
+  campaignLocations?: InputMaybe<CampaignLocationBoolExp>;
   createdAt?: InputMaybe<TimestamptzComparisonExp>;
   id?: InputMaybe<StringComparisonExp>;
-  locations?: InputMaybe<JsonbComparisonExp>;
   merchant?: InputMaybe<StringComparisonExp>;
+  merchantObject?: InputMaybe<MerchantBoolExp>;
   metadataJson?: InputMaybe<JsonbComparisonExp>;
   modifiedAt?: InputMaybe<TimestamptzComparisonExp>;
   name?: InputMaybe<StringComparisonExp>;
@@ -401,13 +519,219 @@ export type CampaignBoolExp = {
   writeVersion?: InputMaybe<BigintComparisonExp>;
 };
 
+/** columns and relationships of "campaign_location" */
+export type CampaignLocation = {
+  __typename?: 'CampaignLocation';
+  campaign: Scalars['String'];
+  /** An object relationship */
+  campaignObject?: Maybe<Campaign>;
+  createdAt: Scalars['timestamptz'];
+  id: Scalars['String'];
+  location: Scalars['String'];
+  /** An object relationship */
+  locationObject?: Maybe<Location>;
+  modifiedAt: Scalars['timestamptz'];
+  /** An array relationship */
+  promos: Array<Promo>;
+  slot: Scalars['bigint'];
+  writeVersion: Scalars['bigint'];
+};
+
+
+/** columns and relationships of "campaign_location" */
+export type CampaignLocationPromosArgs = {
+  distinctOn?: InputMaybe<Array<PromoSelectColumn>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Array<PromoOrderBy>>;
+  where?: InputMaybe<PromoBoolExp>;
+};
+
+/** order by aggregate values of table "campaign_location" */
+export type CampaignLocationAggregateOrderBy = {
+  avg?: InputMaybe<CampaignLocationAvgOrderBy>;
+  count?: InputMaybe<OrderBy>;
+  max?: InputMaybe<CampaignLocationMaxOrderBy>;
+  min?: InputMaybe<CampaignLocationMinOrderBy>;
+  stddev?: InputMaybe<CampaignLocationStddevOrderBy>;
+  stddevPop?: InputMaybe<CampaignLocationStddevPopOrderBy>;
+  stddevSamp?: InputMaybe<CampaignLocationStddevSampOrderBy>;
+  sum?: InputMaybe<CampaignLocationSumOrderBy>;
+  varPop?: InputMaybe<CampaignLocationVarPopOrderBy>;
+  varSamp?: InputMaybe<CampaignLocationVarSampOrderBy>;
+  variance?: InputMaybe<CampaignLocationVarianceOrderBy>;
+};
+
+/** order by avg() on columns of table "campaign_location" */
+export type CampaignLocationAvgOrderBy = {
+  slot?: InputMaybe<OrderBy>;
+  writeVersion?: InputMaybe<OrderBy>;
+};
+
+/** Boolean expression to filter rows from the table "campaign_location". All fields are combined with a logical 'AND'. */
+export type CampaignLocationBoolExp = {
+  _and?: InputMaybe<Array<CampaignLocationBoolExp>>;
+  _not?: InputMaybe<CampaignLocationBoolExp>;
+  _or?: InputMaybe<Array<CampaignLocationBoolExp>>;
+  campaign?: InputMaybe<StringComparisonExp>;
+  campaignObject?: InputMaybe<CampaignBoolExp>;
+  createdAt?: InputMaybe<TimestamptzComparisonExp>;
+  id?: InputMaybe<StringComparisonExp>;
+  location?: InputMaybe<StringComparisonExp>;
+  locationObject?: InputMaybe<LocationBoolExp>;
+  modifiedAt?: InputMaybe<TimestamptzComparisonExp>;
+  promos?: InputMaybe<PromoBoolExp>;
+  slot?: InputMaybe<BigintComparisonExp>;
+  writeVersion?: InputMaybe<BigintComparisonExp>;
+};
+
+/** order by max() on columns of table "campaign_location" */
+export type CampaignLocationMaxOrderBy = {
+  campaign?: InputMaybe<OrderBy>;
+  createdAt?: InputMaybe<OrderBy>;
+  id?: InputMaybe<OrderBy>;
+  location?: InputMaybe<OrderBy>;
+  modifiedAt?: InputMaybe<OrderBy>;
+  slot?: InputMaybe<OrderBy>;
+  writeVersion?: InputMaybe<OrderBy>;
+};
+
+/** order by min() on columns of table "campaign_location" */
+export type CampaignLocationMinOrderBy = {
+  campaign?: InputMaybe<OrderBy>;
+  createdAt?: InputMaybe<OrderBy>;
+  id?: InputMaybe<OrderBy>;
+  location?: InputMaybe<OrderBy>;
+  modifiedAt?: InputMaybe<OrderBy>;
+  slot?: InputMaybe<OrderBy>;
+  writeVersion?: InputMaybe<OrderBy>;
+};
+
+/** Ordering options when selecting data from "campaign_location". */
+export type CampaignLocationOrderBy = {
+  campaign?: InputMaybe<OrderBy>;
+  campaignObject?: InputMaybe<CampaignOrderBy>;
+  createdAt?: InputMaybe<OrderBy>;
+  id?: InputMaybe<OrderBy>;
+  location?: InputMaybe<OrderBy>;
+  locationObject?: InputMaybe<LocationOrderBy>;
+  modifiedAt?: InputMaybe<OrderBy>;
+  promosAggregate?: InputMaybe<PromoAggregateOrderBy>;
+  slot?: InputMaybe<OrderBy>;
+  writeVersion?: InputMaybe<OrderBy>;
+};
+
+/** select columns of table "campaign_location" */
+export enum CampaignLocationSelectColumn {
+  /** column name */
+  Campaign = 'campaign',
+  /** column name */
+  CreatedAt = 'createdAt',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Location = 'location',
+  /** column name */
+  ModifiedAt = 'modifiedAt',
+  /** column name */
+  Slot = 'slot',
+  /** column name */
+  WriteVersion = 'writeVersion'
+}
+
+/** order by stddev() on columns of table "campaign_location" */
+export type CampaignLocationStddevOrderBy = {
+  slot?: InputMaybe<OrderBy>;
+  writeVersion?: InputMaybe<OrderBy>;
+};
+
+/** order by stddevPop() on columns of table "campaign_location" */
+export type CampaignLocationStddevPopOrderBy = {
+  slot?: InputMaybe<OrderBy>;
+  writeVersion?: InputMaybe<OrderBy>;
+};
+
+/** order by stddevSamp() on columns of table "campaign_location" */
+export type CampaignLocationStddevSampOrderBy = {
+  slot?: InputMaybe<OrderBy>;
+  writeVersion?: InputMaybe<OrderBy>;
+};
+
+/** Streaming cursor of the table "campaign_location" */
+export type CampaignLocationStreamCursorInput = {
+  /** Stream column input with initial value */
+  initialValue: CampaignLocationStreamCursorValueInput;
+  /** cursor ordering */
+  ordering?: InputMaybe<CursorOrdering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type CampaignLocationStreamCursorValueInput = {
+  campaign?: InputMaybe<Scalars['String']>;
+  createdAt?: InputMaybe<Scalars['timestamptz']>;
+  id?: InputMaybe<Scalars['String']>;
+  location?: InputMaybe<Scalars['String']>;
+  modifiedAt?: InputMaybe<Scalars['timestamptz']>;
+  slot?: InputMaybe<Scalars['bigint']>;
+  writeVersion?: InputMaybe<Scalars['bigint']>;
+};
+
+/** order by sum() on columns of table "campaign_location" */
+export type CampaignLocationSumOrderBy = {
+  slot?: InputMaybe<OrderBy>;
+  writeVersion?: InputMaybe<OrderBy>;
+};
+
+/** order by varPop() on columns of table "campaign_location" */
+export type CampaignLocationVarPopOrderBy = {
+  slot?: InputMaybe<OrderBy>;
+  writeVersion?: InputMaybe<OrderBy>;
+};
+
+/** order by varSamp() on columns of table "campaign_location" */
+export type CampaignLocationVarSampOrderBy = {
+  slot?: InputMaybe<OrderBy>;
+  writeVersion?: InputMaybe<OrderBy>;
+};
+
+/** order by variance() on columns of table "campaign_location" */
+export type CampaignLocationVarianceOrderBy = {
+  slot?: InputMaybe<OrderBy>;
+  writeVersion?: InputMaybe<OrderBy>;
+};
+
+/** order by max() on columns of table "campaign" */
+export type CampaignMaxOrderBy = {
+  createdAt?: InputMaybe<OrderBy>;
+  id?: InputMaybe<OrderBy>;
+  merchant?: InputMaybe<OrderBy>;
+  modifiedAt?: InputMaybe<OrderBy>;
+  name?: InputMaybe<OrderBy>;
+  slot?: InputMaybe<OrderBy>;
+  uri?: InputMaybe<OrderBy>;
+  writeVersion?: InputMaybe<OrderBy>;
+};
+
+/** order by min() on columns of table "campaign" */
+export type CampaignMinOrderBy = {
+  createdAt?: InputMaybe<OrderBy>;
+  id?: InputMaybe<OrderBy>;
+  merchant?: InputMaybe<OrderBy>;
+  modifiedAt?: InputMaybe<OrderBy>;
+  name?: InputMaybe<OrderBy>;
+  slot?: InputMaybe<OrderBy>;
+  uri?: InputMaybe<OrderBy>;
+  writeVersion?: InputMaybe<OrderBy>;
+};
+
 /** Ordering options when selecting data from "campaign". */
 export type CampaignOrderBy = {
   active?: InputMaybe<OrderBy>;
+  campaignLocationsAggregate?: InputMaybe<CampaignLocationAggregateOrderBy>;
   createdAt?: InputMaybe<OrderBy>;
   id?: InputMaybe<OrderBy>;
-  locations?: InputMaybe<OrderBy>;
   merchant?: InputMaybe<OrderBy>;
+  merchantObject?: InputMaybe<MerchantOrderBy>;
   metadataJson?: InputMaybe<OrderBy>;
   modifiedAt?: InputMaybe<OrderBy>;
   name?: InputMaybe<OrderBy>;
@@ -426,8 +750,6 @@ export enum CampaignSelectColumn {
   /** column name */
   Id = 'id',
   /** column name */
-  Locations = 'locations',
-  /** column name */
   Merchant = 'merchant',
   /** column name */
   MetadataJson = 'metadataJson',
@@ -443,6 +765,24 @@ export enum CampaignSelectColumn {
   WriteVersion = 'writeVersion'
 }
 
+/** order by stddev() on columns of table "campaign" */
+export type CampaignStddevOrderBy = {
+  slot?: InputMaybe<OrderBy>;
+  writeVersion?: InputMaybe<OrderBy>;
+};
+
+/** order by stddevPop() on columns of table "campaign" */
+export type CampaignStddevPopOrderBy = {
+  slot?: InputMaybe<OrderBy>;
+  writeVersion?: InputMaybe<OrderBy>;
+};
+
+/** order by stddevSamp() on columns of table "campaign" */
+export type CampaignStddevSampOrderBy = {
+  slot?: InputMaybe<OrderBy>;
+  writeVersion?: InputMaybe<OrderBy>;
+};
+
 /** Streaming cursor of the table "campaign" */
 export type CampaignStreamCursorInput = {
   /** Stream column input with initial value */
@@ -456,7 +796,6 @@ export type CampaignStreamCursorValueInput = {
   active?: InputMaybe<Scalars['Boolean']>;
   createdAt?: InputMaybe<Scalars['timestamptz']>;
   id?: InputMaybe<Scalars['String']>;
-  locations?: InputMaybe<Scalars['jsonb']>;
   merchant?: InputMaybe<Scalars['String']>;
   metadataJson?: InputMaybe<Scalars['jsonb']>;
   modifiedAt?: InputMaybe<Scalars['timestamptz']>;
@@ -464,6 +803,30 @@ export type CampaignStreamCursorValueInput = {
   slot?: InputMaybe<Scalars['bigint']>;
   uri?: InputMaybe<Scalars['String']>;
   writeVersion?: InputMaybe<Scalars['bigint']>;
+};
+
+/** order by sum() on columns of table "campaign" */
+export type CampaignSumOrderBy = {
+  slot?: InputMaybe<OrderBy>;
+  writeVersion?: InputMaybe<OrderBy>;
+};
+
+/** order by varPop() on columns of table "campaign" */
+export type CampaignVarPopOrderBy = {
+  slot?: InputMaybe<OrderBy>;
+  writeVersion?: InputMaybe<OrderBy>;
+};
+
+/** order by varSamp() on columns of table "campaign" */
+export type CampaignVarSampOrderBy = {
+  slot?: InputMaybe<OrderBy>;
+  writeVersion?: InputMaybe<OrderBy>;
+};
+
+/** order by variance() on columns of table "campaign" */
+export type CampaignVarianceOrderBy = {
+  slot?: InputMaybe<OrderBy>;
+  writeVersion?: InputMaybe<OrderBy>;
 };
 
 /** ordering argument of a cursor */
@@ -478,10 +841,10 @@ export enum CursorOrdering {
 export type DelegatePromoToken = {
   __typename?: 'DelegatePromoToken';
   campaign: Scalars['String'];
+  campaignLocation: Scalars['String'];
   createdAt: Scalars['timestamptz'];
   device: Scalars['String'];
   deviceOwner: Scalars['String'];
-  location: Scalars['String'];
   memo?: Maybe<Scalars['jsonb']>;
   mint: Scalars['String'];
   modifiedAt: Scalars['timestamptz'];
@@ -509,10 +872,10 @@ export type DelegatePromoTokenBoolExp = {
   _not?: InputMaybe<DelegatePromoTokenBoolExp>;
   _or?: InputMaybe<Array<DelegatePromoTokenBoolExp>>;
   campaign?: InputMaybe<StringComparisonExp>;
+  campaignLocation?: InputMaybe<StringComparisonExp>;
   createdAt?: InputMaybe<TimestamptzComparisonExp>;
   device?: InputMaybe<StringComparisonExp>;
   deviceOwner?: InputMaybe<StringComparisonExp>;
-  location?: InputMaybe<StringComparisonExp>;
   memo?: InputMaybe<JsonbComparisonExp>;
   mint?: InputMaybe<StringComparisonExp>;
   modifiedAt?: InputMaybe<TimestamptzComparisonExp>;
@@ -529,10 +892,10 @@ export type DelegatePromoTokenBoolExp = {
 /** Ordering options when selecting data from "delegate_promo_token". */
 export type DelegatePromoTokenOrderBy = {
   campaign?: InputMaybe<OrderBy>;
+  campaignLocation?: InputMaybe<OrderBy>;
   createdAt?: InputMaybe<OrderBy>;
   device?: InputMaybe<OrderBy>;
   deviceOwner?: InputMaybe<OrderBy>;
-  location?: InputMaybe<OrderBy>;
   memo?: InputMaybe<OrderBy>;
   mint?: InputMaybe<OrderBy>;
   modifiedAt?: InputMaybe<OrderBy>;
@@ -551,13 +914,13 @@ export enum DelegatePromoTokenSelectColumn {
   /** column name */
   Campaign = 'campaign',
   /** column name */
+  CampaignLocation = 'campaignLocation',
+  /** column name */
   CreatedAt = 'createdAt',
   /** column name */
   Device = 'device',
   /** column name */
   DeviceOwner = 'deviceOwner',
-  /** column name */
-  Location = 'location',
   /** column name */
   Memo = 'memo',
   /** column name */
@@ -589,10 +952,10 @@ export type DelegatePromoTokenStreamCursorInput = {
 /** Initial value of the column from where the streaming should start */
 export type DelegatePromoTokenStreamCursorValueInput = {
   campaign?: InputMaybe<Scalars['String']>;
+  campaignLocation?: InputMaybe<Scalars['String']>;
   createdAt?: InputMaybe<Scalars['timestamptz']>;
   device?: InputMaybe<Scalars['String']>;
   deviceOwner?: InputMaybe<Scalars['String']>;
-  location?: InputMaybe<Scalars['String']>;
   memo?: InputMaybe<Scalars['jsonb']>;
   mint?: InputMaybe<Scalars['String']>;
   modifiedAt?: InputMaybe<Scalars['timestamptz']>;
@@ -635,6 +998,12 @@ export type DeviceAggregate = {
   nodes: Array<Device>;
 };
 
+export type DeviceAggregateBoolExp = {
+  bool_and?: InputMaybe<DeviceAggregateBoolExpBool_And>;
+  bool_or?: InputMaybe<DeviceAggregateBoolExpBool_Or>;
+  count?: InputMaybe<DeviceAggregateBoolExpCount>;
+};
+
 /** aggregate fields of "device" */
 export type DeviceAggregateFields = {
   __typename?: 'DeviceAggregateFields';
@@ -643,11 +1012,11 @@ export type DeviceAggregateFields = {
   max?: Maybe<DeviceMaxFields>;
   min?: Maybe<DeviceMinFields>;
   stddev?: Maybe<DeviceStddevFields>;
-  stddevPop?: Maybe<DeviceStddev_PopFields>;
-  stddevSamp?: Maybe<DeviceStddev_SampFields>;
+  stddevPop?: Maybe<DeviceStddevPopFields>;
+  stddevSamp?: Maybe<DeviceStddevSampFields>;
   sum?: Maybe<DeviceSumFields>;
-  varPop?: Maybe<DeviceVar_PopFields>;
-  varSamp?: Maybe<DeviceVar_SampFields>;
+  varPop?: Maybe<DeviceVarPopFields>;
+  varSamp?: Maybe<DeviceVarSampFields>;
   variance?: Maybe<DeviceVarianceFields>;
 };
 
@@ -660,17 +1029,17 @@ export type DeviceAggregateFieldsCountArgs = {
 
 /** order by aggregate values of table "device" */
 export type DeviceAggregateOrderBy = {
-  avg?: InputMaybe<Device_Avg_Order_By>;
+  avg?: InputMaybe<DeviceAvgOrderBy>;
   count?: InputMaybe<OrderBy>;
-  max?: InputMaybe<Device_Max_Order_By>;
-  min?: InputMaybe<Device_Min_Order_By>;
-  stddev?: InputMaybe<Device_Stddev_Order_By>;
-  stddev_pop?: InputMaybe<Device_Stddev_Pop_Order_By>;
-  stddev_samp?: InputMaybe<Device_Stddev_Samp_Order_By>;
-  sum?: InputMaybe<Device_Sum_Order_By>;
-  var_pop?: InputMaybe<Device_Var_Pop_Order_By>;
-  var_samp?: InputMaybe<Device_Var_Samp_Order_By>;
-  variance?: InputMaybe<Device_Variance_Order_By>;
+  max?: InputMaybe<DeviceMaxOrderBy>;
+  min?: InputMaybe<DeviceMinOrderBy>;
+  stddev?: InputMaybe<DeviceStddevOrderBy>;
+  stddevPop?: InputMaybe<DeviceStddevPopOrderBy>;
+  stddevSamp?: InputMaybe<DeviceStddevSampOrderBy>;
+  sum?: InputMaybe<DeviceSumOrderBy>;
+  varPop?: InputMaybe<DeviceVarPopOrderBy>;
+  varSamp?: InputMaybe<DeviceVarSampOrderBy>;
+  variance?: InputMaybe<DeviceVarianceOrderBy>;
 };
 
 /** aggregate avg on columns */
@@ -678,6 +1047,12 @@ export type DeviceAvgFields = {
   __typename?: 'DeviceAvgFields';
   slot?: Maybe<Scalars['Float']>;
   writeVersion?: Maybe<Scalars['Float']>;
+};
+
+/** order by avg() on columns of table "device" */
+export type DeviceAvgOrderBy = {
+  slot?: InputMaybe<OrderBy>;
+  writeVersion?: InputMaybe<OrderBy>;
 };
 
 /** Boolean expression to filter rows from the table "device". All fields are combined with a logical 'AND'. */
@@ -713,6 +1088,19 @@ export type DeviceMaxFields = {
   writeVersion?: Maybe<Scalars['bigint']>;
 };
 
+/** order by max() on columns of table "device" */
+export type DeviceMaxOrderBy = {
+  createdAt?: InputMaybe<OrderBy>;
+  id?: InputMaybe<OrderBy>;
+  location?: InputMaybe<OrderBy>;
+  modifiedAt?: InputMaybe<OrderBy>;
+  name?: InputMaybe<OrderBy>;
+  owner?: InputMaybe<OrderBy>;
+  slot?: InputMaybe<OrderBy>;
+  uri?: InputMaybe<OrderBy>;
+  writeVersion?: InputMaybe<OrderBy>;
+};
+
 /** aggregate min on columns */
 export type DeviceMinFields = {
   __typename?: 'DeviceMinFields';
@@ -725,6 +1113,19 @@ export type DeviceMinFields = {
   slot?: Maybe<Scalars['bigint']>;
   uri?: Maybe<Scalars['String']>;
   writeVersion?: Maybe<Scalars['bigint']>;
+};
+
+/** order by min() on columns of table "device" */
+export type DeviceMinOrderBy = {
+  createdAt?: InputMaybe<OrderBy>;
+  id?: InputMaybe<OrderBy>;
+  location?: InputMaybe<OrderBy>;
+  modifiedAt?: InputMaybe<OrderBy>;
+  name?: InputMaybe<OrderBy>;
+  owner?: InputMaybe<OrderBy>;
+  slot?: InputMaybe<OrderBy>;
+  uri?: InputMaybe<OrderBy>;
+  writeVersion?: InputMaybe<OrderBy>;
 };
 
 /** Ordering options when selecting data from "device". */
@@ -769,6 +1170,18 @@ export enum DeviceSelectColumn {
   WriteVersion = 'writeVersion'
 }
 
+/** select "deviceAggregateBoolExpBool_andArgumentsColumns" columns of table "device" */
+export enum DeviceSelectColumnDeviceAggregateBoolExpBool_AndArgumentsColumns {
+  /** column name */
+  Active = 'active'
+}
+
+/** select "deviceAggregateBoolExpBool_orArgumentsColumns" columns of table "device" */
+export enum DeviceSelectColumnDeviceAggregateBoolExpBool_OrArgumentsColumns {
+  /** column name */
+  Active = 'active'
+}
+
 /** aggregate stddev on columns */
 export type DeviceStddevFields = {
   __typename?: 'DeviceStddevFields';
@@ -776,18 +1189,36 @@ export type DeviceStddevFields = {
   writeVersion?: Maybe<Scalars['Float']>;
 };
 
-/** aggregate stddev_pop on columns */
-export type DeviceStddev_PopFields = {
-  __typename?: 'DeviceStddev_popFields';
+/** order by stddev() on columns of table "device" */
+export type DeviceStddevOrderBy = {
+  slot?: InputMaybe<OrderBy>;
+  writeVersion?: InputMaybe<OrderBy>;
+};
+
+/** aggregate stddevPop on columns */
+export type DeviceStddevPopFields = {
+  __typename?: 'DeviceStddevPopFields';
   slot?: Maybe<Scalars['Float']>;
   writeVersion?: Maybe<Scalars['Float']>;
 };
 
-/** aggregate stddev_samp on columns */
-export type DeviceStddev_SampFields = {
-  __typename?: 'DeviceStddev_sampFields';
+/** order by stddevPop() on columns of table "device" */
+export type DeviceStddevPopOrderBy = {
+  slot?: InputMaybe<OrderBy>;
+  writeVersion?: InputMaybe<OrderBy>;
+};
+
+/** aggregate stddevSamp on columns */
+export type DeviceStddevSampFields = {
+  __typename?: 'DeviceStddevSampFields';
   slot?: Maybe<Scalars['Float']>;
   writeVersion?: Maybe<Scalars['Float']>;
+};
+
+/** order by stddevSamp() on columns of table "device" */
+export type DeviceStddevSampOrderBy = {
+  slot?: InputMaybe<OrderBy>;
+  writeVersion?: InputMaybe<OrderBy>;
 };
 
 /** Streaming cursor of the table "device" */
@@ -820,18 +1251,36 @@ export type DeviceSumFields = {
   writeVersion?: Maybe<Scalars['bigint']>;
 };
 
-/** aggregate var_pop on columns */
-export type DeviceVar_PopFields = {
-  __typename?: 'DeviceVar_popFields';
+/** order by sum() on columns of table "device" */
+export type DeviceSumOrderBy = {
+  slot?: InputMaybe<OrderBy>;
+  writeVersion?: InputMaybe<OrderBy>;
+};
+
+/** aggregate varPop on columns */
+export type DeviceVarPopFields = {
+  __typename?: 'DeviceVarPopFields';
   slot?: Maybe<Scalars['Float']>;
   writeVersion?: Maybe<Scalars['Float']>;
 };
 
-/** aggregate var_samp on columns */
-export type DeviceVar_SampFields = {
-  __typename?: 'DeviceVar_sampFields';
+/** order by varPop() on columns of table "device" */
+export type DeviceVarPopOrderBy = {
+  slot?: InputMaybe<OrderBy>;
+  writeVersion?: InputMaybe<OrderBy>;
+};
+
+/** aggregate varSamp on columns */
+export type DeviceVarSampFields = {
+  __typename?: 'DeviceVarSampFields';
   slot?: Maybe<Scalars['Float']>;
   writeVersion?: Maybe<Scalars['Float']>;
+};
+
+/** order by varSamp() on columns of table "device" */
+export type DeviceVarSampOrderBy = {
+  slot?: InputMaybe<OrderBy>;
+  writeVersion?: InputMaybe<OrderBy>;
 };
 
 /** aggregate variance on columns */
@@ -839,6 +1288,12 @@ export type DeviceVarianceFields = {
   __typename?: 'DeviceVarianceFields';
   slot?: Maybe<Scalars['Float']>;
   writeVersion?: Maybe<Scalars['Float']>;
+};
+
+/** order by variance() on columns of table "device" */
+export type DeviceVarianceOrderBy = {
+  slot?: InputMaybe<OrderBy>;
+  writeVersion?: InputMaybe<OrderBy>;
 };
 
 /** Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'. */
@@ -1110,6 +1565,8 @@ export type ListingWithTokenStreamCursorValueInput = {
 export type Location = {
   __typename?: 'Location';
   active: Scalars['Boolean'];
+  /** An array relationship */
+  campaignLocations: Array<CampaignLocation>;
   createdAt: Scalars['timestamptz'];
   /** An array relationship */
   devices: Array<Device>;
@@ -1125,6 +1582,16 @@ export type Location = {
   slot: Scalars['bigint'];
   uri: Scalars['String'];
   writeVersion: Scalars['bigint'];
+};
+
+
+/** columns and relationships of "location" */
+export type LocationCampaignLocationsArgs = {
+  distinctOn?: InputMaybe<Array<CampaignLocationSelectColumn>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Array<CampaignLocationOrderBy>>;
+  where?: InputMaybe<CampaignLocationBoolExp>;
 };
 
 
@@ -1155,17 +1622,23 @@ export type LocationMetadataJsonArgs = {
 
 /** order by aggregate values of table "location" */
 export type LocationAggregateOrderBy = {
-  avg?: InputMaybe<Location_Avg_Order_By>;
+  avg?: InputMaybe<LocationAvgOrderBy>;
   count?: InputMaybe<OrderBy>;
-  max?: InputMaybe<Location_Max_Order_By>;
-  min?: InputMaybe<Location_Min_Order_By>;
-  stddev?: InputMaybe<Location_Stddev_Order_By>;
-  stddev_pop?: InputMaybe<Location_Stddev_Pop_Order_By>;
-  stddev_samp?: InputMaybe<Location_Stddev_Samp_Order_By>;
-  sum?: InputMaybe<Location_Sum_Order_By>;
-  var_pop?: InputMaybe<Location_Var_Pop_Order_By>;
-  var_samp?: InputMaybe<Location_Var_Samp_Order_By>;
-  variance?: InputMaybe<Location_Variance_Order_By>;
+  max?: InputMaybe<LocationMaxOrderBy>;
+  min?: InputMaybe<LocationMinOrderBy>;
+  stddev?: InputMaybe<LocationStddevOrderBy>;
+  stddevPop?: InputMaybe<LocationStddevPopOrderBy>;
+  stddevSamp?: InputMaybe<LocationStddevSampOrderBy>;
+  sum?: InputMaybe<LocationSumOrderBy>;
+  varPop?: InputMaybe<LocationVarPopOrderBy>;
+  varSamp?: InputMaybe<LocationVarSampOrderBy>;
+  variance?: InputMaybe<LocationVarianceOrderBy>;
+};
+
+/** order by avg() on columns of table "location" */
+export type LocationAvgOrderBy = {
+  slot?: InputMaybe<OrderBy>;
+  writeVersion?: InputMaybe<OrderBy>;
 };
 
 /** Boolean expression to filter rows from the table "location". All fields are combined with a logical 'AND'. */
@@ -1174,9 +1647,10 @@ export type LocationBoolExp = {
   _not?: InputMaybe<LocationBoolExp>;
   _or?: InputMaybe<Array<LocationBoolExp>>;
   active?: InputMaybe<BooleanComparisonExp>;
+  campaignLocations?: InputMaybe<CampaignLocationBoolExp>;
   createdAt?: InputMaybe<TimestamptzComparisonExp>;
   devices?: InputMaybe<DeviceBoolExp>;
-  devices_aggregate?: InputMaybe<Device_Aggregate_Bool_Exp>;
+  devicesAggregate?: InputMaybe<DeviceAggregateBoolExp>;
   id?: InputMaybe<StringComparisonExp>;
   merchant?: InputMaybe<StringComparisonExp>;
   merchantObject?: InputMaybe<MerchantBoolExp>;
@@ -1188,9 +1662,34 @@ export type LocationBoolExp = {
   writeVersion?: InputMaybe<BigintComparisonExp>;
 };
 
+/** order by max() on columns of table "location" */
+export type LocationMaxOrderBy = {
+  createdAt?: InputMaybe<OrderBy>;
+  id?: InputMaybe<OrderBy>;
+  merchant?: InputMaybe<OrderBy>;
+  modifiedAt?: InputMaybe<OrderBy>;
+  name?: InputMaybe<OrderBy>;
+  slot?: InputMaybe<OrderBy>;
+  uri?: InputMaybe<OrderBy>;
+  writeVersion?: InputMaybe<OrderBy>;
+};
+
+/** order by min() on columns of table "location" */
+export type LocationMinOrderBy = {
+  createdAt?: InputMaybe<OrderBy>;
+  id?: InputMaybe<OrderBy>;
+  merchant?: InputMaybe<OrderBy>;
+  modifiedAt?: InputMaybe<OrderBy>;
+  name?: InputMaybe<OrderBy>;
+  slot?: InputMaybe<OrderBy>;
+  uri?: InputMaybe<OrderBy>;
+  writeVersion?: InputMaybe<OrderBy>;
+};
+
 /** Ordering options when selecting data from "location". */
 export type LocationOrderBy = {
   active?: InputMaybe<OrderBy>;
+  campaignLocationsAggregate?: InputMaybe<CampaignLocationAggregateOrderBy>;
   createdAt?: InputMaybe<OrderBy>;
   devicesAggregate?: InputMaybe<DeviceAggregateOrderBy>;
   id?: InputMaybe<OrderBy>;
@@ -1228,6 +1727,24 @@ export enum LocationSelectColumn {
   WriteVersion = 'writeVersion'
 }
 
+/** order by stddev() on columns of table "location" */
+export type LocationStddevOrderBy = {
+  slot?: InputMaybe<OrderBy>;
+  writeVersion?: InputMaybe<OrderBy>;
+};
+
+/** order by stddevPop() on columns of table "location" */
+export type LocationStddevPopOrderBy = {
+  slot?: InputMaybe<OrderBy>;
+  writeVersion?: InputMaybe<OrderBy>;
+};
+
+/** order by stddevSamp() on columns of table "location" */
+export type LocationStddevSampOrderBy = {
+  slot?: InputMaybe<OrderBy>;
+  writeVersion?: InputMaybe<OrderBy>;
+};
+
 /** Streaming cursor of the table "location" */
 export type LocationStreamCursorInput = {
   /** Stream column input with initial value */
@@ -1248,6 +1765,30 @@ export type LocationStreamCursorValueInput = {
   slot?: InputMaybe<Scalars['bigint']>;
   uri?: InputMaybe<Scalars['String']>;
   writeVersion?: InputMaybe<Scalars['bigint']>;
+};
+
+/** order by sum() on columns of table "location" */
+export type LocationSumOrderBy = {
+  slot?: InputMaybe<OrderBy>;
+  writeVersion?: InputMaybe<OrderBy>;
+};
+
+/** order by varPop() on columns of table "location" */
+export type LocationVarPopOrderBy = {
+  slot?: InputMaybe<OrderBy>;
+  writeVersion?: InputMaybe<OrderBy>;
+};
+
+/** order by varSamp() on columns of table "location" */
+export type LocationVarSampOrderBy = {
+  slot?: InputMaybe<OrderBy>;
+  writeVersion?: InputMaybe<OrderBy>;
+};
+
+/** order by variance() on columns of table "location" */
+export type LocationVarianceOrderBy = {
+  slot?: InputMaybe<OrderBy>;
+  writeVersion?: InputMaybe<OrderBy>;
 };
 
 /** columns and relationships of "merchant" */
@@ -1618,7 +2159,11 @@ export type MintOrderBy = {
 export type MintPromoToken = {
   __typename?: 'MintPromoToken';
   authority: Scalars['String'];
+  campaign: Scalars['String'];
+  campaignLocation: Scalars['String'];
   createdAt: Scalars['timestamptz'];
+  device: Scalars['String'];
+  deviceOwner: Scalars['String'];
   memo?: Maybe<Scalars['jsonb']>;
   mint: Scalars['String'];
   /** An object relationship */
@@ -1646,7 +2191,11 @@ export type MintPromoTokenBoolExp = {
   _not?: InputMaybe<MintPromoTokenBoolExp>;
   _or?: InputMaybe<Array<MintPromoTokenBoolExp>>;
   authority?: InputMaybe<StringComparisonExp>;
+  campaign?: InputMaybe<StringComparisonExp>;
+  campaignLocation?: InputMaybe<StringComparisonExp>;
   createdAt?: InputMaybe<TimestamptzComparisonExp>;
+  device?: InputMaybe<StringComparisonExp>;
+  deviceOwner?: InputMaybe<StringComparisonExp>;
   memo?: InputMaybe<JsonbComparisonExp>;
   mint?: InputMaybe<StringComparisonExp>;
   mintObject?: InputMaybe<MintBoolExp>;
@@ -1663,7 +2212,11 @@ export type MintPromoTokenBoolExp = {
 /** Ordering options when selecting data from "mint_promo_token". */
 export type MintPromoTokenOrderBy = {
   authority?: InputMaybe<OrderBy>;
+  campaign?: InputMaybe<OrderBy>;
+  campaignLocation?: InputMaybe<OrderBy>;
   createdAt?: InputMaybe<OrderBy>;
+  device?: InputMaybe<OrderBy>;
+  deviceOwner?: InputMaybe<OrderBy>;
   memo?: InputMaybe<OrderBy>;
   mint?: InputMaybe<OrderBy>;
   mintObject?: InputMaybe<MintOrderBy>;
@@ -1682,7 +2235,15 @@ export enum MintPromoTokenSelectColumn {
   /** column name */
   Authority = 'authority',
   /** column name */
+  Campaign = 'campaign',
+  /** column name */
+  CampaignLocation = 'campaignLocation',
+  /** column name */
   CreatedAt = 'createdAt',
+  /** column name */
+  Device = 'device',
+  /** column name */
+  DeviceOwner = 'deviceOwner',
   /** column name */
   Memo = 'memo',
   /** column name */
@@ -1714,7 +2275,11 @@ export type MintPromoTokenStreamCursorInput = {
 /** Initial value of the column from where the streaming should start */
 export type MintPromoTokenStreamCursorValueInput = {
   authority?: InputMaybe<Scalars['String']>;
+  campaign?: InputMaybe<Scalars['String']>;
+  campaignLocation?: InputMaybe<Scalars['String']>;
   createdAt?: InputMaybe<Scalars['timestamptz']>;
+  device?: InputMaybe<Scalars['String']>;
+  deviceOwner?: InputMaybe<Scalars['String']>;
   memo?: InputMaybe<Scalars['jsonb']>;
   mint?: InputMaybe<Scalars['String']>;
   modifiedAt?: InputMaybe<Scalars['timestamptz']>;
@@ -1814,17 +2379,27 @@ export type Promo = {
 
 /** order by aggregate values of table "promo" */
 export type PromoAggregateOrderBy = {
-  avg?: InputMaybe<Promo_Avg_Order_By>;
+  avg?: InputMaybe<PromoAvgOrderBy>;
   count?: InputMaybe<OrderBy>;
-  max?: InputMaybe<Promo_Max_Order_By>;
-  min?: InputMaybe<Promo_Min_Order_By>;
-  stddev?: InputMaybe<Promo_Stddev_Order_By>;
-  stddev_pop?: InputMaybe<Promo_Stddev_Pop_Order_By>;
-  stddev_samp?: InputMaybe<Promo_Stddev_Samp_Order_By>;
-  sum?: InputMaybe<Promo_Sum_Order_By>;
-  var_pop?: InputMaybe<Promo_Var_Pop_Order_By>;
-  var_samp?: InputMaybe<Promo_Var_Samp_Order_By>;
-  variance?: InputMaybe<Promo_Variance_Order_By>;
+  max?: InputMaybe<PromoMaxOrderBy>;
+  min?: InputMaybe<PromoMinOrderBy>;
+  stddev?: InputMaybe<PromoStddevOrderBy>;
+  stddevPop?: InputMaybe<PromoStddevPopOrderBy>;
+  stddevSamp?: InputMaybe<PromoStddevSampOrderBy>;
+  sum?: InputMaybe<PromoSumOrderBy>;
+  varPop?: InputMaybe<PromoVarPopOrderBy>;
+  varSamp?: InputMaybe<PromoVarSampOrderBy>;
+  variance?: InputMaybe<PromoVarianceOrderBy>;
+};
+
+/** order by avg() on columns of table "promo" */
+export type PromoAvgOrderBy = {
+  burnCount?: InputMaybe<OrderBy>;
+  maxBurn?: InputMaybe<OrderBy>;
+  maxMint?: InputMaybe<OrderBy>;
+  mintCount?: InputMaybe<OrderBy>;
+  slot?: InputMaybe<OrderBy>;
+  writeVersion?: InputMaybe<OrderBy>;
 };
 
 /** Boolean expression to filter rows from the table "promo". All fields are combined with a logical 'AND'. */
@@ -1848,6 +2423,38 @@ export type PromoBoolExp = {
   modifiedAt?: InputMaybe<TimestamptzComparisonExp>;
   slot?: InputMaybe<BigintComparisonExp>;
   writeVersion?: InputMaybe<BigintComparisonExp>;
+};
+
+/** order by max() on columns of table "promo" */
+export type PromoMaxOrderBy = {
+  burnCount?: InputMaybe<OrderBy>;
+  campaign?: InputMaybe<OrderBy>;
+  createdAt?: InputMaybe<OrderBy>;
+  id?: InputMaybe<OrderBy>;
+  maxBurn?: InputMaybe<OrderBy>;
+  maxMint?: InputMaybe<OrderBy>;
+  metadata?: InputMaybe<OrderBy>;
+  mint?: InputMaybe<OrderBy>;
+  mintCount?: InputMaybe<OrderBy>;
+  modifiedAt?: InputMaybe<OrderBy>;
+  slot?: InputMaybe<OrderBy>;
+  writeVersion?: InputMaybe<OrderBy>;
+};
+
+/** order by min() on columns of table "promo" */
+export type PromoMinOrderBy = {
+  burnCount?: InputMaybe<OrderBy>;
+  campaign?: InputMaybe<OrderBy>;
+  createdAt?: InputMaybe<OrderBy>;
+  id?: InputMaybe<OrderBy>;
+  maxBurn?: InputMaybe<OrderBy>;
+  maxMint?: InputMaybe<OrderBy>;
+  metadata?: InputMaybe<OrderBy>;
+  mint?: InputMaybe<OrderBy>;
+  mintCount?: InputMaybe<OrderBy>;
+  modifiedAt?: InputMaybe<OrderBy>;
+  slot?: InputMaybe<OrderBy>;
+  writeVersion?: InputMaybe<OrderBy>;
 };
 
 /** Ordering options when selecting data from "promo". */
@@ -1900,6 +2507,36 @@ export enum PromoSelectColumn {
   WriteVersion = 'writeVersion'
 }
 
+/** order by stddev() on columns of table "promo" */
+export type PromoStddevOrderBy = {
+  burnCount?: InputMaybe<OrderBy>;
+  maxBurn?: InputMaybe<OrderBy>;
+  maxMint?: InputMaybe<OrderBy>;
+  mintCount?: InputMaybe<OrderBy>;
+  slot?: InputMaybe<OrderBy>;
+  writeVersion?: InputMaybe<OrderBy>;
+};
+
+/** order by stddevPop() on columns of table "promo" */
+export type PromoStddevPopOrderBy = {
+  burnCount?: InputMaybe<OrderBy>;
+  maxBurn?: InputMaybe<OrderBy>;
+  maxMint?: InputMaybe<OrderBy>;
+  mintCount?: InputMaybe<OrderBy>;
+  slot?: InputMaybe<OrderBy>;
+  writeVersion?: InputMaybe<OrderBy>;
+};
+
+/** order by stddevSamp() on columns of table "promo" */
+export type PromoStddevSampOrderBy = {
+  burnCount?: InputMaybe<OrderBy>;
+  maxBurn?: InputMaybe<OrderBy>;
+  maxMint?: InputMaybe<OrderBy>;
+  mintCount?: InputMaybe<OrderBy>;
+  slot?: InputMaybe<OrderBy>;
+  writeVersion?: InputMaybe<OrderBy>;
+};
+
 /** Streaming cursor of the table "promo" */
 export type PromoStreamCursorInput = {
   /** Stream column input with initial value */
@@ -1925,14 +2562,25 @@ export type PromoStreamCursorValueInput = {
   writeVersion?: InputMaybe<Scalars['bigint']>;
 };
 
+/** order by sum() on columns of table "promo" */
+export type PromoSumOrderBy = {
+  burnCount?: InputMaybe<OrderBy>;
+  maxBurn?: InputMaybe<OrderBy>;
+  maxMint?: InputMaybe<OrderBy>;
+  mintCount?: InputMaybe<OrderBy>;
+  slot?: InputMaybe<OrderBy>;
+  writeVersion?: InputMaybe<OrderBy>;
+};
+
 /** columns and relationships of "promo_transactions" */
 export type PromoTransactions = {
   __typename?: 'PromoTransactions';
   authority?: Maybe<Scalars['String']>;
   campaign?: Maybe<Scalars['String']>;
+  campaignLocation?: Maybe<Scalars['String']>;
   createdAt?: Maybe<Scalars['timestamptz']>;
   device?: Maybe<Scalars['String']>;
-  location?: Maybe<Scalars['String']>;
+  deviceOwner?: Maybe<Scalars['String']>;
   memo?: Maybe<Scalars['jsonb']>;
   mint?: Maybe<Scalars['String']>;
   /** An object relationship */
@@ -1961,9 +2609,10 @@ export type PromoTransactionsBoolExp = {
   _or?: InputMaybe<Array<PromoTransactionsBoolExp>>;
   authority?: InputMaybe<StringComparisonExp>;
   campaign?: InputMaybe<StringComparisonExp>;
+  campaignLocation?: InputMaybe<StringComparisonExp>;
   createdAt?: InputMaybe<TimestamptzComparisonExp>;
   device?: InputMaybe<StringComparisonExp>;
-  location?: InputMaybe<StringComparisonExp>;
+  deviceOwner?: InputMaybe<StringComparisonExp>;
   memo?: InputMaybe<JsonbComparisonExp>;
   mint?: InputMaybe<StringComparisonExp>;
   mintObject?: InputMaybe<MintBoolExp>;
@@ -1981,9 +2630,10 @@ export type PromoTransactionsBoolExp = {
 export type PromoTransactionsOrderBy = {
   authority?: InputMaybe<OrderBy>;
   campaign?: InputMaybe<OrderBy>;
+  campaignLocation?: InputMaybe<OrderBy>;
   createdAt?: InputMaybe<OrderBy>;
   device?: InputMaybe<OrderBy>;
-  location?: InputMaybe<OrderBy>;
+  deviceOwner?: InputMaybe<OrderBy>;
   memo?: InputMaybe<OrderBy>;
   mint?: InputMaybe<OrderBy>;
   mintObject?: InputMaybe<MintOrderBy>;
@@ -2004,11 +2654,13 @@ export enum PromoTransactionsSelectColumn {
   /** column name */
   Campaign = 'campaign',
   /** column name */
+  CampaignLocation = 'campaignLocation',
+  /** column name */
   CreatedAt = 'createdAt',
   /** column name */
   Device = 'device',
   /** column name */
-  Location = 'location',
+  DeviceOwner = 'deviceOwner',
   /** column name */
   Memo = 'memo',
   /** column name */
@@ -2041,9 +2693,10 @@ export type PromoTransactionsStreamCursorInput = {
 export type PromoTransactionsStreamCursorValueInput = {
   authority?: InputMaybe<Scalars['String']>;
   campaign?: InputMaybe<Scalars['String']>;
+  campaignLocation?: InputMaybe<Scalars['String']>;
   createdAt?: InputMaybe<Scalars['timestamptz']>;
   device?: InputMaybe<Scalars['String']>;
-  location?: InputMaybe<Scalars['String']>;
+  deviceOwner?: InputMaybe<Scalars['String']>;
   memo?: InputMaybe<Scalars['jsonb']>;
   mint?: InputMaybe<Scalars['String']>;
   modifiedAt?: InputMaybe<Scalars['timestamptz']>;
@@ -2053,6 +2706,36 @@ export type PromoTransactionsStreamCursorValueInput = {
   slot?: InputMaybe<Scalars['bigint']>;
   tokenAccount?: InputMaybe<Scalars['String']>;
   transactionType?: InputMaybe<Scalars['String']>;
+};
+
+/** order by varPop() on columns of table "promo" */
+export type PromoVarPopOrderBy = {
+  burnCount?: InputMaybe<OrderBy>;
+  maxBurn?: InputMaybe<OrderBy>;
+  maxMint?: InputMaybe<OrderBy>;
+  mintCount?: InputMaybe<OrderBy>;
+  slot?: InputMaybe<OrderBy>;
+  writeVersion?: InputMaybe<OrderBy>;
+};
+
+/** order by varSamp() on columns of table "promo" */
+export type PromoVarSampOrderBy = {
+  burnCount?: InputMaybe<OrderBy>;
+  maxBurn?: InputMaybe<OrderBy>;
+  maxMint?: InputMaybe<OrderBy>;
+  mintCount?: InputMaybe<OrderBy>;
+  slot?: InputMaybe<OrderBy>;
+  writeVersion?: InputMaybe<OrderBy>;
+};
+
+/** order by variance() on columns of table "promo" */
+export type PromoVarianceOrderBy = {
+  burnCount?: InputMaybe<OrderBy>;
+  maxBurn?: InputMaybe<OrderBy>;
+  maxMint?: InputMaybe<OrderBy>;
+  mintCount?: InputMaybe<OrderBy>;
+  slot?: InputMaybe<OrderBy>;
+  writeVersion?: InputMaybe<OrderBy>;
 };
 
 /** columns and relationships of "purchase_receipt" */
@@ -2323,17 +3006,26 @@ export type TokenAccount = {
 
 /** order by aggregate values of table "token_account" */
 export type TokenAccountAggregateOrderBy = {
-  avg?: InputMaybe<Token_Account_Avg_Order_By>;
+  avg?: InputMaybe<TokenAccountAvgOrderBy>;
   count?: InputMaybe<OrderBy>;
-  max?: InputMaybe<Token_Account_Max_Order_By>;
-  min?: InputMaybe<Token_Account_Min_Order_By>;
-  stddev?: InputMaybe<Token_Account_Stddev_Order_By>;
-  stddev_pop?: InputMaybe<Token_Account_Stddev_Pop_Order_By>;
-  stddev_samp?: InputMaybe<Token_Account_Stddev_Samp_Order_By>;
-  sum?: InputMaybe<Token_Account_Sum_Order_By>;
-  var_pop?: InputMaybe<Token_Account_Var_Pop_Order_By>;
-  var_samp?: InputMaybe<Token_Account_Var_Samp_Order_By>;
-  variance?: InputMaybe<Token_Account_Variance_Order_By>;
+  max?: InputMaybe<TokenAccountMaxOrderBy>;
+  min?: InputMaybe<TokenAccountMinOrderBy>;
+  stddev?: InputMaybe<TokenAccountStddevOrderBy>;
+  stddevPop?: InputMaybe<TokenAccountStddevPopOrderBy>;
+  stddevSamp?: InputMaybe<TokenAccountStddevSampOrderBy>;
+  sum?: InputMaybe<TokenAccountSumOrderBy>;
+  varPop?: InputMaybe<TokenAccountVarPopOrderBy>;
+  varSamp?: InputMaybe<TokenAccountVarSampOrderBy>;
+  variance?: InputMaybe<TokenAccountVarianceOrderBy>;
+};
+
+/** order by avg() on columns of table "token_account" */
+export type TokenAccountAvgOrderBy = {
+  amount?: InputMaybe<OrderBy>;
+  delegatedAmount?: InputMaybe<OrderBy>;
+  isNative?: InputMaybe<OrderBy>;
+  slot?: InputMaybe<OrderBy>;
+  writeVersion?: InputMaybe<OrderBy>;
 };
 
 /** Boolean expression to filter rows from the table "token_account". All fields are combined with a logical 'AND'. */
@@ -2355,6 +3047,40 @@ export type TokenAccountBoolExp = {
   slot?: InputMaybe<BigintComparisonExp>;
   state?: InputMaybe<StringComparisonExp>;
   writeVersion?: InputMaybe<BigintComparisonExp>;
+};
+
+/** order by max() on columns of table "token_account" */
+export type TokenAccountMaxOrderBy = {
+  amount?: InputMaybe<OrderBy>;
+  closeAuthority?: InputMaybe<OrderBy>;
+  createdAt?: InputMaybe<OrderBy>;
+  delegate?: InputMaybe<OrderBy>;
+  delegatedAmount?: InputMaybe<OrderBy>;
+  id?: InputMaybe<OrderBy>;
+  isNative?: InputMaybe<OrderBy>;
+  mint?: InputMaybe<OrderBy>;
+  modifiedAt?: InputMaybe<OrderBy>;
+  owner?: InputMaybe<OrderBy>;
+  slot?: InputMaybe<OrderBy>;
+  state?: InputMaybe<OrderBy>;
+  writeVersion?: InputMaybe<OrderBy>;
+};
+
+/** order by min() on columns of table "token_account" */
+export type TokenAccountMinOrderBy = {
+  amount?: InputMaybe<OrderBy>;
+  closeAuthority?: InputMaybe<OrderBy>;
+  createdAt?: InputMaybe<OrderBy>;
+  delegate?: InputMaybe<OrderBy>;
+  delegatedAmount?: InputMaybe<OrderBy>;
+  id?: InputMaybe<OrderBy>;
+  isNative?: InputMaybe<OrderBy>;
+  mint?: InputMaybe<OrderBy>;
+  modifiedAt?: InputMaybe<OrderBy>;
+  owner?: InputMaybe<OrderBy>;
+  slot?: InputMaybe<OrderBy>;
+  state?: InputMaybe<OrderBy>;
+  writeVersion?: InputMaybe<OrderBy>;
 };
 
 /** Ordering options when selecting data from "token_account". */
@@ -2405,6 +3131,33 @@ export enum TokenAccountSelectColumn {
   WriteVersion = 'writeVersion'
 }
 
+/** order by stddev() on columns of table "token_account" */
+export type TokenAccountStddevOrderBy = {
+  amount?: InputMaybe<OrderBy>;
+  delegatedAmount?: InputMaybe<OrderBy>;
+  isNative?: InputMaybe<OrderBy>;
+  slot?: InputMaybe<OrderBy>;
+  writeVersion?: InputMaybe<OrderBy>;
+};
+
+/** order by stddevPop() on columns of table "token_account" */
+export type TokenAccountStddevPopOrderBy = {
+  amount?: InputMaybe<OrderBy>;
+  delegatedAmount?: InputMaybe<OrderBy>;
+  isNative?: InputMaybe<OrderBy>;
+  slot?: InputMaybe<OrderBy>;
+  writeVersion?: InputMaybe<OrderBy>;
+};
+
+/** order by stddevSamp() on columns of table "token_account" */
+export type TokenAccountStddevSampOrderBy = {
+  amount?: InputMaybe<OrderBy>;
+  delegatedAmount?: InputMaybe<OrderBy>;
+  isNative?: InputMaybe<OrderBy>;
+  slot?: InputMaybe<OrderBy>;
+  writeVersion?: InputMaybe<OrderBy>;
+};
+
 /** Streaming cursor of the table "token_account" */
 export type TokenAccountStreamCursorInput = {
   /** Stream column input with initial value */
@@ -2430,377 +3183,69 @@ export type TokenAccountStreamCursorValueInput = {
   writeVersion?: InputMaybe<Scalars['bigint']>;
 };
 
-/** order by avg() on columns of table "campaign" */
-export type Campaign_Avg_Order_By = {
+/** order by sum() on columns of table "token_account" */
+export type TokenAccountSumOrderBy = {
+  amount?: InputMaybe<OrderBy>;
+  delegatedAmount?: InputMaybe<OrderBy>;
+  isNative?: InputMaybe<OrderBy>;
   slot?: InputMaybe<OrderBy>;
   writeVersion?: InputMaybe<OrderBy>;
 };
 
-/** order by max() on columns of table "campaign" */
-export type Campaign_Max_Order_By = {
-  createdAt?: InputMaybe<OrderBy>;
-  id?: InputMaybe<OrderBy>;
-  merchant?: InputMaybe<OrderBy>;
-  modifiedAt?: InputMaybe<OrderBy>;
-  name?: InputMaybe<OrderBy>;
-  slot?: InputMaybe<OrderBy>;
-  uri?: InputMaybe<OrderBy>;
-  writeVersion?: InputMaybe<OrderBy>;
-};
-
-/** order by min() on columns of table "campaign" */
-export type Campaign_Min_Order_By = {
-  createdAt?: InputMaybe<OrderBy>;
-  id?: InputMaybe<OrderBy>;
-  merchant?: InputMaybe<OrderBy>;
-  modifiedAt?: InputMaybe<OrderBy>;
-  name?: InputMaybe<OrderBy>;
-  slot?: InputMaybe<OrderBy>;
-  uri?: InputMaybe<OrderBy>;
-  writeVersion?: InputMaybe<OrderBy>;
-};
-
-/** order by stddev() on columns of table "campaign" */
-export type Campaign_Stddev_Order_By = {
+/** order by varPop() on columns of table "token_account" */
+export type TokenAccountVarPopOrderBy = {
+  amount?: InputMaybe<OrderBy>;
+  delegatedAmount?: InputMaybe<OrderBy>;
+  isNative?: InputMaybe<OrderBy>;
   slot?: InputMaybe<OrderBy>;
   writeVersion?: InputMaybe<OrderBy>;
 };
 
-/** order by stddev_pop() on columns of table "campaign" */
-export type Campaign_Stddev_Pop_Order_By = {
+/** order by varSamp() on columns of table "token_account" */
+export type TokenAccountVarSampOrderBy = {
+  amount?: InputMaybe<OrderBy>;
+  delegatedAmount?: InputMaybe<OrderBy>;
+  isNative?: InputMaybe<OrderBy>;
   slot?: InputMaybe<OrderBy>;
   writeVersion?: InputMaybe<OrderBy>;
 };
 
-/** order by stddev_samp() on columns of table "campaign" */
-export type Campaign_Stddev_Samp_Order_By = {
+/** order by variance() on columns of table "token_account" */
+export type TokenAccountVarianceOrderBy = {
+  amount?: InputMaybe<OrderBy>;
+  delegatedAmount?: InputMaybe<OrderBy>;
+  isNative?: InputMaybe<OrderBy>;
   slot?: InputMaybe<OrderBy>;
   writeVersion?: InputMaybe<OrderBy>;
 };
 
-/** order by sum() on columns of table "campaign" */
-export type Campaign_Sum_Order_By = {
-  slot?: InputMaybe<OrderBy>;
-  writeVersion?: InputMaybe<OrderBy>;
-};
-
-/** order by var_pop() on columns of table "campaign" */
-export type Campaign_Var_Pop_Order_By = {
-  slot?: InputMaybe<OrderBy>;
-  writeVersion?: InputMaybe<OrderBy>;
-};
-
-/** order by var_samp() on columns of table "campaign" */
-export type Campaign_Var_Samp_Order_By = {
-  slot?: InputMaybe<OrderBy>;
-  writeVersion?: InputMaybe<OrderBy>;
-};
-
-/** order by variance() on columns of table "campaign" */
-export type Campaign_Variance_Order_By = {
-  slot?: InputMaybe<OrderBy>;
-  writeVersion?: InputMaybe<OrderBy>;
-};
-
-export type Device_Aggregate_Bool_Exp = {
-  bool_and?: InputMaybe<Device_Aggregate_Bool_Exp_Bool_And>;
-  bool_or?: InputMaybe<Device_Aggregate_Bool_Exp_Bool_Or>;
-  count?: InputMaybe<Device_Aggregate_Bool_Exp_Count>;
-};
-
-export type Device_Aggregate_Bool_Exp_Bool_And = {
-  arguments: Device_Select_Column_Device_Aggregate_Bool_Exp_Bool_And_Arguments_Columns;
+export type DeviceAggregateBoolExpBool_And = {
+  arguments: DeviceSelectColumnDeviceAggregateBoolExpBool_AndArgumentsColumns;
   distinct?: InputMaybe<Scalars['Boolean']>;
   filter?: InputMaybe<DeviceBoolExp>;
   predicate: BooleanComparisonExp;
 };
 
-export type Device_Aggregate_Bool_Exp_Bool_Or = {
-  arguments: Device_Select_Column_Device_Aggregate_Bool_Exp_Bool_Or_Arguments_Columns;
+export type DeviceAggregateBoolExpBool_Or = {
+  arguments: DeviceSelectColumnDeviceAggregateBoolExpBool_OrArgumentsColumns;
   distinct?: InputMaybe<Scalars['Boolean']>;
   filter?: InputMaybe<DeviceBoolExp>;
   predicate: BooleanComparisonExp;
 };
 
-export type Device_Aggregate_Bool_Exp_Count = {
+export type DeviceAggregateBoolExpCount = {
   arguments?: InputMaybe<Array<DeviceSelectColumn>>;
   distinct?: InputMaybe<Scalars['Boolean']>;
   filter?: InputMaybe<DeviceBoolExp>;
   predicate: IntComparisonExp;
 };
 
-/** order by avg() on columns of table "device" */
-export type Device_Avg_Order_By = {
-  slot?: InputMaybe<OrderBy>;
-  writeVersion?: InputMaybe<OrderBy>;
-};
-
-/** order by max() on columns of table "device" */
-export type Device_Max_Order_By = {
-  createdAt?: InputMaybe<OrderBy>;
-  id?: InputMaybe<OrderBy>;
-  location?: InputMaybe<OrderBy>;
-  modifiedAt?: InputMaybe<OrderBy>;
-  name?: InputMaybe<OrderBy>;
-  owner?: InputMaybe<OrderBy>;
-  slot?: InputMaybe<OrderBy>;
-  uri?: InputMaybe<OrderBy>;
-  writeVersion?: InputMaybe<OrderBy>;
-};
-
-/** order by min() on columns of table "device" */
-export type Device_Min_Order_By = {
-  createdAt?: InputMaybe<OrderBy>;
-  id?: InputMaybe<OrderBy>;
-  location?: InputMaybe<OrderBy>;
-  modifiedAt?: InputMaybe<OrderBy>;
-  name?: InputMaybe<OrderBy>;
-  owner?: InputMaybe<OrderBy>;
-  slot?: InputMaybe<OrderBy>;
-  uri?: InputMaybe<OrderBy>;
-  writeVersion?: InputMaybe<OrderBy>;
-};
-
-/** select "device_aggregate_bool_exp_bool_and_arguments_columns" columns of table "device" */
-export enum Device_Select_Column_Device_Aggregate_Bool_Exp_Bool_And_Arguments_Columns {
-  /** column name */
-  Active = 'active'
-}
-
-/** select "device_aggregate_bool_exp_bool_or_arguments_columns" columns of table "device" */
-export enum Device_Select_Column_Device_Aggregate_Bool_Exp_Bool_Or_Arguments_Columns {
-  /** column name */
-  Active = 'active'
-}
-
-/** order by stddev() on columns of table "device" */
-export type Device_Stddev_Order_By = {
-  slot?: InputMaybe<OrderBy>;
-  writeVersion?: InputMaybe<OrderBy>;
-};
-
-/** order by stddev_pop() on columns of table "device" */
-export type Device_Stddev_Pop_Order_By = {
-  slot?: InputMaybe<OrderBy>;
-  writeVersion?: InputMaybe<OrderBy>;
-};
-
-/** order by stddev_samp() on columns of table "device" */
-export type Device_Stddev_Samp_Order_By = {
-  slot?: InputMaybe<OrderBy>;
-  writeVersion?: InputMaybe<OrderBy>;
-};
-
-/** order by sum() on columns of table "device" */
-export type Device_Sum_Order_By = {
-  slot?: InputMaybe<OrderBy>;
-  writeVersion?: InputMaybe<OrderBy>;
-};
-
-/** order by var_pop() on columns of table "device" */
-export type Device_Var_Pop_Order_By = {
-  slot?: InputMaybe<OrderBy>;
-  writeVersion?: InputMaybe<OrderBy>;
-};
-
-/** order by var_samp() on columns of table "device" */
-export type Device_Var_Samp_Order_By = {
-  slot?: InputMaybe<OrderBy>;
-  writeVersion?: InputMaybe<OrderBy>;
-};
-
-/** order by variance() on columns of table "device" */
-export type Device_Variance_Order_By = {
-  slot?: InputMaybe<OrderBy>;
-  writeVersion?: InputMaybe<OrderBy>;
-};
-
-/** order by avg() on columns of table "location" */
-export type Location_Avg_Order_By = {
-  slot?: InputMaybe<OrderBy>;
-  writeVersion?: InputMaybe<OrderBy>;
-};
-
-/** order by max() on columns of table "location" */
-export type Location_Max_Order_By = {
-  createdAt?: InputMaybe<OrderBy>;
-  id?: InputMaybe<OrderBy>;
-  merchant?: InputMaybe<OrderBy>;
-  modifiedAt?: InputMaybe<OrderBy>;
-  name?: InputMaybe<OrderBy>;
-  slot?: InputMaybe<OrderBy>;
-  uri?: InputMaybe<OrderBy>;
-  writeVersion?: InputMaybe<OrderBy>;
-};
-
-/** order by min() on columns of table "location" */
-export type Location_Min_Order_By = {
-  createdAt?: InputMaybe<OrderBy>;
-  id?: InputMaybe<OrderBy>;
-  merchant?: InputMaybe<OrderBy>;
-  modifiedAt?: InputMaybe<OrderBy>;
-  name?: InputMaybe<OrderBy>;
-  slot?: InputMaybe<OrderBy>;
-  uri?: InputMaybe<OrderBy>;
-  writeVersion?: InputMaybe<OrderBy>;
-};
-
-/** order by stddev() on columns of table "location" */
-export type Location_Stddev_Order_By = {
-  slot?: InputMaybe<OrderBy>;
-  writeVersion?: InputMaybe<OrderBy>;
-};
-
-/** order by stddev_pop() on columns of table "location" */
-export type Location_Stddev_Pop_Order_By = {
-  slot?: InputMaybe<OrderBy>;
-  writeVersion?: InputMaybe<OrderBy>;
-};
-
-/** order by stddev_samp() on columns of table "location" */
-export type Location_Stddev_Samp_Order_By = {
-  slot?: InputMaybe<OrderBy>;
-  writeVersion?: InputMaybe<OrderBy>;
-};
-
-/** order by sum() on columns of table "location" */
-export type Location_Sum_Order_By = {
-  slot?: InputMaybe<OrderBy>;
-  writeVersion?: InputMaybe<OrderBy>;
-};
-
-/** order by var_pop() on columns of table "location" */
-export type Location_Var_Pop_Order_By = {
-  slot?: InputMaybe<OrderBy>;
-  writeVersion?: InputMaybe<OrderBy>;
-};
-
-/** order by var_samp() on columns of table "location" */
-export type Location_Var_Samp_Order_By = {
-  slot?: InputMaybe<OrderBy>;
-  writeVersion?: InputMaybe<OrderBy>;
-};
-
-/** order by variance() on columns of table "location" */
-export type Location_Variance_Order_By = {
-  slot?: InputMaybe<OrderBy>;
-  writeVersion?: InputMaybe<OrderBy>;
-};
-
-/** order by avg() on columns of table "promo" */
-export type Promo_Avg_Order_By = {
-  burnCount?: InputMaybe<OrderBy>;
-  maxBurn?: InputMaybe<OrderBy>;
-  maxMint?: InputMaybe<OrderBy>;
-  mintCount?: InputMaybe<OrderBy>;
-  slot?: InputMaybe<OrderBy>;
-  writeVersion?: InputMaybe<OrderBy>;
-};
-
-/** order by max() on columns of table "promo" */
-export type Promo_Max_Order_By = {
-  burnCount?: InputMaybe<OrderBy>;
-  campaign?: InputMaybe<OrderBy>;
-  createdAt?: InputMaybe<OrderBy>;
-  id?: InputMaybe<OrderBy>;
-  maxBurn?: InputMaybe<OrderBy>;
-  maxMint?: InputMaybe<OrderBy>;
-  metadata?: InputMaybe<OrderBy>;
-  mint?: InputMaybe<OrderBy>;
-  mintCount?: InputMaybe<OrderBy>;
-  modifiedAt?: InputMaybe<OrderBy>;
-  slot?: InputMaybe<OrderBy>;
-  writeVersion?: InputMaybe<OrderBy>;
-};
-
-/** order by min() on columns of table "promo" */
-export type Promo_Min_Order_By = {
-  burnCount?: InputMaybe<OrderBy>;
-  campaign?: InputMaybe<OrderBy>;
-  createdAt?: InputMaybe<OrderBy>;
-  id?: InputMaybe<OrderBy>;
-  maxBurn?: InputMaybe<OrderBy>;
-  maxMint?: InputMaybe<OrderBy>;
-  metadata?: InputMaybe<OrderBy>;
-  mint?: InputMaybe<OrderBy>;
-  mintCount?: InputMaybe<OrderBy>;
-  modifiedAt?: InputMaybe<OrderBy>;
-  slot?: InputMaybe<OrderBy>;
-  writeVersion?: InputMaybe<OrderBy>;
-};
-
-/** order by stddev() on columns of table "promo" */
-export type Promo_Stddev_Order_By = {
-  burnCount?: InputMaybe<OrderBy>;
-  maxBurn?: InputMaybe<OrderBy>;
-  maxMint?: InputMaybe<OrderBy>;
-  mintCount?: InputMaybe<OrderBy>;
-  slot?: InputMaybe<OrderBy>;
-  writeVersion?: InputMaybe<OrderBy>;
-};
-
-/** order by stddev_pop() on columns of table "promo" */
-export type Promo_Stddev_Pop_Order_By = {
-  burnCount?: InputMaybe<OrderBy>;
-  maxBurn?: InputMaybe<OrderBy>;
-  maxMint?: InputMaybe<OrderBy>;
-  mintCount?: InputMaybe<OrderBy>;
-  slot?: InputMaybe<OrderBy>;
-  writeVersion?: InputMaybe<OrderBy>;
-};
-
-/** order by stddev_samp() on columns of table "promo" */
-export type Promo_Stddev_Samp_Order_By = {
-  burnCount?: InputMaybe<OrderBy>;
-  maxBurn?: InputMaybe<OrderBy>;
-  maxMint?: InputMaybe<OrderBy>;
-  mintCount?: InputMaybe<OrderBy>;
-  slot?: InputMaybe<OrderBy>;
-  writeVersion?: InputMaybe<OrderBy>;
-};
-
-/** order by sum() on columns of table "promo" */
-export type Promo_Sum_Order_By = {
-  burnCount?: InputMaybe<OrderBy>;
-  maxBurn?: InputMaybe<OrderBy>;
-  maxMint?: InputMaybe<OrderBy>;
-  mintCount?: InputMaybe<OrderBy>;
-  slot?: InputMaybe<OrderBy>;
-  writeVersion?: InputMaybe<OrderBy>;
-};
-
-/** order by var_pop() on columns of table "promo" */
-export type Promo_Var_Pop_Order_By = {
-  burnCount?: InputMaybe<OrderBy>;
-  maxBurn?: InputMaybe<OrderBy>;
-  maxMint?: InputMaybe<OrderBy>;
-  mintCount?: InputMaybe<OrderBy>;
-  slot?: InputMaybe<OrderBy>;
-  writeVersion?: InputMaybe<OrderBy>;
-};
-
-/** order by var_samp() on columns of table "promo" */
-export type Promo_Var_Samp_Order_By = {
-  burnCount?: InputMaybe<OrderBy>;
-  maxBurn?: InputMaybe<OrderBy>;
-  maxMint?: InputMaybe<OrderBy>;
-  mintCount?: InputMaybe<OrderBy>;
-  slot?: InputMaybe<OrderBy>;
-  writeVersion?: InputMaybe<OrderBy>;
-};
-
-/** order by variance() on columns of table "promo" */
-export type Promo_Variance_Order_By = {
-  burnCount?: InputMaybe<OrderBy>;
-  maxBurn?: InputMaybe<OrderBy>;
-  maxMint?: InputMaybe<OrderBy>;
-  mintCount?: InputMaybe<OrderBy>;
-  slot?: InputMaybe<OrderBy>;
-  writeVersion?: InputMaybe<OrderBy>;
-};
-
 export type Query_Root = {
   __typename?: 'query_root';
+  /** fetch data from the table: "admin_settings" */
+  adminSettings: Array<AdminSettings>;
+  /** fetch data from the table: "admin_settings" using primary key columns */
+  adminSettingsByPk?: Maybe<AdminSettings>;
   /** fetch data from the table: "bid_receipt" */
   bidReceipt: Array<BidReceipt>;
   /** fetch data from the table: "bid_receipt" using primary key columns */
@@ -2813,6 +3258,10 @@ export type Query_Root = {
   campaign: Array<Campaign>;
   /** fetch data from the table: "campaign" using primary key columns */
   campaignByPk?: Maybe<Campaign>;
+  /** fetch data from the table: "campaign_location" */
+  campaignLocation: Array<CampaignLocation>;
+  /** fetch data from the table: "campaign_location" using primary key columns */
+  campaignLocationByPk?: Maybe<CampaignLocation>;
   /** fetch data from the table: "delegate_promo_token" */
   delegatePromoToken: Array<DelegatePromoToken>;
   /** fetch data from the table: "delegate_promo_token" using primary key columns */
@@ -2870,6 +3319,20 @@ export type Query_Root = {
 };
 
 
+export type Query_RootAdminSettingsArgs = {
+  distinctOn?: InputMaybe<Array<AdminSettingsSelectColumn>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Array<AdminSettingsOrderBy>>;
+  where?: InputMaybe<AdminSettingsBoolExp>;
+};
+
+
+export type Query_RootAdminSettingsByPkArgs = {
+  id: Scalars['String'];
+};
+
+
 export type Query_RootBidReceiptArgs = {
   distinctOn?: InputMaybe<Array<BidReceiptSelectColumn>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -2908,6 +3371,20 @@ export type Query_RootCampaignArgs = {
 
 
 export type Query_RootCampaignByPkArgs = {
+  id: Scalars['String'];
+};
+
+
+export type Query_RootCampaignLocationArgs = {
+  distinctOn?: InputMaybe<Array<CampaignLocationSelectColumn>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Array<CampaignLocationOrderBy>>;
+  where?: InputMaybe<CampaignLocationBoolExp>;
+};
+
+
+export type Query_RootCampaignLocationByPkArgs = {
   id: Scalars['String'];
 };
 
@@ -3108,6 +3585,12 @@ export type Query_RootTokenAccountByPkArgs = {
 
 export type Subscription_Root = {
   __typename?: 'subscription_root';
+  /** fetch data from the table: "admin_settings" */
+  adminSettings: Array<AdminSettings>;
+  /** fetch data from the table: "admin_settings" using primary key columns */
+  adminSettingsByPk?: Maybe<AdminSettings>;
+  /** fetch data from the table in a streaming manner: "admin_settings" */
+  adminSettingsStream: Array<AdminSettings>;
   /** fetch data from the table: "bid_receipt" */
   bidReceipt: Array<BidReceipt>;
   /** fetch data from the table: "bid_receipt" using primary key columns */
@@ -3124,6 +3607,12 @@ export type Subscription_Root = {
   campaign: Array<Campaign>;
   /** fetch data from the table: "campaign" using primary key columns */
   campaignByPk?: Maybe<Campaign>;
+  /** fetch data from the table: "campaign_location" */
+  campaignLocation: Array<CampaignLocation>;
+  /** fetch data from the table: "campaign_location" using primary key columns */
+  campaignLocationByPk?: Maybe<CampaignLocation>;
+  /** fetch data from the table in a streaming manner: "campaign_location" */
+  campaignLocationStream: Array<CampaignLocation>;
   /** fetch data from the table in a streaming manner: "campaign" */
   campaignStream: Array<Campaign>;
   /** fetch data from the table: "delegate_promo_token" */
@@ -3211,6 +3700,27 @@ export type Subscription_Root = {
 };
 
 
+export type Subscription_RootAdminSettingsArgs = {
+  distinctOn?: InputMaybe<Array<AdminSettingsSelectColumn>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Array<AdminSettingsOrderBy>>;
+  where?: InputMaybe<AdminSettingsBoolExp>;
+};
+
+
+export type Subscription_RootAdminSettingsByPkArgs = {
+  id: Scalars['String'];
+};
+
+
+export type Subscription_RootAdminSettingsStreamArgs = {
+  batchSize: Scalars['Int'];
+  cursor: Array<InputMaybe<AdminSettingsStreamCursorInput>>;
+  where?: InputMaybe<AdminSettingsBoolExp>;
+};
+
+
 export type Subscription_RootBidReceiptArgs = {
   distinctOn?: InputMaybe<Array<BidReceiptSelectColumn>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -3264,6 +3774,27 @@ export type Subscription_RootCampaignArgs = {
 
 export type Subscription_RootCampaignByPkArgs = {
   id: Scalars['String'];
+};
+
+
+export type Subscription_RootCampaignLocationArgs = {
+  distinctOn?: InputMaybe<Array<CampaignLocationSelectColumn>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Array<CampaignLocationOrderBy>>;
+  where?: InputMaybe<CampaignLocationBoolExp>;
+};
+
+
+export type Subscription_RootCampaignLocationByPkArgs = {
+  id: Scalars['String'];
+};
+
+
+export type Subscription_RootCampaignLocationStreamArgs = {
+  batchSize: Scalars['Int'];
+  cursor: Array<InputMaybe<CampaignLocationStreamCursorInput>>;
+  where?: InputMaybe<CampaignLocationBoolExp>;
 };
 
 
@@ -3566,123 +4097,17 @@ export type Subscription_RootTokenAccountStreamArgs = {
   where?: InputMaybe<TokenAccountBoolExp>;
 };
 
-/** order by avg() on columns of table "token_account" */
-export type Token_Account_Avg_Order_By = {
-  amount?: InputMaybe<OrderBy>;
-  delegatedAmount?: InputMaybe<OrderBy>;
-  isNative?: InputMaybe<OrderBy>;
-  slot?: InputMaybe<OrderBy>;
-  writeVersion?: InputMaybe<OrderBy>;
-};
-
-/** order by max() on columns of table "token_account" */
-export type Token_Account_Max_Order_By = {
-  amount?: InputMaybe<OrderBy>;
-  closeAuthority?: InputMaybe<OrderBy>;
-  createdAt?: InputMaybe<OrderBy>;
-  delegate?: InputMaybe<OrderBy>;
-  delegatedAmount?: InputMaybe<OrderBy>;
-  id?: InputMaybe<OrderBy>;
-  isNative?: InputMaybe<OrderBy>;
-  mint?: InputMaybe<OrderBy>;
-  modifiedAt?: InputMaybe<OrderBy>;
-  owner?: InputMaybe<OrderBy>;
-  slot?: InputMaybe<OrderBy>;
-  state?: InputMaybe<OrderBy>;
-  writeVersion?: InputMaybe<OrderBy>;
-};
-
-/** order by min() on columns of table "token_account" */
-export type Token_Account_Min_Order_By = {
-  amount?: InputMaybe<OrderBy>;
-  closeAuthority?: InputMaybe<OrderBy>;
-  createdAt?: InputMaybe<OrderBy>;
-  delegate?: InputMaybe<OrderBy>;
-  delegatedAmount?: InputMaybe<OrderBy>;
-  id?: InputMaybe<OrderBy>;
-  isNative?: InputMaybe<OrderBy>;
-  mint?: InputMaybe<OrderBy>;
-  modifiedAt?: InputMaybe<OrderBy>;
-  owner?: InputMaybe<OrderBy>;
-  slot?: InputMaybe<OrderBy>;
-  state?: InputMaybe<OrderBy>;
-  writeVersion?: InputMaybe<OrderBy>;
-};
-
-/** order by stddev() on columns of table "token_account" */
-export type Token_Account_Stddev_Order_By = {
-  amount?: InputMaybe<OrderBy>;
-  delegatedAmount?: InputMaybe<OrderBy>;
-  isNative?: InputMaybe<OrderBy>;
-  slot?: InputMaybe<OrderBy>;
-  writeVersion?: InputMaybe<OrderBy>;
-};
-
-/** order by stddev_pop() on columns of table "token_account" */
-export type Token_Account_Stddev_Pop_Order_By = {
-  amount?: InputMaybe<OrderBy>;
-  delegatedAmount?: InputMaybe<OrderBy>;
-  isNative?: InputMaybe<OrderBy>;
-  slot?: InputMaybe<OrderBy>;
-  writeVersion?: InputMaybe<OrderBy>;
-};
-
-/** order by stddev_samp() on columns of table "token_account" */
-export type Token_Account_Stddev_Samp_Order_By = {
-  amount?: InputMaybe<OrderBy>;
-  delegatedAmount?: InputMaybe<OrderBy>;
-  isNative?: InputMaybe<OrderBy>;
-  slot?: InputMaybe<OrderBy>;
-  writeVersion?: InputMaybe<OrderBy>;
-};
-
-/** order by sum() on columns of table "token_account" */
-export type Token_Account_Sum_Order_By = {
-  amount?: InputMaybe<OrderBy>;
-  delegatedAmount?: InputMaybe<OrderBy>;
-  isNative?: InputMaybe<OrderBy>;
-  slot?: InputMaybe<OrderBy>;
-  writeVersion?: InputMaybe<OrderBy>;
-};
-
-/** order by var_pop() on columns of table "token_account" */
-export type Token_Account_Var_Pop_Order_By = {
-  amount?: InputMaybe<OrderBy>;
-  delegatedAmount?: InputMaybe<OrderBy>;
-  isNative?: InputMaybe<OrderBy>;
-  slot?: InputMaybe<OrderBy>;
-  writeVersion?: InputMaybe<OrderBy>;
-};
-
-/** order by var_samp() on columns of table "token_account" */
-export type Token_Account_Var_Samp_Order_By = {
-  amount?: InputMaybe<OrderBy>;
-  delegatedAmount?: InputMaybe<OrderBy>;
-  isNative?: InputMaybe<OrderBy>;
-  slot?: InputMaybe<OrderBy>;
-  writeVersion?: InputMaybe<OrderBy>;
-};
-
-/** order by variance() on columns of table "token_account" */
-export type Token_Account_Variance_Order_By = {
-  amount?: InputMaybe<OrderBy>;
-  delegatedAmount?: InputMaybe<OrderBy>;
-  isNative?: InputMaybe<OrderBy>;
-  slot?: InputMaybe<OrderBy>;
-  writeVersion?: InputMaybe<OrderBy>;
-};
-
 export type MerchantItemQueryDocumentQueryVariables = Exact<{
   id: Scalars['String'];
 }>;
 
 
-export type MerchantItemQueryDocumentQuery = { __typename?: 'query_root', merchantByPk?: { __typename?: 'Merchant', id: string, owner: string, name: string, active: boolean, metadataJson?: any | null, locations: Array<{ __typename?: 'Location', id: string, merchant: string, name: string, active: boolean, metadataJson?: any | null, devicesAggregate: { __typename?: 'DeviceAggregate', aggregate?: { __typename?: 'DeviceAggregateFields', count: number } | null }, devices: Array<{ __typename?: 'Device', id: string, owner: string, location: string, name: string, metadataJson?: any | null, active: boolean }> }>, campaigns: Array<{ __typename?: 'Campaign', id: string, merchant: string, name: string, locations: any, active: boolean, metadataJson?: any | null, promos: Array<{ __typename?: 'Promo', id: string, campaign: string, maxMint?: number | null, maxBurn?: number | null, mintCount: number, burnCount: number, active: boolean, createdAt: any, metadataObject?: { __typename?: 'Metadata', id: string, name: string, symbol: string, uri: string, metadataJson?: any | null } | null, mintObject?: { __typename?: 'Mint', id: string, supply: any } | null }> }> } | null };
+export type MerchantItemQueryDocumentQuery = { __typename?: 'query_root', merchantByPk?: { __typename?: 'Merchant', id: string, owner: string, name: string, active: boolean, metadataJson?: any | null, locations: Array<{ __typename?: 'Location', id: string, merchant: string, name: string, active: boolean, metadataJson?: any | null, devicesAggregate: { __typename?: 'DeviceAggregate', aggregate?: { __typename?: 'DeviceAggregateFields', count: number } | null }, devices: Array<{ __typename?: 'Device', id: string, owner: string, location: string, name: string, active: boolean, metadataJson?: any | null }> }>, campaigns: Array<{ __typename?: 'Campaign', id: string, merchant: string, name: string, active: boolean, metadataJson?: any | null, promos: Array<{ __typename?: 'Promo', id: string, campaign: string, maxMint?: number | null, maxBurn?: number | null, mintCount: number, burnCount: number, active: boolean, createdAt: any, metadataObject?: { __typename?: 'Metadata', id: string, name: string, symbol: string, uri: string, metadataJson?: any | null } | null, mintObject?: { __typename?: 'Mint', id: string, supply: any } | null }>, campaignLocations: Array<{ __typename?: 'CampaignLocation', locationObject?: { __typename?: 'Location', id: string, merchant: string, name: string, active: boolean, metadataJson?: any | null, devicesAggregate: { __typename?: 'DeviceAggregate', aggregate?: { __typename?: 'DeviceAggregateFields', count: number } | null }, devices: Array<{ __typename?: 'Device', id: string, owner: string, location: string, name: string, active: boolean, metadataJson?: any | null }> } | null }> }> } | null };
 
 export type MerchantListQueryDocumentQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type MerchantListQueryDocumentQuery = { __typename?: 'query_root', merchant: Array<{ __typename?: 'Merchant', id: string, name: string, owner: string, active: boolean, metadataJson?: any | null, locations: Array<{ __typename?: 'Location', id: string, merchant: string, name: string, active: boolean, metadataJson?: any | null, devicesAggregate: { __typename?: 'DeviceAggregate', aggregate?: { __typename?: 'DeviceAggregateFields', count: number } | null }, devices: Array<{ __typename?: 'Device', id: string, owner: string, location: string, name: string, active: boolean, metadataJson?: any | null }> }>, campaigns: Array<{ __typename?: 'Campaign', id: string, merchant: string, name: string, locations: any, active: boolean, metadataJson?: any | null }> }> };
+export type MerchantListQueryDocumentQuery = { __typename?: 'query_root', merchant: Array<{ __typename?: 'Merchant', id: string, name: string, owner: string, active: boolean, metadataJson?: any | null, locations: Array<{ __typename?: 'Location', id: string, merchant: string, name: string, active: boolean, metadataJson?: any | null, devicesAggregate: { __typename?: 'DeviceAggregate', aggregate?: { __typename?: 'DeviceAggregateFields', count: number } | null }, devices: Array<{ __typename?: 'Device', id: string, owner: string, location: string, name: string, active: boolean, metadataJson?: any | null }> }>, campaigns: Array<{ __typename?: 'Campaign', id: string, merchant: string, name: string, active: boolean, metadataJson?: any | null }> }> };
 
 export type MerchantIdQueryDocumentQueryVariables = Exact<{
   owner: Scalars['String'];
@@ -3707,14 +4132,6 @@ export type DeviceIdQueryDocumentQueryVariables = Exact<{
 
 export type DeviceIdQueryDocumentQuery = { __typename?: 'query_root', device: Array<{ __typename?: 'Device', id: string }> };
 
-export type DeviceIdByOwnerQueryDocumentQueryVariables = Exact<{
-  locations?: InputMaybe<Array<Scalars['String']> | Scalars['String']>;
-  owner: Scalars['String'];
-}>;
-
-
-export type DeviceIdByOwnerQueryDocumentQuery = { __typename?: 'query_root', device: Array<{ __typename?: 'Device', id: string }> };
-
 export type CampaignIdQueryDocumentQueryVariables = Exact<{
   merchant: Scalars['String'];
   name: Scalars['String'];
@@ -3733,14 +4150,14 @@ export type PromoQueryDocumentQuery = { __typename?: 'query_root', promoByPk?: {
 export type PromoListQueryDocumentQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type PromoListQueryDocumentQuery = { __typename?: 'query_root', promo: Array<{ __typename?: 'Promo', id: string, mint: string, campaign: string, maxMint?: number | null, maxBurn?: number | null, mintCount: number, burnCount: number, active: boolean, createdAt: any, campaignObject?: { __typename?: 'Campaign', merchant: string, locations: any } | null, metadataObject?: { __typename?: 'Metadata', id: string, name: string, symbol: string, uri: string, metadataJson?: any | null } | null, mintObject?: { __typename?: 'Mint', id: string, supply: any } | null }> };
+export type PromoListQueryDocumentQuery = { __typename?: 'query_root', promo: Array<{ __typename?: 'Promo', id: string, mint: string, campaign: string, maxMint?: number | null, maxBurn?: number | null, mintCount: number, burnCount: number, active: boolean, createdAt: any, campaignObject?: { __typename?: 'Campaign', merchant: string, campaignLocations: Array<{ __typename?: 'CampaignLocation', location: string, locationObject?: { __typename?: 'Location', name: string, devices: Array<{ __typename?: 'Device', id: string, name: string, owner: string, location: string }> } | null }> } | null, metadataObject?: { __typename?: 'Metadata', id: string, name: string, symbol: string, uri: string, metadataJson?: any | null } | null, mintObject?: { __typename?: 'Mint', id: string, supply: any } | null }> };
 
 export type MerchantPromoListQueryDocumentQueryVariables = Exact<{
   merchant: Scalars['String'];
 }>;
 
 
-export type MerchantPromoListQueryDocumentQuery = { __typename?: 'query_root', promo: Array<{ __typename?: 'Promo', id: string, campaign: string, maxMint?: number | null, maxBurn?: number | null, mintCount: number, burnCount: number, active: boolean, createdAt: any, campaignObject?: { __typename?: 'Campaign', merchant: string, locations: any } | null, metadataObject?: { __typename?: 'Metadata', id: string, name: string, symbol: string, uri: string, metadataJson?: any | null } | null, mintObject?: { __typename?: 'Mint', id: string, supply: any } | null }> };
+export type MerchantPromoListQueryDocumentQuery = { __typename?: 'query_root', promo: Array<{ __typename?: 'Promo', id: string, campaign: string, maxMint?: number | null, maxBurn?: number | null, mintCount: number, burnCount: number, active: boolean, createdAt: any, campaignObject?: { __typename?: 'Campaign', merchant: string } | null, metadataObject?: { __typename?: 'Metadata', id: string, name: string, symbol: string, uri: string, metadataJson?: any | null } | null, mintObject?: { __typename?: 'Mint', id: string, supply: any } | null }> };
 
 export type PromoIdQueryDocumentQueryVariables = Exact<{
   campaign: Scalars['String'];
@@ -3757,6 +4174,14 @@ export type MintPromoTxIdQueryDocumentQueryVariables = Exact<{
 
 export type MintPromoTxIdQueryDocumentQuery = { __typename?: 'query_root', mintPromoToken: Array<{ __typename?: 'MintPromoToken', signature: string }> };
 
+export type DeviceIdByOwnerQueryDocumentQueryVariables = Exact<{
+  mint: Scalars['String'];
+  owner: Scalars['String'];
+}>;
+
+
+export type DeviceIdByOwnerQueryDocumentQuery = { __typename?: 'query_root', promo: Array<{ __typename?: 'Promo', campaign: string, metadataObject?: { __typename?: 'Metadata', name: string } | null, campaignObject?: { __typename?: 'Campaign', campaignLocations: Array<{ __typename?: 'CampaignLocation', location: string, locationObject?: { __typename?: 'Location', devices: Array<{ __typename?: 'Device', id: string, owner: string, location: string }> } | null }> } | null }> };
+
 export type SignMemoQueryDocumentQueryVariables = Exact<{
   memo?: InputMaybe<Scalars['jsonb']>;
 }>;
@@ -3765,16 +4190,16 @@ export type SignMemoQueryDocumentQueryVariables = Exact<{
 export type SignMemoQueryDocumentQuery = { __typename?: 'query_root', signMemo: Array<{ __typename?: 'SignMemo', signer: string, signature: string, visitId?: any | null, merchantObject?: { __typename?: 'Merchant', id: string } | null }> };
 
 
-export const MerchantItemQueryDocumentDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"MerchantItemQueryDocument"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"merchantByPk"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"owner"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"active"}},{"kind":"Field","name":{"kind":"Name","value":"metadataJson"}},{"kind":"Field","name":{"kind":"Name","value":"locations"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"merchant"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"active"}},{"kind":"Field","name":{"kind":"Name","value":"metadataJson"}},{"kind":"Field","name":{"kind":"Name","value":"devicesAggregate"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"aggregate"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"count"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"devices"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"owner"}},{"kind":"Field","name":{"kind":"Name","value":"location"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"metadataJson"}},{"kind":"Field","name":{"kind":"Name","value":"active"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"campaigns"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"createdAt"},"value":{"kind":"EnumValue","value":"ASC"}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"merchant"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"locations"}},{"kind":"Field","name":{"kind":"Name","value":"active"}},{"kind":"Field","name":{"kind":"Name","value":"promos"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"createdAt"},"value":{"kind":"EnumValue","value":"DESC"}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"campaign"}},{"kind":"Field","name":{"kind":"Name","value":"maxMint"}},{"kind":"Field","name":{"kind":"Name","value":"maxBurn"}},{"kind":"Field","name":{"kind":"Name","value":"mintCount"}},{"kind":"Field","name":{"kind":"Name","value":"burnCount"}},{"kind":"Field","name":{"kind":"Name","value":"active"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"metadataObject"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"symbol"}},{"kind":"Field","name":{"kind":"Name","value":"uri"}},{"kind":"Field","name":{"kind":"Name","value":"metadataJson"}}]}},{"kind":"Field","name":{"kind":"Name","value":"mintObject"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"supply"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"metadataJson"}}]}}]}}]}}]} as unknown as DocumentNode<MerchantItemQueryDocumentQuery, MerchantItemQueryDocumentQueryVariables>;
-export const MerchantListQueryDocumentDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"MerchantListQueryDocument"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"merchant"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"name"},"value":{"kind":"EnumValue","value":"ASC"}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"owner"}},{"kind":"Field","name":{"kind":"Name","value":"active"}},{"kind":"Field","name":{"kind":"Name","value":"metadataJson"}},{"kind":"Field","name":{"kind":"Name","value":"locations"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"merchant"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"active"}},{"kind":"Field","name":{"kind":"Name","value":"metadataJson"}},{"kind":"Field","name":{"kind":"Name","value":"devicesAggregate"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"aggregate"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"count"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"devices"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"owner"}},{"kind":"Field","name":{"kind":"Name","value":"location"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"active"}},{"kind":"Field","name":{"kind":"Name","value":"metadataJson"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"campaigns"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"merchant"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"locations"}},{"kind":"Field","name":{"kind":"Name","value":"active"}},{"kind":"Field","name":{"kind":"Name","value":"metadataJson"}}]}}]}}]}}]} as unknown as DocumentNode<MerchantListQueryDocumentQuery, MerchantListQueryDocumentQueryVariables>;
+export const MerchantItemQueryDocumentDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"MerchantItemQueryDocument"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"merchantByPk"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"owner"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"active"}},{"kind":"Field","name":{"kind":"Name","value":"metadataJson"}},{"kind":"Field","name":{"kind":"Name","value":"locations"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"merchant"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"active"}},{"kind":"Field","name":{"kind":"Name","value":"metadataJson"}},{"kind":"Field","name":{"kind":"Name","value":"devicesAggregate"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"aggregate"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"count"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"devices"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"owner"}},{"kind":"Field","name":{"kind":"Name","value":"location"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"active"}},{"kind":"Field","name":{"kind":"Name","value":"metadataJson"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"campaigns"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"createdAt"},"value":{"kind":"EnumValue","value":"ASC"}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"merchant"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"active"}},{"kind":"Field","name":{"kind":"Name","value":"promos"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"createdAt"},"value":{"kind":"EnumValue","value":"DESC"}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"campaign"}},{"kind":"Field","name":{"kind":"Name","value":"maxMint"}},{"kind":"Field","name":{"kind":"Name","value":"maxBurn"}},{"kind":"Field","name":{"kind":"Name","value":"mintCount"}},{"kind":"Field","name":{"kind":"Name","value":"burnCount"}},{"kind":"Field","name":{"kind":"Name","value":"active"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"metadataObject"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"symbol"}},{"kind":"Field","name":{"kind":"Name","value":"uri"}},{"kind":"Field","name":{"kind":"Name","value":"metadataJson"}}]}},{"kind":"Field","name":{"kind":"Name","value":"mintObject"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"supply"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"campaignLocations"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"locationObject"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"merchant"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"active"}},{"kind":"Field","name":{"kind":"Name","value":"metadataJson"}},{"kind":"Field","name":{"kind":"Name","value":"devicesAggregate"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"aggregate"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"count"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"devices"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"owner"}},{"kind":"Field","name":{"kind":"Name","value":"location"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"active"}},{"kind":"Field","name":{"kind":"Name","value":"metadataJson"}}]}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"metadataJson"}}]}}]}}]}}]} as unknown as DocumentNode<MerchantItemQueryDocumentQuery, MerchantItemQueryDocumentQueryVariables>;
+export const MerchantListQueryDocumentDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"MerchantListQueryDocument"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"merchant"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"name"},"value":{"kind":"EnumValue","value":"ASC"}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"owner"}},{"kind":"Field","name":{"kind":"Name","value":"active"}},{"kind":"Field","name":{"kind":"Name","value":"metadataJson"}},{"kind":"Field","name":{"kind":"Name","value":"locations"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"merchant"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"active"}},{"kind":"Field","name":{"kind":"Name","value":"metadataJson"}},{"kind":"Field","name":{"kind":"Name","value":"devicesAggregate"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"aggregate"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"count"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"devices"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"owner"}},{"kind":"Field","name":{"kind":"Name","value":"location"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"active"}},{"kind":"Field","name":{"kind":"Name","value":"metadataJson"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"campaigns"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"merchant"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"active"}},{"kind":"Field","name":{"kind":"Name","value":"metadataJson"}}]}}]}}]}}]} as unknown as DocumentNode<MerchantListQueryDocumentQuery, MerchantListQueryDocumentQueryVariables>;
 export const MerchantIdQueryDocumentDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"MerchantIdQueryDocument"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"owner"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"merchant"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"owner"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"Variable","name":{"kind":"Name","value":"owner"}}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode<MerchantIdQueryDocumentQuery, MerchantIdQueryDocumentQueryVariables>;
 export const LocationIdQueryDocumentDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"LocationIdQueryDocument"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"merchant"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"name"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"location"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_and"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"merchant"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"Variable","name":{"kind":"Name","value":"merchant"}}}]}}]}},{"kind":"ObjectField","name":{"kind":"Name","value":"name"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"Variable","name":{"kind":"Name","value":"name"}}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode<LocationIdQueryDocumentQuery, LocationIdQueryDocumentQueryVariables>;
 export const DeviceIdQueryDocumentDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"DeviceIdQueryDocument"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"location"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"name"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"device"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_and"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"location"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"Variable","name":{"kind":"Name","value":"location"}}}]}}]}},{"kind":"ObjectField","name":{"kind":"Name","value":"name"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"Variable","name":{"kind":"Name","value":"name"}}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode<DeviceIdQueryDocumentQuery, DeviceIdQueryDocumentQueryVariables>;
-export const DeviceIdByOwnerQueryDocumentDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"DeviceIdByOwnerQueryDocument"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"locations"}},"type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"owner"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"device"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_and"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"location"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_in"},"value":{"kind":"Variable","name":{"kind":"Name","value":"locations"}}}]}}]}},{"kind":"ObjectField","name":{"kind":"Name","value":"owner"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"Variable","name":{"kind":"Name","value":"owner"}}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode<DeviceIdByOwnerQueryDocumentQuery, DeviceIdByOwnerQueryDocumentQueryVariables>;
 export const CampaignIdQueryDocumentDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"CampaignIdQueryDocument"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"merchant"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"name"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"campaign"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_and"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"merchant"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"Variable","name":{"kind":"Name","value":"merchant"}}}]}}]}},{"kind":"ObjectField","name":{"kind":"Name","value":"name"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"Variable","name":{"kind":"Name","value":"name"}}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode<CampaignIdQueryDocumentQuery, CampaignIdQueryDocumentQueryVariables>;
 export const PromoQueryDocumentDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"PromoQueryDocument"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"promoByPk"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"maxBurn"}},{"kind":"Field","name":{"kind":"Name","value":"maxMint"}},{"kind":"Field","name":{"kind":"Name","value":"burnCount"}}]}}]}}]} as unknown as DocumentNode<PromoQueryDocumentQuery, PromoQueryDocumentQueryVariables>;
-export const PromoListQueryDocumentDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"PromoListQueryDocument"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"promo"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"createdAt"},"value":{"kind":"EnumValue","value":"DESC"}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"campaignObject"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"merchant"}},{"kind":"Field","name":{"kind":"Name","value":"locations"}}]}},{"kind":"Field","name":{"kind":"Name","value":"mint"}},{"kind":"Field","name":{"kind":"Name","value":"campaign"}},{"kind":"Field","name":{"kind":"Name","value":"maxMint"}},{"kind":"Field","name":{"kind":"Name","value":"maxBurn"}},{"kind":"Field","name":{"kind":"Name","value":"mintCount"}},{"kind":"Field","name":{"kind":"Name","value":"burnCount"}},{"kind":"Field","name":{"kind":"Name","value":"active"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"metadataObject"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"symbol"}},{"kind":"Field","name":{"kind":"Name","value":"uri"}},{"kind":"Field","name":{"kind":"Name","value":"metadataJson"}}]}},{"kind":"Field","name":{"kind":"Name","value":"mintObject"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"supply"}}]}}]}}]}}]} as unknown as DocumentNode<PromoListQueryDocumentQuery, PromoListQueryDocumentQueryVariables>;
-export const MerchantPromoListQueryDocumentDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"MerchantPromoListQueryDocument"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"merchant"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"promo"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"campaignObject"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"merchant"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"Variable","name":{"kind":"Name","value":"merchant"}}}]}}]}}]}},{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"createdAt"},"value":{"kind":"EnumValue","value":"DESC"}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"campaignObject"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"merchant"}},{"kind":"Field","name":{"kind":"Name","value":"locations"}}]}},{"kind":"Field","name":{"kind":"Name","value":"campaign"}},{"kind":"Field","name":{"kind":"Name","value":"maxMint"}},{"kind":"Field","name":{"kind":"Name","value":"maxBurn"}},{"kind":"Field","name":{"kind":"Name","value":"mintCount"}},{"kind":"Field","name":{"kind":"Name","value":"burnCount"}},{"kind":"Field","name":{"kind":"Name","value":"active"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"metadataObject"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"symbol"}},{"kind":"Field","name":{"kind":"Name","value":"uri"}},{"kind":"Field","name":{"kind":"Name","value":"metadataJson"}}]}},{"kind":"Field","name":{"kind":"Name","value":"mintObject"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"supply"}}]}}]}}]}}]} as unknown as DocumentNode<MerchantPromoListQueryDocumentQuery, MerchantPromoListQueryDocumentQueryVariables>;
+export const PromoListQueryDocumentDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"PromoListQueryDocument"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"promo"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"createdAt"},"value":{"kind":"EnumValue","value":"DESC"}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"mint"}},{"kind":"Field","name":{"kind":"Name","value":"campaign"}},{"kind":"Field","name":{"kind":"Name","value":"campaignObject"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"merchant"}},{"kind":"Field","name":{"kind":"Name","value":"campaignLocations"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"location"}},{"kind":"Field","name":{"kind":"Name","value":"locationObject"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"devices"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"owner"}},{"kind":"Field","name":{"kind":"Name","value":"location"}}]}}]}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"maxMint"}},{"kind":"Field","name":{"kind":"Name","value":"maxBurn"}},{"kind":"Field","name":{"kind":"Name","value":"mintCount"}},{"kind":"Field","name":{"kind":"Name","value":"burnCount"}},{"kind":"Field","name":{"kind":"Name","value":"active"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"metadataObject"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"symbol"}},{"kind":"Field","name":{"kind":"Name","value":"uri"}},{"kind":"Field","name":{"kind":"Name","value":"metadataJson"}}]}},{"kind":"Field","name":{"kind":"Name","value":"mintObject"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"supply"}}]}}]}}]}}]} as unknown as DocumentNode<PromoListQueryDocumentQuery, PromoListQueryDocumentQueryVariables>;
+export const MerchantPromoListQueryDocumentDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"MerchantPromoListQueryDocument"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"merchant"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"promo"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"campaignObject"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"merchant"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"Variable","name":{"kind":"Name","value":"merchant"}}}]}}]}}]}},{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"createdAt"},"value":{"kind":"EnumValue","value":"DESC"}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"campaign"}},{"kind":"Field","name":{"kind":"Name","value":"campaignObject"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"merchant"}}]}},{"kind":"Field","name":{"kind":"Name","value":"maxMint"}},{"kind":"Field","name":{"kind":"Name","value":"maxBurn"}},{"kind":"Field","name":{"kind":"Name","value":"mintCount"}},{"kind":"Field","name":{"kind":"Name","value":"burnCount"}},{"kind":"Field","name":{"kind":"Name","value":"active"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"metadataObject"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"symbol"}},{"kind":"Field","name":{"kind":"Name","value":"uri"}},{"kind":"Field","name":{"kind":"Name","value":"metadataJson"}}]}},{"kind":"Field","name":{"kind":"Name","value":"mintObject"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"supply"}}]}}]}}]}}]} as unknown as DocumentNode<MerchantPromoListQueryDocumentQuery, MerchantPromoListQueryDocumentQueryVariables>;
 export const PromoIdQueryDocumentDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"PromoIdQueryDocument"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"campaign"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"name"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"promo"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_and"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"campaign"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"Variable","name":{"kind":"Name","value":"campaign"}}}]}}]}},{"kind":"ObjectField","name":{"kind":"Name","value":"metadataObject"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"name"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"Variable","name":{"kind":"Name","value":"name"}}}]}}]}}]}},{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"createdAt"},"value":{"kind":"EnumValue","value":"DESC"}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode<PromoIdQueryDocumentQuery, PromoIdQueryDocumentQueryVariables>;
 export const MintPromoTxIdQueryDocumentDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"MintPromoTxIdQueryDocument"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"memo"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"jsonb"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"mintPromoToken"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"memo"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_contains"},"value":{"kind":"Variable","name":{"kind":"Name","value":"memo"}}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"signature"}}]}}]}}]} as unknown as DocumentNode<MintPromoTxIdQueryDocumentQuery, MintPromoTxIdQueryDocumentQueryVariables>;
+export const DeviceIdByOwnerQueryDocumentDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"DeviceIdByOwnerQueryDocument"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"mint"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"owner"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"promo"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"mint"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"Variable","name":{"kind":"Name","value":"mint"}}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"metadataObject"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}}]}},{"kind":"Field","name":{"kind":"Name","value":"campaign"}},{"kind":"Field","name":{"kind":"Name","value":"campaignObject"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"campaignLocations"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"location"}},{"kind":"Field","name":{"kind":"Name","value":"locationObject"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"devices"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"owner"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"Variable","name":{"kind":"Name","value":"owner"}}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"owner"}},{"kind":"Field","name":{"kind":"Name","value":"location"}}]}}]}}]}}]}}]}}]}}]} as unknown as DocumentNode<DeviceIdByOwnerQueryDocumentQuery, DeviceIdByOwnerQueryDocumentQueryVariables>;
 export const SignMemoQueryDocumentDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"SignMemoQueryDocument"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"memo"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"jsonb"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"signMemo"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"memo"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_contains"},"value":{"kind":"Variable","name":{"kind":"Name","value":"memo"}}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"visitId"},"name":{"kind":"Name","value":"memo"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"path"},"value":{"kind":"StringValue","value":"visitId","block":false}}]},{"kind":"Field","name":{"kind":"Name","value":"signer"}},{"kind":"Field","name":{"kind":"Name","value":"signature"}},{"kind":"Field","name":{"kind":"Name","value":"merchantObject"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]}}]} as unknown as DocumentNode<SignMemoQueryDocumentQuery, SignMemoQueryDocumentQueryVariables>;

@@ -42,10 +42,10 @@ export interface ICampaignItem {
   id: string;
   merchant: string;
   name: string;
-  locations: string[];
   active: boolean;
   metadataJson: ICampaignMetadataJson;
   promos?: IPromoItem[];
+  locations?: ILocationItem[];
 }
 
 export interface IAttribute {
@@ -125,11 +125,32 @@ function merchantItemAdapter(
         id: campaign.id,
         merchant: campaign.merchant,
         name: campaign.name,
-        locations: campaign.locations,
-        active: campaign.active,
         metadataJson: campaign.metadataJson,
+        active: campaign.active,
         promos: campaign.promos.map((promo) => {
           return promoAdapter(promo);
+        }),
+        locations: campaign.campaignLocations.flatMap((campaignLocation) => {
+          const location = campaignLocation.locationObject!;
+          return {
+            id: location.id,
+            merchant: location.merchant,
+            name: location.name,
+            active: location.active,
+            metadataJson: location.metadataJson,
+            deviceCount: location.devicesAggregate.aggregate!.count,
+            devices: location.devices.map((device) => {
+              return {
+                id: device.id,
+                owner: device.owner,
+                location: device.location,
+                locationName: location.name,
+                name: device.name,
+                active: device.active,
+                metadataJson: device.metadataJson,
+              };
+            }),
+          };
         }),
       };
     }),
@@ -172,7 +193,6 @@ function merchantListAdapter(
           id: campaign.id,
           merchant: campaign.merchant,
           name: campaign.name,
-          locations: campaign.locations,
           active: campaign.active,
           metadataJson: campaign.metadataJson,
         };
@@ -207,15 +227,14 @@ export async function getMerchantItem(id: string): Promise<IMerchantItem> {
             owner
             location
             name
-            metadataJson
             active
+            metadataJson
           }
         }
         campaigns(orderBy: { createdAt: ASC }) {
           id
           merchant
           name
-          locations
           active
           promos(orderBy: { createdAt: DESC }) {
             id
@@ -236,6 +255,28 @@ export async function getMerchantItem(id: string): Promise<IMerchantItem> {
             mintObject {
               id
               supply
+            }
+          }
+          campaignLocations {
+            locationObject {
+              id
+              merchant
+              name
+              active
+              metadataJson
+              devicesAggregate {
+                aggregate {
+                  count
+                }
+              }
+              devices {
+                id
+                owner
+                location
+                name
+                active
+                metadataJson
+              }
             }
           }
           metadataJson
@@ -283,7 +324,6 @@ export async function getMerchantList(): Promise<IMerchantItem[]> {
           id
           merchant
           name
-          locations
           active
           metadataJson
         }
@@ -362,35 +402,6 @@ export async function getDeviceId(
   `);
 
   const variables = { location, name };
-  const data = (await request(API_DATA!, query, variables)).device.map(
-    (item) => {
-      return item.id;
-    }
-  );
-
-  return data ? data[0] : null;
-}
-
-export async function getDeviceIdByOwner(
-  locations: string[],
-  owner: string
-): Promise<string | null> {
-  if (!locations || !owner) return null;
-
-  const query = graphql(`
-    query DeviceIdByOwnerQueryDocument($locations: [String!], $owner: String!) {
-      device(
-        where: {
-          _and: { location: { _in: $locations } }
-          owner: { _eq: $owner }
-        }
-      ) {
-        id
-      }
-    }
-  `);
-
-  const variables = { locations, owner };
   const data = (await request(API_DATA!, query, variables)).device.map(
     (item) => {
       return item.id;

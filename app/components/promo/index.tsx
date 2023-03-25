@@ -22,12 +22,17 @@ export default function Promo({ promo }: PromoProps) {
   // const src = promo.metadataJson!.image!;
   const src = getProxyImgSrc(promo.metadataJson!.image!, promoImageSpec);
   const location = useLocation();
-  const searchParams = new URLSearchParams([
+  let searchParams = new URLSearchParams([
     ["promoName", promo.name],
     ["mintId", promo.mintId],
     ["campaignId", promo.campaignId],
     ["redirectTo", location.pathname],
   ]);
+  if (promo.platformDevice) {
+    searchParams.append("deviceId", promo.platformDevice.id);
+    searchParams.append("deviceOwner", promo.platformDevice.owner);
+    searchParams.append("locationId", promo.platformDevice.location);
+  }
 
   return (
     <div className="flex w-64 flex-shrink-0 flex-col items-start gap-2 rounded-md border shadow-sm shadow-slate-300">
@@ -65,12 +70,17 @@ export default function Promo({ promo }: PromoProps) {
         </div>
       </div>
       <Link
+        title={
+          promo.platformDevice
+            ? "Get Promo"
+            : "Promo not available on this device"
+        }
         to={`/promos/mint?${searchParams}`}
         className={`${
-          promo.mintCount == promo.maxMint
+          promo.mintCount == promo.maxMint || promo.platformDevice == null
             ? "disabled-link pointer-events-none bg-slate-200"
-            : ""
-        } m-auto mb-2 flex items-center rounded-full bg-bokoupGreen2-400 py-2 px-8 text-center text-sm font-semibold hover:brightness-90`}
+            : "bg-bokoupGreen2-400 hover:brightness-90"
+        } m-auto mb-2 flex items-center rounded-full  py-2 px-8 text-center text-sm font-semibold`}
       >
         <QrCodeIcon className="h-4 w-4" aria-hidden="true" />
       </Link>

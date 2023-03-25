@@ -1,13 +1,12 @@
 import { request } from "graphql-request";
 import { graphql } from "~/graphql/gql";
 import { Promo } from "~/graphql/graphql";
-import { API_DATA } from "~/models/constants";
+import { API_DATA, PLATFORM_SIGNER_ADDRESS } from "~/models/constants";
 
 export interface IPromoItem {
   id: string;
   merchantId: string;
   campaignId: string;
-  locations: string[];
   mintId: string;
   name: string;
   symbol: string;
@@ -18,6 +17,7 @@ export interface IPromoItem {
   promoType: PromoType;
   active: boolean;
   metadataJson: IPromoMetadataJson;
+  platformDevice: IPlatformDevice | null;
 }
 
 type PromoType = "buyXProductGetYFree" | "buyXCurrencyGetYPercent";
@@ -25,6 +25,12 @@ type PromoType = "buyXProductGetYFree" | "buyXCurrencyGetYPercent";
 export interface IPromoAttribute {
   trait_type: string;
   value: string | number;
+}
+
+export interface IPlatformDevice {
+  id: string;
+  owner: string;
+  location: string;
 }
 
 export interface IPromoCollection {
@@ -72,12 +78,23 @@ export async function getPromoItems() {
     query PromoListQueryDocument {
       promo(orderBy: { createdAt: DESC }) {
         id
-        campaignObject {
-          merchant
-          locations
-        }
         mint
         campaign
+        campaignObject {
+          merchant
+          campaignLocations {
+            location
+            locationObject {
+              name
+              devices {
+                id
+                name
+                owner
+                location
+              }
+            }
+          }
+        }
         maxMint
         maxBurn
         mintCount
@@ -116,11 +133,10 @@ export async function getMerchantPromoItems(merchant: string) {
         orderBy: { createdAt: DESC }
       ) {
         id
+        campaign
         campaignObject {
           merchant
-          locations
         }
-        campaign
         maxMint
         maxBurn
         mintCount
@@ -194,15 +210,86 @@ export async function getMintPromoTxId(uuid: string) {
   return data[0];
 }
 
+export async function getDeviceIdByOwner(
+  mint: string,
+  owner: string
+): Promise<Record<string, any> | null> {
+  const query = graphql(`
+    query DeviceIdByOwnerQueryDocument($mint: String!, $owner: String!) {
+      promo(where: { mint: { _eq: $mint } }) {
+        metadataObject {
+          name
+        }
+        campaign
+        campaignObject {
+          campaignLocations {
+            location
+            locationObject {
+              devices(where: { owner: { _eq: $owner } }) {
+                id
+                owner
+                location
+              }
+            }
+          }
+        }
+      }
+    }
+  `);
+
+  const variables = { mint, owner };
+  const data = (await request(API_DATA!, query, variables)).promo.map(
+    (item) => {
+      return {
+        promoName: item.metadataObject!.name,
+        campaignId: item.campaign,
+        device: item.campaignObject?.campaignLocations.flatMap(
+          (campaignLocation) => {
+            return campaignLocation.locationObject?.devices.map((device) => {
+              return {
+                id: device.id,
+                owner: device.owner,
+                location: device.location,
+              } as IPlatformDevice;
+            });
+          }
+        )[0],
+      };
+    }
+  );
+
+  return data ? data[0] : null;
+}
+
 export function promoAdapter(item: Promo | Record<string, any>) {
   const promoType = item.metadataObject?.metadataJson.attributes.filter(
     (attribute: IPromoAttribute) => attribute.trait_type == "promoType"
   )[0].value;
+
+  const platformDevices: IPlatformDevice[] =
+    item.campaignObject?.campaignLocations.flatMap(
+      (campaignLocation: Record<string, any>) => {
+        return campaignLocation.locationObject?.devices.flatMap(
+          (device: Record<string, any>) => {
+            if (device.owner == PLATFORM_SIGNER_ADDRESS) {
+              return [
+                {
+                  id: device.id,
+                  owner: device.owner,
+                  location: device.location,
+                },
+              ] as IPlatformDevice[];
+            }
+            return [];
+          }
+        );
+      }
+    );
+
   return {
     id: item.id,
     merchantId: item.campaignObject?.merchant,
-    campaignId: item.id,
-    locations: item.campaignObject?.locations,
+    campaignId: item.campaign,
     mintId: item.mint,
     name: item.metadataObject?.name,
     symbol: item.metadataObject?.symbol,
@@ -213,5 +300,6 @@ export function promoAdapter(item: Promo | Record<string, any>) {
     promoType,
     active: item.active,
     metadataJson: item.metadataObject?.metadataJson,
+    platformDevice: platformDevices ? platformDevices[0] : null,
   } as IPromoItem;
 }

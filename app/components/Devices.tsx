@@ -49,15 +49,21 @@ export default function Devices({
                     </th>
                     <th
                       scope="col"
-                      className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                      className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0"
                     >
-                      Description
+                      Owner
                     </th>
                     <th
                       scope="col"
                       className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
                     >
                       Location
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                    >
+                      Description
                     </th>
                     <th
                       scope="col"
@@ -71,22 +77,23 @@ export default function Devices({
                   {devices.map((device) => (
                     <tr key={device.location + device.name}>
                       <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm sm:pl-0">
-                        <div className="flex items-center">
-                          <div className="ml-4">
-                            <div className="font-medium text-gray-900">
-                              {device.name}
-                            </div>
-                          </div>
+                        <div className="font-medium text-gray-900">
+                          {device.name}
                         </div>
                       </td>
-                      <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                        <div className="text-gray-900">
-                          {device.metadataJson.description}
+                      <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm sm:pl-0">
+                        <div className="font-medium text-gray-900">
+                          {device.owner}
                         </div>
                       </td>
                       <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                         <div className="text-gray-900">
                           {device.locationName}
+                        </div>
+                      </td>
+                      <td className="px-3 py-4 text-sm text-gray-500">
+                        <div className="text-gray-900">
+                          {device.metadataJson.description}
                         </div>
                       </td>
                       <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">

@@ -67,6 +67,12 @@ export default function Campaigns({
                       scope="col"
                       className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
                     >
+                      Device Count
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                    >
                       Promo Count
                     </th>
                     <th
@@ -97,6 +103,13 @@ export default function Campaigns({
                       <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                         <div className="text-gray-900">
                           {campaign.locations ? campaign.locations.length : 0}
+                        </div>
+                      </td>
+                      <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                        <div className="text-gray-900">
+                          {campaign.locations
+                            ?.map((location) => location.deviceCount)
+                            .reduce((total, count) => total + count, 0)}
                         </div>
                       </td>
                       <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">

@@ -7,6 +7,7 @@ export interface IPromoItem {
   id: string;
   merchantId: string;
   campaignId: string;
+  campaignName: string;
   mintId: string;
   name: string;
   symbol: string;
@@ -136,6 +137,7 @@ export async function getMerchantPromoItems(merchant: string) {
         campaign
         campaignObject {
           merchant
+          name
         }
         maxMint
         maxBurn
@@ -267,7 +269,7 @@ export function promoAdapter(item: Promo | Record<string, any>) {
   )[0].value;
 
   const platformDevices: IPlatformDevice[] =
-    item.campaignObject?.campaignLocations.flatMap(
+    item.campaignObject?.campaignLocations?.flatMap(
       (campaignLocation: Record<string, any>) => {
         return campaignLocation.locationObject?.devices.flatMap(
           (device: Record<string, any>) => {
@@ -290,6 +292,7 @@ export function promoAdapter(item: Promo | Record<string, any>) {
     id: item.id,
     merchantId: item.campaignObject?.merchant,
     campaignId: item.campaign,
+    campaignName: item.campaignObject?.name,
     mintId: item.mint,
     name: item.metadataObject?.name,
     symbol: item.metadataObject?.symbol,

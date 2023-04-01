@@ -130,7 +130,7 @@ function merchantItemAdapter(
         promos: campaign.promos.map((promo) => {
           return promoAdapter(promo);
         }),
-        locations: campaign.campaignLocations.flatMap((campaignLocation) => {
+        locations: campaign.campaignLocations.map((campaignLocation) => {
           const location = campaignLocation.locationObject!;
           return {
             id: location.id,
@@ -255,6 +255,9 @@ export async function getMerchantItem(id: string): Promise<IMerchantItem> {
             mintObject {
               id
               supply
+            }
+            campaignObject {
+              name
             }
           }
           campaignLocations {

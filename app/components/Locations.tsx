@@ -102,12 +102,12 @@ export default function Locations({
                           </div>
                         </div>
                       </td>
-                      <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                      <td className="whitespace-normal px-3 py-4 text-sm text-gray-500">
                         <div className="text-gray-900">
                           {location.metadataJson.address}
                         </div>
                       </td>
-                      <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                      <td className="whitespace-normal px-3 py-4 text-sm text-gray-500">
                         <div className="text-gray-900">
                           {location.metadataJson.description}
                         </div>

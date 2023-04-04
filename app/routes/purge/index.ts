@@ -1,7 +1,9 @@
 import type { LoaderArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
+import invariant from "tiny-invariant";
 
 export async function action({ request }: LoaderArgs) {
+  invariant(process.env.IMGIX_API_TOKEN, "IMGIX_API_TOKEN must be set");
   switch (request.method) {
     case "POST": {
       const url = (await request.json()).url;

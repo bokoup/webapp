@@ -1,12 +1,13 @@
 import { request } from "graphql-request";
 import { graphql } from "~/graphql/gql";
 import { API_DATA } from "~/models/constants";
-import {
+import type {
   MerchantItemQueryDocumentQuery,
   MerchantListQueryDocumentQuery,
 } from "~/graphql/graphql";
-import { User } from "~/session.server";
-import { IPromoItem, promoAdapter } from "./promo.server";
+import type { User } from "~/session.server";
+import type { IPromoItem} from "./promo.server";
+import { promoAdapter } from "./promo.server";
 
 export interface IMerchantItem {
   id: string;

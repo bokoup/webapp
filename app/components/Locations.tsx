@@ -1,6 +1,6 @@
 import { PlusIcon } from "@heroicons/react/24/solid";
 import { Link } from "@remix-run/react";
-import { ILocationItem } from "~/models/merchant.server";
+import type { ILocationItem } from "~/models/merchant.server";
 import { purgeImgix } from "~/utils/imgx";
 
 export default function Locations({

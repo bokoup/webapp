@@ -1,7 +1,7 @@
-import { ActionArgs, json, redirect } from "@remix-run/node";
+import { json, redirect } from "@remix-run/node";
 import QRCode from "qrcode";
 import { Form, useLoaderData, useSubmit } from "@remix-run/react";
-import type { LoaderArgs } from "@remix-run/node";
+import type { LoaderArgs , ActionArgs} from "@remix-run/node";
 import QRCodeModal from "~/components/QRCodeModal";
 import { safeRedirect } from "~/utils";
 import { API_TX } from "~/models/constants";

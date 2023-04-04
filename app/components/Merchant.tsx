@@ -1,7 +1,7 @@
 import { getProxyImgSrc, purgeImgix, type imageSpec } from "~/utils/imgx";
 import { LinkIcon } from "@heroicons/react/20/solid";
 import { Link } from "@remix-run/react";
-import { IMerchantItem } from "~/models/merchant.server";
+import type { IMerchantItem } from "~/models/merchant.server";
 
 const merchantImageSpec: imageSpec = {
   width: 256,

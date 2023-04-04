@@ -15,11 +15,12 @@ import { safeRedirect } from "~/utils";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
 import { Fragment } from "react";
 import { API_TX } from "~/models/constants";
+import type {
+  FormFieldProps,
+  TransactionResponse} from "~/components/form";
 import {
   descriptionFormField,
-  FormFieldProps,
-  imageFormField,
-  TransactionResponse,
+  imageFormField
 } from "~/components/form";
 import FormField from "~/components/form/FormField";
 import ImageFormField from "~/components/form/ImageFormField";

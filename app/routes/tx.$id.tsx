@@ -1,6 +1,6 @@
 import type { LoaderArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import { TransactionResponse } from "~/components/form";
+import type { TransactionResponse } from "~/components/form";
 import {
   getStoredTransaction,
   deleteStoredTransaction,

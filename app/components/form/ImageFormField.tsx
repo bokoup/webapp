@@ -1,6 +1,6 @@
 import { PhotoIcon } from "@heroicons/react/24/solid";
 import { useRef, useState } from "react";
-import { FormFieldProps } from ".";
+import type { FormFieldProps } from ".";
 
 export default function ImageFormField({ ...props }: FormFieldProps) {
   const [imgSrc, setImgSrc] = useState<string | undefined>(undefined);

@@ -1,4 +1,5 @@
-import { json, LoaderArgs } from "@remix-run/node";
+import type { LoaderArgs } from "@remix-run/node";
+import { json } from "@remix-run/node";
 import { eventStream } from "remix-utils";
 import { getCampaignId } from "~/models/merchant.server";
 import { getUserId } from "~/session.server";

@@ -1,6 +1,6 @@
 import { Switch } from "@headlessui/react";
 import { useState } from "react";
-import { ILocationItem } from "~/models/merchant.server";
+import type { ILocationItem } from "~/models/merchant.server";
 
 export default function LocationFormField({
   location,

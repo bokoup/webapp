@@ -1,8 +1,8 @@
 import { request } from "graphql-request";
 import { graphql } from "~/graphql/gql";
-import { Promo } from "~/graphql/graphql";
+import type { Promo } from "~/graphql/graphql";
 import { API_DATA, PLATFORM_SIGNER_ADDRESS } from "~/models/constants";
-import { IMerchantMetadataJson } from "./merchant.server";
+import type { IMerchantMetadataJson } from "./merchant.server";
 
 export interface IPromoItem {
   id: string;

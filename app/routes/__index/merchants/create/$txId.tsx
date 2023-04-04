@@ -1,5 +1,4 @@
 import {
-  ActionArgs,
   json,
   redirect,
   type TypedResponse,
@@ -11,7 +10,8 @@ import {
   useSearchParams,
   useSubmit,
 } from "@remix-run/react";
-import type { LoaderArgs } from "@remix-run/node";
+import type { LoaderArgs ,
+  ActionArgs} from "@remix-run/node";
 import QRCodeModal from "~/components/QRCodeModal";
 import { safeRedirect } from "~/utils";
 import { createUserSession, getUserId, requireUserId } from "~/session.server";

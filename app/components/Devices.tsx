@@ -1,6 +1,6 @@
 import { PlusIcon } from "@heroicons/react/24/solid";
 import { Link } from "@remix-run/react";
-import { IDeviceItem } from "~/models/merchant.server";
+import type { IDeviceItem } from "~/models/merchant.server";
 
 export default function Devices({
   devices,

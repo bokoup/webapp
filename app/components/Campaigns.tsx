@@ -1,6 +1,6 @@
 import { PlusIcon } from "@heroicons/react/24/solid";
 import { Link } from "@remix-run/react";
-import { ICampaignItem } from "~/models/merchant.server";
+import type { ICampaignItem } from "~/models/merchant.server";
 
 export default function Campaigns({
   campaigns,

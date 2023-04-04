@@ -9,11 +9,12 @@ import { requireUserId } from "~/session.server";
 import { createStoredTransaction } from "~/models/savedtx.server";
 import { safeRedirect } from "~/utils";
 import { API_TX } from "~/models/constants";
+import type {
+  FormFieldProps,
+  TransactionResponse} from "~/components/form";
 import {
   descriptionFormField,
-  FormFieldProps,
-  imageFormField,
-  TransactionResponse,
+  imageFormField
 } from "~/components/form";
 import FormField from "~/components/form/FormField";
 import ImageFormField from "~/components/form/ImageFormField";

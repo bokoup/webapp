@@ -8,9 +8,10 @@ import { FormData } from "@remix-run/node";
 import { requireUserId } from "~/session.server";
 import { createStoredTransaction } from "~/models/savedtx.server";
 import { API_TX } from "~/models/constants";
-import {
+import type {
   TransactionResponse,
-  FormFieldProps,
+  FormFieldProps} from "~/components/form";
+import {
   imageFormField,
   descriptionFormField,
 } from "~/components/form";

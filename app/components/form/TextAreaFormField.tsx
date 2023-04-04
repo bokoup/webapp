@@ -1,4 +1,4 @@
-import { FormFieldProps } from ".";
+import type { FormFieldProps } from ".";
 
 export default function TextAreaFormField({ ...props }: FormFieldProps) {
   return (

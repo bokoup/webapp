@@ -1,6 +1,6 @@
 import { PlusIcon } from "@heroicons/react/24/solid";
 import { Link } from "@remix-run/react";
-import { IPromoItem } from "~/models/promo.server";
+import type { IPromoItem } from "~/models/promo.server";
 import { purgeImgix } from "~/utils/imgx";
 
 export default function Promos({

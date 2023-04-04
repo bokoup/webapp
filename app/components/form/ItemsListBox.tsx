@@ -1,7 +1,7 @@
 import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/24/solid";
 import { Fragment, useState } from "react";
-import { ICampaignItem, ILocationItem } from "~/models/merchant.server";
+import type { ICampaignItem, ILocationItem } from "~/models/merchant.server";
 
 export default function ItemsListBox({
   items,

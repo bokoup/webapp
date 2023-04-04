@@ -22,6 +22,7 @@ import { useEventSource } from "remix-utils";
 import { useEffect, useRef } from "react";
 import { safeRedirect } from "~/utils";
 import { API_TX } from "~/models/constants";
+import PromosPage from "./__index/promos";
 
 export const getSignMemoDataUrl = async (visitId: string): Promise<string> => {
   const message = `Approve to sign in to bokoup`;
@@ -72,7 +73,7 @@ export async function action({ request }: ActionArgs) {
   const data = await request.formData();
   const userId = data.get("userId")?.toString();
   const merchantVal = data.get("merchantId")?.toString();
-  const redirectTo = safeRedirect(data.get("redirectTo")?.toString(), "/");
+  const redirectTo = safeRedirect(data.get("redirectTo")?.toString());
   const merchantId = !merchantVal || merchantVal == "" ? null : merchantVal;
 
   if (userId && userId != "" && redirectTo) {
@@ -90,7 +91,8 @@ export async function action({ request }: ActionArgs) {
 
 export default function QrCodeLogin() {
   const [searchParams] = useSearchParams();
-  const redirectTo = safeRedirect(searchParams.get("redirectTo") || "/");
+  const redirectTo = safeRedirect(searchParams.get("redirectTo"));
+  console.log("redirectTo", redirectTo);
 
   const data = useLoaderData<typeof loader>();
   const signMemoItem = useEventSource(`/sse/signmemo`);

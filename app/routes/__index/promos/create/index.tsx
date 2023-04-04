@@ -88,7 +88,6 @@ export const action = async ({ request }: ActionArgs) => {
 
   const formData = await parseMultipartFormData(request, uploadHandler);
   const metadataJson = MetadataJsonAdapter(formData);
-  console.log(metadataJson);
   const image = formData.get("image") as File;
   const memo = formData.get("memo") ? formData.get("memo")?.toString() : null;
   const campaignId = formData.get("campaignId")?.toString();

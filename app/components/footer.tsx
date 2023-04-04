@@ -64,7 +64,7 @@ export default function Footer() {
           {["About", "Careers", "Privacy Policy"].map((text) => (
             <Link
               key={text}
-              to={`/${text.toLowerCase()}`}
+              to={`/`}
               className="font-heading hover:text-bokoupBlue2-700"
             >
               {text}

@@ -9,10 +9,7 @@ export interface NavItem {
 
 export const navItems: NavItem[] = [
   { label: "Promos", pathname: "/promos" },
-  { label: "Loyalty", pathname: "/loyalty" },
   { label: "Merchants", pathname: "/merchants" },
-  { label: "Trade", pathname: "/trade" },
-  { label: "Pricing", pathname: "/pricing" },
   { label: "FAQ", pathname: "/FAQ" },
 ];
 

@@ -83,24 +83,6 @@ export default function Home() {
             ))}
         </div>
       </div>
-      {/* <!-- Featured Loyalty Programs --> */}
-      <div className="container relative mx-auto mb-auto p-2 lg:py-4">
-        <h2 className="font-heading text-2xl font-medium lg:text-3xl">
-          Featured Loyalty Programs
-        </h2>
-        <p>
-          Joining a rewards program has never been easier. Scan a QR code to get
-          a token. Show your token where you shop to earn points and get
-          discounts.
-        </p>
-        <div className="flex gap-4 overflow-x-auto pt-4">
-          {Array(5)
-            .fill(1)
-            .map((a, b) => (
-              <PromoSkeleton key={a + b} />
-            ))}
-        </div>
-      </div>
     </>
   );
 }

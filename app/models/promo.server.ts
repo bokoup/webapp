@@ -2,6 +2,7 @@ import { request } from "graphql-request";
 import { graphql } from "~/graphql/gql";
 import { Promo } from "~/graphql/graphql";
 import { API_DATA, PLATFORM_SIGNER_ADDRESS } from "~/models/constants";
+import { IMerchantMetadataJson } from "./merchant.server";
 
 export interface IPromoItem {
   id: string;
@@ -18,6 +19,7 @@ export interface IPromoItem {
   promoType: PromoType;
   active: boolean;
   metadataJson: IPromoMetadataJson;
+  merchantMetadataJson: IMerchantMetadataJson;
   platformDevice: IPlatformDevice | null;
 }
 
@@ -83,6 +85,9 @@ export async function getPromoItems() {
         campaign
         campaignObject {
           merchant
+          merchantObject {
+            metadataJson
+          }
           campaignLocations {
             location
             locationObject {
@@ -119,7 +124,6 @@ export async function getPromoItems() {
 
   let data: IPromoItem[] = (await request(API_DATA!, query)).promo.map(
     (item) => {
-      console.log(item);
       return promoAdapter(item);
     }
   );
@@ -138,6 +142,9 @@ export async function getMerchantPromoItems(merchant: string) {
         campaignObject {
           merchant
           name
+          merchantObject {
+            metadataJson
+          }
         }
         maxMint
         maxBurn
@@ -303,6 +310,7 @@ export function promoAdapter(item: Promo | Record<string, any>) {
     promoType,
     active: item.active,
     metadataJson: item.metadataObject?.metadataJson,
+    merchantMetadataJson: item.campaignObject?.merchantObject?.metadataJson,
     platformDevice: platformDevices ? platformDevices[0] : null,
   } as IPromoItem;
 }

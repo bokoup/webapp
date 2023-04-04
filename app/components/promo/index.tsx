@@ -14,13 +14,28 @@ const promoImageSpec: imageSpec = {
   ],
 };
 
+const merchantImageSpec: imageSpec = {
+  width: 72,
+  height: 72,
+  params: [
+    { key: "fit", value: "crop" },
+    { key: "q", value: "100" },
+    // { key: "blur", value: "20" },
+    // { key: "blend-color", value: "60000000" }
+  ],
+};
+
 interface PromoProps {
   promo: IPromoItem;
 }
 
 export default function Promo({ promo }: PromoProps) {
   // const src = promo.metadataJson!.image!;
-  const src = getProxyImgSrc(promo.metadataJson!.image!, promoImageSpec);
+  const srcPromo = getProxyImgSrc(promo.metadataJson!.image!, promoImageSpec);
+  const srcMerchant = getProxyImgSrc(
+    promo.merchantMetadataJson!.image!,
+    merchantImageSpec
+  );
   const location = useLocation();
   let searchParams = new URLSearchParams([
     ["promoName", promo.name],
@@ -36,7 +51,20 @@ export default function Promo({ promo }: PromoProps) {
 
   return (
     <div className="flex w-64 flex-shrink-0 flex-col items-start gap-2 rounded-md border shadow-sm shadow-slate-300">
-      <div className="flex w-full items-center justify-between border-b px-2 pt-1">
+      <Link
+        className="flex w-full items-center border-b px-2 py-1"
+        to={`/merchants/${promo.merchantId}`}
+      >
+        <img
+          src={srcMerchant}
+          className="h-6 w-6 rounded-md border"
+          alt={promo.name}
+        />
+        <div className="px-2 text-xs font-semibold">
+          {promo.merchantMetadataJson.name}
+        </div>
+      </Link>
+      <div className="flex w-full items-center justify-between px-2">
         <h3 className="rounde self-start font-semibold">{promo.name}</h3>
         <a
           href={`https://explorer.solana.com/address/${promo.mintId}?cluster=custom&customUrl=http%3A%2F%2Flocalhost%3A8899`}
@@ -48,7 +76,7 @@ export default function Promo({ promo }: PromoProps) {
         </a>
       </div>
       <img
-        src={src}
+        src={srcPromo}
         className="w-58 mx-auto h-60 rounded-md border"
         alt={promo.name}
       />
@@ -69,6 +97,7 @@ export default function Promo({ promo }: PromoProps) {
           </span>
         </div>
       </div>
+
       <Link
         title={
           promo.platformDevice

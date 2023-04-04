@@ -25,8 +25,10 @@ export const getMintPromoDataUrl = async (
 };
 
 export const loader = async ({ request }: LoaderArgs) => {
-  const { userId } = await requireUserId(request);
   const url = new URL(request.url);
+  const redirectTo = safeRedirect(url.searchParams.get("redirectTo"));
+  const { userId } = await requireUserId(request, redirectTo);
+
   const promoName = url.searchParams.get("promoName");
   const mintId = url.searchParams.get("mintId");
   const deviceId = url.searchParams.get("deviceId");
@@ -46,7 +48,6 @@ export const loader = async ({ request }: LoaderArgs) => {
       error: "Missing userId or mintId",
     });
   }
-  const redirectTo = safeRedirect(url.searchParams.get("redirectTo") || "/");
 
   const source = url.pathname.toString().replaceAll("/", "__");
   const uuid = uuidv4().replaceAll("-", "");

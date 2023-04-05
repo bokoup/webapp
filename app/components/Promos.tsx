@@ -12,8 +12,9 @@ export default function Promos({
   campaignsExist: boolean;
   merchantLoggedIn: boolean;
 }) {
+  const location = useLocation();
+
   function getSearchParams(promo: IPromoItem) {
-    const location = useLocation();
     let searchParams = new URLSearchParams([
       ["promoName", promo.name],
       ["mintId", promo.mintId],

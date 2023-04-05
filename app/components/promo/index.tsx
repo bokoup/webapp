@@ -4,8 +4,8 @@ import { LinkIcon, QrCodeIcon } from "@heroicons/react/20/solid";
 import { Link, useLocation } from "@remix-run/react";
 
 const promoImageSpec: imageSpec = {
-  width: 256,
-  height: 256,
+  width: 512,
+  height: 512,
   params: [
     { key: "fit", value: "crop" },
     { key: "q", value: "100" },

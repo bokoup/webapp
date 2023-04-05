@@ -6,29 +6,33 @@ import { purgeImgix } from "~/utils/imgx";
 export default function Promos({
   promos,
   campaignsExist,
+  merchantLoggedIn,
 }: {
   promos: IPromoItem[];
   campaignsExist: boolean;
+  merchantLoggedIn: boolean;
 }) {
   return (
     <div className=" mt-4 rounded-md border p-2 shadow-sm">
       <div className="justify-between sm:flex sm:items-center">
         <h3 className="font-heading text-lg font-medium lg:text-2xl">Promos</h3>
-        <Link
-          to={`/promos/create`}
-          title={`${
-            campaignsExist
-              ? "Campaigns must exist to create promo"
-              : "Create new promo"
-          }`}
-          className={`${
-            !campaignsExist
-              ? "disabled-link pointer-events-none bg-slate-200"
-              : "bg-bokoupGreen2-400 hover:brightness-90"
-          } flex flex-shrink items-center rounded-full py-3 px-3 text-center text-sm font-semibold shadow`}
-        >
-          <PlusIcon className="h-4 w-4" aria-hidden="true" />
-        </Link>
+        {merchantLoggedIn ? (
+          <Link
+            to={`/promos/create`}
+            title={`${
+              campaignsExist
+                ? "Campaigns must exist to create promo"
+                : "Create new promo"
+            }`}
+            className={`${
+              !campaignsExist
+                ? "disabled-link pointer-events-none bg-slate-200"
+                : "bg-bokoupGreen2-400 hover:brightness-90"
+            } flex flex-shrink items-center rounded-full py-3 px-3 text-center text-sm font-semibold shadow`}
+          >
+            <PlusIcon className="h-4 w-4" aria-hidden="true" />
+          </Link>
+        ) : null}
       </div>
       <div className="justify-between sm:flex sm:items-center">
         <p>Promos are assigned to a campaign owned by a merchant.</p>

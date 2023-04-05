@@ -27,9 +27,10 @@ const merchantImageSpec: imageSpec = {
 
 interface PromoProps {
   promo: IPromoItem;
+  nodeEnv: string;
 }
 
-export default function Promo({ promo }: PromoProps) {
+export default function Promo({ promo, nodeEnv }: PromoProps) {
   // const src = promo.metadataJson!.image!;
   const srcPromo = getProxyImgSrc(promo.metadataJson!.image!, promoImageSpec);
   const srcMerchant = getProxyImgSrc(
@@ -49,6 +50,11 @@ export default function Promo({ promo }: PromoProps) {
     searchParams.append("locationId", promo.platformDevice.location);
   }
 
+  const explorerCluster =
+    nodeEnv == "production"
+      ? "devnet"
+      : "custom&customUrl=http%3A%2F%2Flocalhost%3A8899";
+
   return (
     <div className="flex w-64 flex-shrink-0 flex-col items-start gap-2 rounded-md border shadow-sm shadow-slate-300">
       <Link
@@ -67,7 +73,7 @@ export default function Promo({ promo }: PromoProps) {
       <div className="flex w-full items-center justify-between px-2">
         <h3 className="rounde self-start font-semibold">{promo.name}</h3>
         <a
-          href={`https://explorer.solana.com/address/${promo.mintId}?cluster=custom&customUrl=http%3A%2F%2Flocalhost%3A8899`}
+          href={`https://explorer.solana.com/address/${promo.mintId}?cluster=${explorerCluster}`}
           title="View on Explorer"
           target="_blank"
           rel="noopener noreferrer"

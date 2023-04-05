@@ -7,8 +7,9 @@ import { getUserId } from "~/session.server";
 export async function loader({ request }: LoaderArgs) {
   const { userId } = await getUserId(request);
   const promoItems = await getPromoItems();
+  const nodeEnv = process.env.NODE_ENV;
 
-  return { promoItems, userId };
+  return { promoItems, userId, nodeEnv };
 }
 
 export default function PromosPage() {
@@ -30,7 +31,11 @@ export default function PromosPage() {
         </div>
         <div className="flex flex-wrap gap-4 pt-4">
           {data.promoItems.map((promoItem) => (
-            <Promo key={promoItem.id} promo={promoItem} />
+            <Promo
+              key={promoItem.id}
+              promo={promoItem}
+              nodeEnv={data.nodeEnv}
+            />
           ))}
         </div>
       </div>

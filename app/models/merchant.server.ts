@@ -6,7 +6,7 @@ import type {
   MerchantListQueryDocumentQuery,
 } from "~/graphql/graphql";
 import type { User } from "~/session.server";
-import type { IPromoItem} from "./promo.server";
+import type { IPromoItem } from "./promo.server";
 import { promoAdapter } from "./promo.server";
 
 export interface IMerchantItem {
@@ -131,27 +131,31 @@ function merchantItemAdapter(
         promos: campaign.promos.map((promo) => {
           return promoAdapter(promo);
         }),
-        locations: campaign.campaignLocations.map((campaignLocation) => {
-          const location = campaignLocation.locationObject!;
-          return {
-            id: location.id,
-            merchant: location.merchant,
-            name: location.name,
-            active: location.active,
-            metadataJson: location.metadataJson,
-            deviceCount: location.devicesAggregate.aggregate!.count,
-            devices: location.devices.map((device) => {
+        locations: campaign.promos.flatMap((promo) => {
+          return promo.campaignObject!.campaignLocations.map(
+            (campaignLocation) => {
+              const location = campaignLocation.locationObject!;
               return {
-                id: device.id,
-                owner: device.owner,
-                location: device.location,
-                locationName: location.name,
-                name: device.name,
-                active: device.active,
-                metadataJson: device.metadataJson,
+                id: location.id,
+                merchant: location.merchant,
+                name: location.name,
+                active: location.active,
+                metadataJson: location.metadataJson,
+                deviceCount: location.devicesAggregate.aggregate!.count,
+                devices: location.devices.map((device) => {
+                  return {
+                    id: device.id,
+                    owner: device.owner,
+                    location: device.location,
+                    locationName: location.name,
+                    name: device.name,
+                    active: device.active,
+                    metadataJson: device.metadataJson,
+                  };
+                }),
               };
-            }),
-          };
+            }
+          );
         }),
       };
     }),
@@ -259,30 +263,31 @@ export async function getMerchantItem(id: string): Promise<IMerchantItem> {
             }
             campaignObject {
               name
-            }
-          }
-          campaignLocations {
-            locationObject {
-              id
-              merchant
-              name
-              active
-              metadataJson
-              devicesAggregate {
-                aggregate {
-                  count
+              campaignLocations {
+                locationObject {
+                  id
+                  merchant
+                  name
+                  active
+                  metadataJson
+                  devicesAggregate {
+                    aggregate {
+                      count
+                    }
+                  }
+                  devices {
+                    id
+                    owner
+                    location
+                    name
+                    active
+                    metadataJson
+                  }
                 }
               }
-              devices {
-                id
-                owner
-                location
-                name
-                active
-                metadataJson
-              }
             }
           }
+
           metadataJson
         }
       }

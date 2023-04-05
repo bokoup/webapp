@@ -1,5 +1,5 @@
-import { PlusIcon } from "@heroicons/react/24/solid";
-import { Link } from "@remix-run/react";
+import { PlusIcon, QrCodeIcon } from "@heroicons/react/24/solid";
+import { Link, useLocation } from "@remix-run/react";
 import type { IPromoItem } from "~/models/promo.server";
 import { purgeImgix } from "~/utils/imgx";
 
@@ -12,6 +12,22 @@ export default function Promos({
   campaignsExist: boolean;
   merchantLoggedIn: boolean;
 }) {
+  function getSearchParams(promo: IPromoItem) {
+    const location = useLocation();
+    let searchParams = new URLSearchParams([
+      ["promoName", promo.name],
+      ["mintId", promo.mintId],
+      ["campaignId", promo.campaignId],
+      ["redirectTo", location.pathname],
+    ]);
+    if (promo.platformDevice) {
+      searchParams.append("deviceId", promo.platformDevice.id);
+      searchParams.append("deviceOwner", promo.platformDevice.owner);
+      searchParams.append("locationId", promo.platformDevice.location);
+    }
+    return searchParams;
+  }
+
   return (
     <div className=" mt-4 rounded-md border p-2 shadow-sm">
       <div className="justify-between sm:flex sm:items-center">
@@ -50,24 +66,28 @@ export default function Promos({
                     >
                       Name
                     </th>
-                    <th
-                      scope="col"
-                      className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0"
-                    >
-                      Campaign
-                    </th>
+                    {merchantLoggedIn ? (
+                      <th
+                        scope="col"
+                        className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0"
+                      >
+                        Campaign
+                      </th>
+                    ) : null}
                     <th
                       scope="col"
                       className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
                     >
                       Description
                     </th>
-                    <th
-                      scope="col"
-                      className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                    >
-                      Type
-                    </th>
+                    {merchantLoggedIn ? (
+                      <th
+                        scope="col"
+                        className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                      >
+                        Type
+                      </th>
+                    ) : null}
                     <th
                       scope="col"
                       className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
@@ -80,18 +100,26 @@ export default function Promos({
                     >
                       Redeemed
                     </th>
+                    {merchantLoggedIn ? (
+                      <th
+                        scope="col"
+                        className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                      >
+                        Status
+                      </th>
+                    ) : null}
                     <th
                       scope="col"
                       className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
                     >
-                      Status
+                      Get
                     </th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-200 bg-white">
                   {promos.map((promo) => (
                     <tr key={promo.name}>
-                      <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm sm:pl-0">
+                      <td className="whitespace-normal py-4 pl-4 pr-3 text-sm sm:pl-0">
                         <div className="flex items-center">
                           <div className="h-12 w-12 flex-shrink-0">
                             <img
@@ -112,29 +140,53 @@ export default function Promos({
                           </div>
                         </div>
                       </td>
-                      <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                        <div className="text-gray-900">
-                          {promo.campaignName}
-                        </div>
-                      </td>
-                      <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                      {merchantLoggedIn ? (
+                        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                          <div className="text-gray-900">
+                            {promo.campaignName}
+                          </div>
+                        </td>
+                      ) : null}
+                      <td className="whitespace-normal px-3 py-4 text-sm text-gray-500">
                         <div className="text-gray-900">
                           {promo.metadataJson.description}
                         </div>
                       </td>
-                      <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                        <div className="text-gray-900">{promo.promoType}</div>
-                      </td>
+                      {merchantLoggedIn ? (
+                        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                          <div className="text-gray-900">{promo.promoType}</div>
+                        </td>
+                      ) : null}
                       <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                         <div className="text-gray-900">{`${promo.mintCount} / ${promo.maxMint}`}</div>
                       </td>
                       <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                         <div className="text-gray-900">{`${promo.burnCount} / ${promo.maxBurn}`}</div>
                       </td>
-                      <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                        <span className="inline-flex rounded-full bg-green-100 px-2 text-xs font-semibold leading-5 text-green-800">
-                          {promo.active ? "Active" : "Inactive"}
-                        </span>
+                      {merchantLoggedIn ? (
+                        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                          <span className="inline-flex rounded-full bg-green-100 px-2 text-xs font-semibold leading-5 text-green-800">
+                            {promo.active ? "Active" : "Inactive"}
+                          </span>
+                        </td>
+                      ) : null}
+                      <td>
+                        <Link
+                          title={
+                            promo.platformDevice
+                              ? "Get Promo"
+                              : "Promo not available on this device"
+                          }
+                          to={`/promos/mint?${getSearchParams(promo)}`}
+                          className={`${
+                            promo.mintCount == promo.maxMint ||
+                            promo.platformDevice == null
+                              ? "disabled-link pointer-events-none bg-slate-200"
+                              : "bg-bokoupGreen2-400 hover:brightness-90"
+                          } flex justify-center rounded-full p-1 text-center text-sm font-semibold`}
+                        >
+                          <QrCodeIcon className="h-4 w-4" aria-hidden="true" />
+                        </Link>
                       </td>
                     </tr>
                   ))}

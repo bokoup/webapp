@@ -1,7 +1,7 @@
 import { json, redirect } from "@remix-run/node";
 import QRCode from "qrcode";
 import { Form, useLoaderData, useSubmit } from "@remix-run/react";
-import type { LoaderArgs , ActionArgs} from "@remix-run/node";
+import type { LoaderArgs, ActionArgs } from "@remix-run/node";
 import QRCodeModal from "~/components/QRCodeModal";
 import { safeRedirect } from "~/utils";
 import { API_TX } from "~/models/constants";
@@ -27,7 +27,6 @@ export const getMintPromoDataUrl = async (
 export const loader = async ({ request }: LoaderArgs) => {
   const url = new URL(request.url);
   const redirectTo = safeRedirect(url.searchParams.get("redirectTo"));
-  const { userId } = await requireUserId(request, redirectTo);
 
   const promoName = url.searchParams.get("promoName");
   const mintId = url.searchParams.get("mintId");
@@ -78,7 +77,6 @@ export const loader = async ({ request }: LoaderArgs) => {
 };
 
 export async function action({ request }: ActionArgs) {
-  await requireUserId(request);
   const data = await request.formData();
   const txId = data.get("txId")?.toString();
 

@@ -1,12 +1,13 @@
 import { type imageSpec } from "~/utils/imgx";
 import Hero from "~/components/hero";
-import PromoSkeleton from "~/components/promo/skeleton";
 import { getPromoItems } from "~/models/promo.server";
 import { Outlet, useLoaderData } from "@remix-run/react";
 import Promo from "~/components/promo";
 
 export async function loader() {
-  return await getPromoItems();
+  const promoItems = await getPromoItems();
+  const nodeEnv = process.env.NODE_ENV;
+  return { promoItems, nodeEnv };
 }
 
 // TODO: use imgx client library instead
@@ -57,7 +58,7 @@ const imageSpecs: imageSpec[] = [
 const heroPath = "checkout.jpg";
 
 export default function Home() {
-  const promoItems = useLoaderData<typeof loader>();
+  const data = useLoaderData<typeof loader>();
 
   return (
     <>
@@ -73,13 +74,17 @@ export default function Home() {
           it where you shop to get a discount.
         </p>
         <div className="flex gap-4 overflow-hidden overflow-x-auto py-4">
-          {promoItems
+          {data.promoItems
             .filter(
               (promoItem) =>
                 !promoItem.maxMint || promoItem.maxMint > promoItem.mintCount
             )
             .map((promoItem) => (
-              <Promo key={promoItem.id} promo={promoItem} />
+              <Promo
+                key={promoItem.id}
+                promo={promoItem}
+                nodeEnv={data.nodeEnv}
+              />
             ))}
         </div>
       </div>

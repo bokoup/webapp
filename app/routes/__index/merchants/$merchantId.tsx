@@ -11,8 +11,8 @@ import Campaigns from "~/components/Campaigns";
 import Promos from "~/components/Promos";
 
 const merchantImageSpec: imageSpec = {
-  width: 256,
-  height: 256,
+  width: 512,
+  height: 512,
   params: [
     { key: "fit", value: "crop" },
     { key: "q", value: "100" },

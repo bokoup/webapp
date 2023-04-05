@@ -6,6 +6,12 @@ on:
       - dev
   pull_request: {}
 
+env:
+  API_TX_DEVNET: ${{ secrets.API_TX_DEVNET }}
+  APP_URL_DEVNET: ${{ secrets.APP_URL_DEVNET }}
+  GRAPHQL_API_DEVNET: ${{ secrets.GRAPHQL_API_DEVNET }}
+  IMGIX_API_TOKEN: ${{ secrets.IMGIX_API_TOKEN }}
+
 permissions:
   actions: write
   contents: read

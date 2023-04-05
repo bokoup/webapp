@@ -3,7 +3,7 @@ import { useLoaderData } from "@remix-run/react";
 import type { LoaderArgs } from "@remix-run/node";
 import { getUserId } from "~/session.server";
 import { getMerchantItem } from "~/models/merchant.server";
-import type { imageSpec} from "~/utils/imgx";
+import type { imageSpec } from "~/utils/imgx";
 import { getProxyImgSrc, purgeImgix } from "~/utils/imgx";
 import Locations from "~/components/Locations";
 import Devices from "~/components/Devices";
@@ -43,7 +43,8 @@ export const loader = async ({ request, params }: LoaderArgs) => {
 export default function MerchantPage() {
   const { merchant, merchantId } = useLoaderData<typeof loader>();
   const src = getProxyImgSrc(merchant.metadataJson!.image!, merchantImageSpec);
-  const merchantLoggedIn = merchant.id == merchantId;
+  const merchantLoggedIn =
+    merchantId != null && merchantId != undefined && merchant.id == merchantId;
   const locationsExist =
     merchant.locations != null &&
     merchant.locations != undefined &&
@@ -108,6 +109,7 @@ export default function MerchantPage() {
             return campaign.promos || [];
           })}
           campaignsExist={campaignsExist}
+          merchantLoggedIn={merchantLoggedIn}
         />
       </div>
     </>

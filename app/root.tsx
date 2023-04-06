@@ -36,12 +36,13 @@ export async function loader({ request }: LoaderArgs) {
   return json({
     user: await getUser(request),
     gaTrackingId: process.env.GA_TRACKING_ID,
+    hubspotAccountId: process.env.HUBSPOT_ACCOUNT_ID,
   });
 }
 
 export default function App() {
   const location = useLocation();
-  const { gaTrackingId } = useLoaderData<typeof loader>();
+  const { gaTrackingId, hubspotAccountId } = useLoaderData<typeof loader>();
 
   useEffect(() => {
     if (gaTrackingId?.length) {
@@ -75,6 +76,13 @@ export default function App() {
                 });
               `,
               }}
+            />
+            <script
+              type="text/javascript"
+              id="hs-script-loader"
+              async
+              defer
+              src={`//js.hs-scripts.com/${hubspotAccountId}.js`}
             />
           </>
         )}

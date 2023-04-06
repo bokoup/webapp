@@ -1,4 +1,4 @@
-import { json } from "@remix-run/node";
+import { MetaFunction, V2_MetaFunction, json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import type { LoaderArgs } from "@remix-run/node";
 import { getUserId } from "~/session.server";
@@ -39,6 +39,13 @@ export const loader = async ({ request, params }: LoaderArgs) => {
     }
   }
 };
+
+export const meta: MetaFunction = ({ data }) => ({
+  title: `Bokoup Merchant - ${data.merchant.name}${
+    data.merchantId ? " - merchantLoggedIn" : ""
+  }`,
+  description: `Description of ${data.merchant.name} business, locations and available NFT promotions and loyalty programs.`,
+});
 
 export default function MerchantPage() {
   const { merchant, merchantId } = useLoaderData<typeof loader>();

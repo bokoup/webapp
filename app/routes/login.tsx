@@ -3,6 +3,7 @@ import {
   json,
   redirect,
   type TypedResponse,
+  MetaFunction,
 } from "@remix-run/node";
 import QRCode from "qrcode";
 import {
@@ -88,6 +89,12 @@ export async function action({ request }: ActionArgs) {
 
   return null;
 }
+
+export const meta: MetaFunction = () => ({
+  title: "Login By Scanning the QR Code with Your Phone",
+  description:
+    "Login in by scanning the QR code with your mobile wallet appliation.",
+});
 
 export default function QrCodeLogin() {
   const [searchParams] = useSearchParams();

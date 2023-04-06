@@ -28,7 +28,8 @@ export const links: LinksFunction = () => {
 
 export const meta: MetaFunction = () => ({
   charset: "utf-8",
-  title: "bokoup",
+  title: "NFTs for Promotions and Loyalty, In-Store and Online",
+  description: "Use NFTs to promote your business and reward your customers.",
   viewport: "width=device-width,initial-scale=1",
 });
 

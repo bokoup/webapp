@@ -1,6 +1,6 @@
 import { PlusIcon } from "@heroicons/react/24/solid";
 import { Link, useLoaderData } from "@remix-run/react";
-import type { LoaderArgs } from "@remix-run/server-runtime";
+import type { LoaderArgs, MetaFunction } from "@remix-run/server-runtime";
 import Merchant from "~/components/Merchant";
 import { getMerchantList } from "~/models/merchant.server";
 import { getUserId } from "~/session.server";
@@ -11,6 +11,11 @@ export async function loader({ request }: LoaderArgs) {
 
   return { userId, merchantId, merchantList };
 }
+
+export const meta: MetaFunction = () => ({
+  title: "Merchants with NFT Promotions and Loyalty Programs",
+  description: "These merchants have NFT promos and loyalty programs.",
+});
 
 export default function Merchants() {
   const data = useLoaderData<typeof loader>();

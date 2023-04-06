@@ -1,10 +1,18 @@
 import { json } from "react-router";
 import { Disclosure, Transition } from "@headlessui/react";
 import { ChevronUpIcon } from "@heroicons/react/20/solid";
+import { MetaFunction } from "@remix-run/server-runtime";
 
 export async function loader() {
   return json({});
 }
+
+export const meta: MetaFunction = () => ({
+  title:
+    "Frequently Asked Questions About Using NFTs for Promotions and Loyalty Programs",
+  description:
+    "Answers to frequently asked questions about using non-fungible tokens for promotions and loyalty programs.",
+});
 
 const disclosures = [
   {

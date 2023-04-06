@@ -1,4 +1,4 @@
-import { json, redirect } from "@remix-run/node";
+import { MetaFunction, json, redirect } from "@remix-run/node";
 import QRCode from "qrcode";
 import { Form, useLoaderData, useSubmit } from "@remix-run/react";
 import type { LoaderArgs, ActionArgs } from "@remix-run/node";
@@ -86,6 +86,16 @@ export async function action({ request }: ActionArgs) {
 
   return null;
 }
+
+export const meta: MetaFunction = ({ location }) => {
+  const searchParams = new URLSearchParams(location.search);
+  return {
+    title: `QR Code Mint Promo - ${searchParams.get("promoName")}`,
+    description: `Scan with your phone and approve to receive promo - ${searchParams.get(
+      "promoName"
+    )}.`,
+  };
+};
 
 export default function QrCodeMintPromo() {
   const data = useLoaderData<typeof loader>();

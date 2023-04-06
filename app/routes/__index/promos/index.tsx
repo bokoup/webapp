@@ -1,5 +1,5 @@
 import { useLoaderData } from "@remix-run/react";
-import type { LoaderArgs } from "@remix-run/server-runtime";
+import type { LoaderArgs, MetaFunction } from "@remix-run/server-runtime";
 import Promo from "~/components/promo";
 import { getPromoItems } from "~/models/promo.server";
 import { getUserId } from "~/session.server";
@@ -11,6 +11,12 @@ export async function loader({ request }: LoaderArgs) {
 
   return { promoItems, userId, nodeEnv };
 }
+
+export const meta: MetaFunction = () => ({
+  title: "Get NFT promos with your phone",
+  description:
+    "Scan a QR code to get a token and then present it where you shop to get a discount.",
+});
 
 export default function PromosPage() {
   const data = useLoaderData<typeof loader>();

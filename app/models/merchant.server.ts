@@ -29,6 +29,10 @@ export interface ILocationItem {
   devices: IDeviceItem[];
 }
 
+export interface ILocationItemSummary {
+  deviceCount: number;
+}
+
 export interface IDeviceItem {
   id: string;
   owner: string;
@@ -46,7 +50,7 @@ export interface ICampaignItem {
   active: boolean;
   metadataJson: ICampaignMetadataJson;
   promos?: IPromoItem[];
-  locations?: ILocationItem[];
+  locations?: ILocationItem[] | ILocationItemSummary[];
 }
 
 export interface IAttribute {
@@ -131,31 +135,11 @@ function merchantItemAdapter(
         promos: campaign.promos.map((promo) => {
           return promoAdapter(promo);
         }),
-        locations: campaign.promos.flatMap((promo) => {
-          return promo.campaignObject!.campaignLocations.map(
-            (campaignLocation) => {
-              const location = campaignLocation.locationObject!;
-              return {
-                id: location.id,
-                merchant: location.merchant,
-                name: location.name,
-                active: location.active,
-                metadataJson: location.metadataJson,
-                deviceCount: location.devicesAggregate.aggregate!.count,
-                devices: location.devices.map((device) => {
-                  return {
-                    id: device.id,
-                    owner: device.owner,
-                    location: device.location,
-                    locationName: location.name,
-                    name: device.name,
-                    active: device.active,
-                    metadataJson: device.metadataJson,
-                  };
-                }),
-              };
-            }
-          );
+        locations: campaign.campaignLocations.map((campaignLocation) => {
+          const location = campaignLocation.locationObject!;
+          return {
+            deviceCount: location.devicesAggregate.aggregate!.count,
+          };
         }),
       };
     }),
@@ -241,6 +225,15 @@ export async function getMerchantItem(id: string): Promise<IMerchantItem> {
           merchant
           name
           active
+          campaignLocations {
+            locationObject {
+              devicesAggregate {
+                aggregate {
+                  count
+                }
+              }
+            }
+          }
           promos(orderBy: { createdAt: DESC }) {
             id
             campaign
@@ -262,26 +255,10 @@ export async function getMerchantItem(id: string): Promise<IMerchantItem> {
               supply
             }
             campaignObject {
-              name
               campaignLocations {
                 locationObject {
-                  id
-                  merchant
-                  name
-                  active
-                  metadataJson
-                  devicesAggregate {
-                    aggregate {
-                      count
-                    }
-                  }
                   devices {
-                    id
                     owner
-                    location
-                    name
-                    active
-                    metadataJson
                   }
                 }
               }

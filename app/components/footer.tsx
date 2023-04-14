@@ -61,10 +61,10 @@ export default function Footer() {
               {n.label}
             </Link>
           ))}
-          {["About", "Careers", "Privacy Policy"].map((text) => (
+          {[{ text: "Disclosures", to: "/disclosures" }].map(({ text, to }) => (
             <Link
               key={text}
-              to={`/`}
+              to={to}
               className="font-heading hover:text-bokoupBlue2-700"
             >
               {text}

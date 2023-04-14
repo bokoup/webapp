@@ -2,22 +2,15 @@ import { Form, useLoaderData } from "@remix-run/react";
 import { type ActionArgs, fetch, json, redirect } from "@remix-run/node";
 import { createMemoryUploadHandler } from "@remix-run/server-runtime/dist/upload/memoryUploadHandler";
 import { parseMultipartFormData } from "@remix-run/server-runtime/dist/formData";
-import type {
-  ICampaignMetadataJson} from "~/models/merchant.server";
-import {
-  getMerchantItem
-} from "~/models/merchant.server";
+import type { ICampaignMetadataJson } from "~/models/merchant.server";
+import { getMerchantItem } from "~/models/merchant.server";
 import { FormData } from "@remix-run/node";
 import { requireMerchantId } from "~/session.server";
 import { createStoredTransaction } from "~/models/savedtx.server";
 import { safeRedirect } from "~/utils";
 import { API_TX } from "~/models/constants";
-import type {
-  FormFieldProps,
-  TransactionResponse} from "~/components/form";
-import {
-  descriptionFormField
-} from "~/components/form";
+import type { FormFieldProps, TransactionResponse } from "~/components/form";
+import { descriptionFormField } from "~/components/form";
 import FormField from "~/components/form/FormField";
 import TextAreaFormField from "~/components/form/TextAreaFormField";
 import ActiveFormField from "~/components/form/ActiveFormField";
@@ -54,9 +47,13 @@ export const action = async ({ request }: ActionArgs) => {
 
   const formData = await parseMultipartFormData(request, uploadHandler);
   const metadataJson = MetadataJsonAdapter(formData);
-  const lamports = formData.get("lamports")?.toString();
+  const lamports = formData.get("lamports")
+    ? formData.get("lamports")!.toString()
+    : "0";
   const locations = formData.get("locations")?.toString();
-  const memo = formData.get("memo")?.toString();
+  const memo = formData.get("memo")
+    ? formData.get("memo")!.toString()
+    : `create campaign ${metadataJson.name}`;
 
   const txForm = new FormData();
 
@@ -102,7 +99,7 @@ const formFields: FormFieldProps[] = [
     inputType: "text",
     required: true,
   },
-  { id: "lamports", label: "Lamports", inputType: "number", required: true },
+  // { id: "lamports", label: "Lamports", inputType: "number", required: true },
   { id: "memo", label: "Memo", inputType: "text", required: true },
 ];
 

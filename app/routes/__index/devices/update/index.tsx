@@ -1,22 +1,18 @@
 import { Form, useLoaderData } from "@remix-run/react";
 import { type ActionArgs, fetch, json, redirect } from "@remix-run/node";
-import { createMemoryUploadHandler } from "@remix-run/server-runtime/dist/upload/memoryUploadHandler";
-import { parseMultipartFormData } from "@remix-run/server-runtime/dist/formData";
-import type { IDeviceMetadataJson } from "~/models/merchant.server";
-import { getMerchantItem } from "~/models/merchant.server";
+import { IDeviceMetadataJson, getDeviceItem } from "~/models/merchant.server";
 import { FormData } from "@remix-run/node";
 import { requireMerchantId } from "~/session.server";
 import { createStoredTransaction } from "~/models/savedtx.server";
 import { safeRedirect } from "~/utils";
 import { API_TX } from "~/models/constants";
 import type { FormFieldProps, TransactionResponse } from "~/components/form";
-import { descriptionFormField } from "~/components/form";
 import FormField from "~/components/form/FormField";
 import TextAreaFormField from "~/components/form/TextAreaFormField";
 import ActiveFormField from "~/components/form/ActiveFormField";
-import ItemsListBox from "~/components/form/ItemsListBox";
 
 function MetadataJsonAdapter(formData: FormData): IDeviceMetadataJson {
+  console.log("FU", JSON.stringify(formData));
   const metadataJson: IDeviceMetadataJson = {
     name: formData.get("deviceName")!.toString(),
     description: formData.get("description")!.toString(),
@@ -27,25 +23,21 @@ function MetadataJsonAdapter(formData: FormData): IDeviceMetadataJson {
 }
 
 export const loader = async ({ request }: ActionArgs) => {
+  const deviceId = new URL(request.url).searchParams.get("deviceId");
   const { merchantId } = await requireMerchantId(request);
-  const merchantItem = await getMerchantItem(merchantId!);
-  const locations = merchantItem.locations.sort((locationA, locationB) =>
-    locationA.name.localeCompare(locationB.name)
-  );
-  return json({ locations });
+  if (!deviceId) {
+    throw new Error("No device id provided");
+  }
+  const deviceItem = await getDeviceItem(deviceId);
+
+  return json({ deviceItem });
 };
 
 export const action = async ({ request }: ActionArgs) => {
   const { userId, merchantId } = await requireMerchantId(request);
 
-  // just doing this as memory for now - may be better to write to disk or upload directly to arweave
-  const uploadHandler = createMemoryUploadHandler();
-
-  // The transaction server expects a two part multipart form upload
-  //  - metadata: string
-  //  - image: bytes
-
-  const formData = await parseMultipartFormData(request, uploadHandler);
+  const formData = await request.formData();
+  console.log("FORM DATA", JSON.stringify(formData));
   const metadataJson = MetadataJsonAdapter(formData);
   const deviceOwner = formData.get("deviceOwner")?.toString();
   const locationId = formData.get("locationId")?.toString();
@@ -60,6 +52,7 @@ export const action = async ({ request }: ActionArgs) => {
     : `${API_TX}/device/create/${userId}/${locationId}/${deviceOwner}`;
 
   const res = await fetch(url, { method: "post", body: txForm });
+  console.log(await res.text());
 
   if (res.status == 200) {
     let transResponse = (await res.json()) as TransactionResponse;
@@ -76,7 +69,7 @@ export const action = async ({ request }: ActionArgs) => {
         ["timestamp", new Date().toISOString()],
         ["redirectTo", safeRedirect(`/merchants/${merchantId}`)],
       ]);
-      const url = `/devices/create/${txId.id}?${searchParams}`;
+      const url = `/devices/update/${txId.id}?${searchParams}`;
       return redirect(url);
     } else {
       throw json({
@@ -92,37 +85,57 @@ export const action = async ({ request }: ActionArgs) => {
   });
 };
 
-const formFields: FormFieldProps[] = [
-  {
-    id: "deviceName",
-    label: "Device Name",
-    inputType: "text",
-  },
-  {
-    id: "deviceOwner",
-    label: "Device Owner",
-    inputType: "text",
-  },
-  { id: "memo", label: "Memo", inputType: "text" },
-];
+export default function UpdateDevice() {
+  const { deviceItem } = useLoaderData<typeof loader>();
+  const formFields: FormFieldProps[] = [
+    {
+      id: "deviceLocation",
+      label: "Device Location",
+      inputType: "text",
+      readOnly: true,
+      defaultValue: deviceItem ? deviceItem.locationName : "",
+    },
+    {
+      id: "deviceName",
+      label: "Device Name",
+      inputType: "text",
+      readOnly: true,
+      defaultValue: deviceItem?.name,
+    },
+    {
+      id: "locationId",
+      label: "Location Id",
+      inputType: "text",
+      readOnly: true,
+      hidden: true,
+      defaultValue: deviceItem?.location,
+    },
+    {
+      id: "deviceOwner",
+      label: "Device Owner",
+      inputType: "text",
+      defaultValue: deviceItem?.owner,
+    },
+    { id: "memo", label: "Memo", inputType: "text" },
+  ];
 
-export default function CreateDevice() {
-  const loaderData = useLoaderData<typeof loader>();
+  const descriptionFormField: FormFieldProps = {
+    id: "description",
+    label: "Description",
+    inputType: "text",
+    rows: 5,
+    value: deviceItem ? deviceItem.metadataJson.description : "",
+  };
 
   return (
     <>
       <div className="container mx-auto mb-auto p-2 lg:py-4">
         <h2 className="mb-10 font-heading text-2xl font-medium lg:text-3xl">
-          Create New Device
+          Update Device
         </h2>
-        <Form method="post" encType="multipart/form-data" className="pt-8">
+        <Form method="post" className="pt-8">
           <div className="gap-4 md:flex">
             <div className="w-full max-w-md">
-              <ItemsListBox
-                items={loaderData.locations}
-                label="Location"
-                fieldName="locationId"
-              />
               {formFields.slice(0, 2).map((props) => (
                 <FormField key={props.id} {...props} />
               ))}
@@ -130,7 +143,7 @@ export default function CreateDevice() {
               {formFields.slice(2).map((props) => (
                 <FormField key={props.id} {...props} />
               ))}
-              <ActiveFormField />
+              <ActiveFormField initialValue={deviceItem?.active} />
               <div className="flex items-center justify-between pt-4">
                 <button
                   className="focus:shadow-outline rounded-full bg-bokoupGreen2-400 py-2 px-4 font-semibold hover:brightness-90 focus:outline-none"

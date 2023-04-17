@@ -1,4 +1,4 @@
-import { PlusIcon } from "@heroicons/react/24/solid";
+import { PencilSquareIcon, PlusIcon } from "@heroicons/react/24/solid";
 import { Link } from "@remix-run/react";
 import type { IDeviceItem } from "~/models/merchant.server";
 
@@ -71,6 +71,12 @@ export default function Devices({
                     >
                       Status
                     </th>
+                    <th
+                      scope="col"
+                      className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                    >
+                      Update
+                    </th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-200 bg-white">
@@ -100,6 +106,18 @@ export default function Devices({
                         <span className="inline-flex rounded-full bg-green-100 px-2 text-xs font-semibold leading-5 text-green-800">
                           {device.active ? "Active" : "Inactive"}
                         </span>
+                      </td>
+                      <td>
+                        <Link
+                          to={`/devices/update?deviceId=${device.id}`}
+                          title="Updte device"
+                          className={`flex flex-shrink items-center justify-center py-3 px-3 text-center text-sm font-semibold text-slate-700 hover:text-bokoupBlue2-400`}
+                        >
+                          <PencilSquareIcon
+                            className="h-4 w-4"
+                            aria-hidden="true"
+                          />
+                        </Link>
                       </td>
                     </tr>
                   ))}

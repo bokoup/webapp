@@ -322,6 +322,45 @@ export async function getMerchantList(): Promise<IMerchantItem[]> {
   );
 }
 
+export async function getDeviceItem(id: string): Promise<IDeviceItem | null> {
+  const query = graphql(`
+    query DeviceItemQueryDocument($id: String!) {
+      deviceByPk(id: $id) {
+        id
+        name
+        owner
+        uri
+        active
+        metadataJson
+        locationObject {
+          id
+          metadataJson
+        }
+      }
+    }
+  `);
+
+  const variables = { id };
+  const data = await request(API_DATA!, query, variables);
+
+  return await request(API_DATA!, query, variables).then((data) => {
+    const device = data.deviceByPk;
+    if (device != null) {
+      return {
+        id: device.id,
+        owner: device.owner,
+        location: device.locationObject!.id,
+        locationName: device.locationObject!.metadataJson.name,
+        name: device.name,
+        active: device.active,
+        metadataJson: device.metadataJson,
+      };
+    } else {
+      return null;
+    }
+  });
+}
+
 export async function getMerchantId(
   userId: User["userId"]
 ): Promise<string | null> {
@@ -373,21 +412,30 @@ export async function getLocationId(
 
 export async function getDeviceId(
   location: string,
-  name: string
+  name: string,
+  timestamp: string
 ): Promise<string | null> {
   if (!location || !name) return null;
 
   const query = graphql(`
-    query DeviceIdQueryDocument($location: String!, $name: String!) {
+    query DeviceIdQueryDocument(
+      $location: String!
+      $name: String!
+      $timestamp: timestamptz!
+    ) {
       device(
-        where: { _and: { location: { _eq: $location } }, name: { _eq: $name } }
+        where: {
+          _and: { location: { _eq: $location } }
+          name: { _eq: $name }
+          modifiedAt: { _gt: $timestamp }
+        }
       ) {
         id
       }
     }
   `);
 
-  const variables = { location, name };
+  const variables = { location, name, timestamp };
   const data = (await request(API_DATA!, query, variables)).device.map(
     (item) => {
       return item.id;

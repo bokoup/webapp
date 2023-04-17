@@ -1,8 +1,8 @@
 import { Switch } from "@headlessui/react";
 import { useState } from "react";
 
-export default function ActiveFormField() {
-  const [active, setActive] = useState(true);
+export default function ActiveFormField({ initialValue = true }) {
+  const [active, setActive] = useState(initialValue);
   return (
     <div className="mb-4">
       <label

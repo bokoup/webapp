@@ -8,6 +8,7 @@ export async function loader({ request }: LoaderArgs) {
   const url = new URL(request.url);
   const location = url.searchParams.get("location");
   const name = url.searchParams.get("name");
+  const timestamp = url.searchParams.get("timestamp");
 
   if (!location) {
     throw json({ error: "location not provided as search parameter" }, 400);
@@ -17,9 +18,13 @@ export async function loader({ request }: LoaderArgs) {
     throw json({ error: "name not provided as search parameter" }, 400);
   }
 
+  if (!timestamp) {
+    throw json({ error: "timestamp not provided as search parameter" }, 400);
+  }
+
   return eventStream(request.signal, function setup(send) {
     const interval = setInterval(async () => {
-      let deviceId = await getDeviceId(location, name);
+      let deviceId = await getDeviceId(location, name, timestamp);
       if (deviceId) {
         send({ data: deviceId });
         clearInterval(interval);

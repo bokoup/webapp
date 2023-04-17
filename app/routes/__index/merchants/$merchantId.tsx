@@ -1,4 +1,4 @@
-import { MetaFunction, V2_MetaFunction, json } from "@remix-run/node";
+import { MetaFunction, json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import type { LoaderArgs } from "@remix-run/node";
 import { getUserId } from "~/session.server";

@@ -16,6 +16,9 @@ export interface FormFieldProps {
   minLength?: number;
   maxLength?: number;
   required?: boolean;
+  readOnly?: boolean;
+  value?: string;
+  defaultValue?: string;
 }
 
 export const imageFormField: FormFieldProps = {

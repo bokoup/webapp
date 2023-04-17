@@ -1,6 +1,8 @@
+import { useState } from "react";
 import type { FormFieldProps } from ".";
 
 export default function TextAreaFormField({ ...props }: FormFieldProps) {
+  const [value, setValue] = useState(props.value);
   return (
     <div className="mb-4">
       <label
@@ -16,6 +18,8 @@ export default function TextAreaFormField({ ...props }: FormFieldProps) {
         placeholder={props.label}
         hidden={props.hidden}
         rows={props.rows}
+        onChange={(v) => setValue(v.target.value)}
+        value={value}
       />
     </div>
   );

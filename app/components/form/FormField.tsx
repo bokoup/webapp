@@ -4,7 +4,9 @@ export default function FormField({ ...props }: FormFieldProps) {
   return (
     <div className="mb-4">
       <label
-        className="mb-2 block text-sm font-bold text-gray-700"
+        className={
+          props.hidden ? "hidden" : "mb-2 block text-sm font-bold text-gray-700"
+        }
         htmlFor={props.id}
       >
         {props.label}
@@ -21,10 +23,11 @@ export default function FormField({ ...props }: FormFieldProps) {
         }
         accept={props.accept}
         hidden={props.hidden}
-        aria-errormessage={"error"}
         min={props.min}
         max={props.max}
         required={props.required}
+        readOnly={props.readOnly}
+        defaultValue={props.defaultValue}
       />
     </div>
   );

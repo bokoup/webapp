@@ -297,7 +297,7 @@ export default function PrivacyPolicy() {
               may view Clover’s Privacy Notice{" "}
             </span>
             <a
-              className="text-bokoupBlue2-500 hover:underline"
+              className="text-bokoupBlue2-700 hover:underline"
               href="https://www.clover.com/privacy-policy"
             >
               here
@@ -339,7 +339,7 @@ export default function PrivacyPolicy() {
           individuals may contact Clover with applicable requests as explained
           in{" "}
           <a
-            className="text-bokoupBlue2-500 hover:underline"
+            className="text-bokoupBlue2-700 hover:underline"
             href="https://www.clover.com/privacy-policy"
           >
             Clover's Privacy Policy
@@ -371,7 +371,7 @@ export default function PrivacyPolicy() {
             about this Privacy Policy or our privacy practices via email:
           </span>{" "}
           <a
-            className="text-bokoupBlue2-500 hover:underline"
+            className="text-bokoupBlue2-700 hover:underline"
             href="mailto:info@bokoup.com"
           >
             info@bokoup.com
@@ -391,7 +391,7 @@ export default function PrivacyPolicy() {
             circumstances. Clover’s Privacy Notice is available at{" "}
           </span>
           <a
-            className="text-bokoupBlue2-500 hover:underline"
+            className="text-bokoupBlue2-700 hover:underline"
             href="https://www.clover.com/privacy-policy"
           >
             https://www.clover.com/privacy-policy
@@ -464,7 +464,7 @@ export default function PrivacyPolicy() {
             authorities at{" "}
           </span>
           <a
-            className="text-bokoupBlue2-500 hover:underline"
+            className="text-bokoupBlue2-700 hover:underline"
             href="https://edpb.europa.eu/about-edpb/board/members_en"
           >
             https://edpb.europa.eu/about-edpb/board/members_en
@@ -660,14 +660,14 @@ export default function PrivacyPolicy() {
         <p>Suite 861</p>
         <p>San Francisco, 94102</p>
         <a
-          className="text-bokoupBlue2-500 hover:underline"
+          className="text-bokoupBlue2-700 hover:underline"
           href="tel:4157600000"
         >
           (415) 760-0000
         </a>
         <br />
         <a
-          className="text-bokoupBlue2-500 hover:underline"
+          className="text-bokoupBlue2-700 hover:underline"
           href="mailto:info@bokoup.com"
         >
           info@bokoup.com

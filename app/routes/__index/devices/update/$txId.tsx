@@ -1,11 +1,7 @@
-import {
-  json,
-  redirect,
-} from "@remix-run/node";
+import { json, redirect } from "@remix-run/node";
 import QRCode from "qrcode";
 import { Form, useLoaderData, useSubmit } from "@remix-run/react";
-import type { LoaderArgs ,
-  ActionArgs} from "@remix-run/node";
+import type { LoaderArgs, ActionArgs } from "@remix-run/node";
 import QRCodeModal from "~/components/QRCodeModal";
 import { safeRedirect } from "~/utils";
 import { requireMerchantId, requireUserId } from "~/session.server";
@@ -31,16 +27,18 @@ export const loader = async ({ request, params }: LoaderArgs) => {
   const url = new URL(request.url);
   const name = url.searchParams.get("name");
   const location = url.searchParams.get("location")?.toString();
+  const timestamp = url.searchParams.get("timestamp")?.toString();
   const redirectTo = safeRedirect(url.searchParams.get("redirectTo") || "/");
 
   const dataUrl = await getCreateMerchantDataUrl(txId);
-  const title = `Scan to create ${name}.`;
-  const description = `Scan with your phone to approve the creation of ${name}.`;
+  const title = `Scan to update ${name}.`;
+  const description = `Scan with your phone to approve the update of ${name}.`;
 
   return json({
     props: { dataUrl, title, description, redirectTo },
     location,
     name,
+    timestamp,
   });
 };
 
@@ -62,6 +60,7 @@ export default function QrCodeSavedTransactionPromo() {
   const searchParams = new URLSearchParams([
     ["location", data.location!],
     ["name", data.name!],
+    ["timestamp", data.timestamp!],
   ]);
   const deviceId = useEventSource(`/sse/device?${searchParams}`);
   const formRef = useRef<HTMLFormElement>(null);

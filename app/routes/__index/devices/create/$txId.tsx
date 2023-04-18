@@ -28,7 +28,7 @@ export const loader = async ({ request, params }: LoaderArgs) => {
   const name = url.searchParams.get("name");
   const location = url.searchParams.get("location")?.toString();
   const timestamp = url.searchParams.get("timestamp")?.toString();
-  const redirectTo = safeRedirect(url.searchParams.get("redirectTo") || "/");
+  const redirectTo = safeRedirect(url.searchParams.get("redirectTo"));
 
   const dataUrl = await getCreateMerchantDataUrl(txId);
   const title = `Scan to create ${name}.`;

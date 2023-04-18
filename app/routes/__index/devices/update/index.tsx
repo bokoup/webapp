@@ -1,4 +1,4 @@
-import { Form, useLoaderData } from "@remix-run/react";
+import { Form, useActionData, useLoaderData } from "@remix-run/react";
 import { type ActionArgs, fetch, json, redirect } from "@remix-run/node";
 import { IDeviceMetadataJson, getDeviceItem } from "~/models/merchant.server";
 import { FormData } from "@remix-run/node";
@@ -12,7 +12,6 @@ import TextAreaFormField from "~/components/form/TextAreaFormField";
 import ActiveFormField from "~/components/form/ActiveFormField";
 
 function MetadataJsonAdapter(formData: FormData): IDeviceMetadataJson {
-  console.log("FU", JSON.stringify(formData));
   const metadataJson: IDeviceMetadataJson = {
     name: formData.get("deviceName")!.toString(),
     description: formData.get("description")!.toString(),
@@ -42,6 +41,7 @@ export const action = async ({ request }: ActionArgs) => {
   const deviceOwner = formData.get("deviceOwner")?.toString();
   const locationId = formData.get("locationId")?.toString();
   const memo = formData.get("memo") ? formData.get("memo")?.toString() : null;
+  console.log("memo", JSON.stringify(memo));
 
   const txForm = new FormData();
 
@@ -52,7 +52,6 @@ export const action = async ({ request }: ActionArgs) => {
     : `${API_TX}/device/create/${userId}/${locationId}/${deviceOwner}`;
 
   const res = await fetch(url, { method: "post", body: txForm });
-  console.log(await res.text());
 
   if (res.status == 200) {
     let transResponse = (await res.json()) as TransactionResponse;
@@ -72,14 +71,14 @@ export const action = async ({ request }: ActionArgs) => {
       const url = `/devices/update/${txId.id}?${searchParams}`;
       return redirect(url);
     } else {
-      throw json({
+      return json({
         errorMsg: "Something went wrong saving the transaction",
         error: JSON.stringify(txId),
       });
     }
   }
 
-  throw json({
+  return json({
     errorMsg: "Something went wrong on the transaction server",
     error: await res.text(),
   });
@@ -87,6 +86,8 @@ export const action = async ({ request }: ActionArgs) => {
 
 export default function UpdateDevice() {
   const { deviceItem } = useLoaderData<typeof loader>();
+  const error = useActionData();
+  console.log(error);
   const formFields: FormFieldProps[] = [
     {
       id: "deviceLocation",
@@ -133,28 +134,32 @@ export default function UpdateDevice() {
         <h2 className="mb-10 font-heading text-2xl font-medium lg:text-3xl">
           Update Device
         </h2>
-        <Form method="post" className="pt-8">
-          <div className="gap-4 md:flex">
-            <div className="w-full max-w-md">
-              {formFields.slice(0, 2).map((props) => (
-                <FormField key={props.id} {...props} />
-              ))}
-              <TextAreaFormField {...descriptionFormField} />
-              {formFields.slice(2).map((props) => (
-                <FormField key={props.id} {...props} />
-              ))}
-              <ActiveFormField initialValue={deviceItem?.active} />
-              <div className="flex items-center justify-between pt-4">
-                <button
-                  className="focus:shadow-outline rounded-full bg-bokoupGreen2-400 py-2 px-4 font-semibold hover:brightness-90 focus:outline-none"
-                  type="submit"
-                >
-                  Submit
-                </button>
+        {!error ? (
+          <Form method="post" className="pt-8">
+            <div className="gap-4 md:flex">
+              <div className="w-full max-w-md">
+                {formFields.slice(0, 2).map((props) => (
+                  <FormField key={props.id} {...props} />
+                ))}
+                <TextAreaFormField {...descriptionFormField} />
+                {formFields.slice(2).map((props) => (
+                  <FormField key={props.id} {...props} />
+                ))}
+                <ActiveFormField initialValue={deviceItem?.active} />
+                <div className="flex items-center justify-between pt-4">
+                  <button
+                    className="focus:shadow-outline rounded-full bg-bokoupGreen2-400 py-2 px-4 font-semibold hover:brightness-90 focus:outline-none"
+                    type="submit"
+                  >
+                    Submit
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
-        </Form>
+          </Form>
+        ) : (
+          <div className="text-red-500">{`${error.errorMsg}: ${error.error}`}</div>
+        )}
       </div>
     </>
   );

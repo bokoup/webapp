@@ -236,6 +236,7 @@ export async function getMerchantItem(id: string): Promise<IMerchantItem> {
           }
           promos(orderBy: { createdAt: DESC }) {
             id
+            mint
             campaign
             maxMint
             maxBurn
@@ -258,7 +259,9 @@ export async function getMerchantItem(id: string): Promise<IMerchantItem> {
               campaignLocations {
                 locationObject {
                   devices {
+                    id
                     owner
+                    location
                   }
                 }
               }
